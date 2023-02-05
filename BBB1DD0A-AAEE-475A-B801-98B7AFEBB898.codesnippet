@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDECodeSnippetCompletionPrefix</key>
+	<string></string>
+	<key>IDECodeSnippetCompletionScopes</key>
+	<array>
+		<string>All</string>
+	</array>
+	<key>IDECodeSnippetContents</key>
+	<string>    @IBAction func addImage(_ sender: UIButton) {
+        let imgPicker : UIImagePickerController = UIImagePickerController()
+        imgPicker.delegate = self
+
+        if UIImagePickerController.isSourceTypeAvailable(.photoLibrary){
+            imgPicker.sourceType    = .photoLibrary
+            imgPicker.allowsEditing = false
+            self.present(imgPicker, animated: true, completion: nil)
+           
+        }
+        else{
+            print("Accessing Photo Library is not allowed")
+        }
+    }
+    
+    @IBAction func openCamera(_ sender: UIButton) {
+        let imagePicker : UIImagePickerController = UIImagePickerController()
+        imagePicker.delegate = self
+
+        if UIImagePickerController.isSourceTypeAvailable(UIImagePickerController.SourceType.camera){
+
+            imagePicker.sourceType = .camera
+            self.present(imagePicker, animated: true, completion: nil)
+        }else{
+            print("Camera Not available")
+        }
+    }
+}
+........................................................................................................
+@IBAction func chooseImage(_ sender: Any) {
+    let imagePicker = UIImagePickerController()
+    imagePicker.delegate = self
+    imagePicker.allowsEditing = true
+    present(imagePicker, animated: true, completion: nil)
+}
+
+
+extension ViewController:UIImagePickerControllerDelegate,UINavigationControllerDelegate{
+        
+        func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+            if let selectedImage = info[UIImagePickerController.InfoKey.originalImage] as? UIImage{
+                let scaledImage: UIImage = scaleImage(with: selectedImage, scaledTo: CGSize(width: 50, height: 50))
+                mealPhotos.append(scaledImage)
+                mealPhotoCollection.reloadData()
+            }
+            else {
+                print("picking failed")
+            }
+            picker.dismiss(animated: true, completion: nil)
+        }
+            
+            func scaleImage(with image: UIImage, scaledTo newSize: CGSize) -&gt; UIImage {
+                UIGraphicsBeginImageContextWithOptions(newSize, false, 1.0)
+                image.draw(in: CGRect(x: 0, y: 0, width: newSize.width, height: newSize.height))
+                let newImage = UIGraphicsGetImageFromCurrentImageContext()
+                UIGraphicsEndImageContext()
+                return newImage ?? UIImage()
+            }
+ }
+................. ...................... ...................... .............
+//MARK: add image to button whene click &amp; scale image
+//whene tap button view open image picker, chose image, scale it, put it as button image 
+@IBAction func chooseImage(_ sender: Any) {
+    let imagePicker = UIImagePickerController()
+    imagePicker.delegate = self
+    imagePicker.allowsEditing = true
+    present(imagePicker, animated: true, completion: nil)
+}
+
+extension ViewController:UIImagePickerControllerDelegate,UINavigationControllerDelegate{
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        for img in info {
+            if let image = img.value as? UIImage {
+                let scaledImage: UIImage = imageValue(with: image, scaledTo: CGSize(width: 50, height: 50))
+                bimage.setImage(scaledImage, for: .normal)
+                self.dismiss(animated: true, completion: nil)
+            }else{
+                print("picking failed")
+            }
+        }
+    }
+    //scale image
+    func imageValue(with image: UIImage, scaledTo newSize: CGSize) -&gt; UIImage {
+        UIGraphicsBeginImageContextWithOptions(newSize, false, 1.0)
+        image.draw(in: CGRect(x: 0, y: 0, width: newSize.width, height: newSize.height))
+        let newImage = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        // drawingImageView.image = newImage
+        return newImage ?? UIImage()
+    }
+}
+</string>
+	<key>IDECodeSnippetIdentifier</key>
+	<string>BBB1DD0A-AAEE-475A-B801-98B7AFEBB898</string>
+	<key>IDECodeSnippetLanguage</key>
+	<string>Xcode.SourceCodeLanguage.Swift</string>
+	<key>IDECodeSnippetSummary</key>
+	<string></string>
+	<key>IDECodeSnippetTitle</key>
+	<string>image picker</string>
+	<key>IDECodeSnippetUserSnippet</key>
+	<true/>
+	<key>IDECodeSnippetVersion</key>
+	<integer>2</integer>
+</dict>
+</plist>

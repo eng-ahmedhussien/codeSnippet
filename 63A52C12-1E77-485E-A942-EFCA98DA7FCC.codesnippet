@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDECodeSnippetCompletionPrefix</key>
+	<string></string>
+	<key>IDECodeSnippetCompletionScopes</key>
+	<array>
+		<string>All</string>
+	</array>
+	<key>IDECodeSnippetContents</key>
+	<string>@IBOutlet weak var additionsList: DropDown!
+
+func prepareDropDownList(){
+    additionsList.optionArray = ["single","double"]
+    additionsList.optionIds = [50,100]
+    additionsList.arrowSize = 15
+    additionsList.didSelect{(selectedText , index ,id) in
+         self.sizePriceLabel.text = "\(id) EG"
+     }
+    }</string>
+	<key>IDECodeSnippetIdentifier</key>
+	<string>63A52C12-1E77-485E-A942-EFCA98DA7FCC</string>
+	<key>IDECodeSnippetLanguage</key>
+	<string>Xcode.SourceCodeLanguage.Swift</string>
+	<key>IDECodeSnippetSummary</key>
+	<string></string>
+	<key>IDECodeSnippetTitle</key>
+	<string>iOSDropDown</string>
+	<key>IDECodeSnippetUserSnippet</key>
+	<true/>
+	<key>IDECodeSnippetVersion</key>
+	<integer>2</integer>
+</dict>
+</plist>

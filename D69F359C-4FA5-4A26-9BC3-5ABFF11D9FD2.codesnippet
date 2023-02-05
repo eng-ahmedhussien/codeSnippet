@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDECodeSnippetCompletionPrefix</key>
+	<string></string>
+	<key>IDECodeSnippetCompletionScopes</key>
+	<array>
+		<string>All</string>
+	</array>
+	<key>IDECodeSnippetContents</key>
+	<string>//MARK:   combine
+//MARK: -  ex1
+///in view model
+func fetchData(searchkey:String)-&gt; Future&lt;[Complaint],Error&gt;{
+    return Future { data in
+        //api calling
+        // success
+        data(.success(products))
+        // fail
+        data(.failure(error!))
+    }
+}
+///in controler
+var observers : [AnyCancellable] = []
+let ViewModel = ProductVM()
+//.receive(on: DispatchQueue.main)  -&gt; put receive data in main queue directly
+//.sink mange bindingData
+ViewModel.fetchData()
+    .receive(on: DispatchQueue.main)
+    .sink(receiveCompletion: { Completion in
+    switch Completion{
+        case .finished:
+            print("finshed recive")
+        case .failure(let error):
+            print(error)
+    }
+}, receiveValue: { value in
+    self.arrayOfproducts = value
+    self.productsTable.reloadData()
+}).store(in: &amp;observers)
+
+///in networkManger
+func networkPost(completion: @escaping ([Complaint]?, Error?) -&gt; (),searchkey:String){
+    guard let url = URL(string: Url.shared.baseURL) else {return}
+    var request = URLRequest(url: url)
+    request.httpMethod = "POST"
+    // request.httpShouldHandleCookies = false
+    let postString = "indexFrom=1&amp;indexTo=10&amp;serchKey=\(searchkey)";
+    request.httpBody = postString.data(using: String.Encoding.utf8);
+    let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
+        guard let data = data,let response = response as? HTTPURLResponse,error == nil
+        else {                                                               // check for fundamental networking error
+            print("error", error ?? URLError(.badServerResponse))
+            return
+        }
+        guard (200 ... 299) ~= response.statusCode else {                    // check for http errors
+            print("statusCode should be 2xx, but is \(response.statusCode)")
+            print("response = \(response)")
+            return
+        }
+        
+        do {
+            let responseObject = try JSONDecoder().decode(Posts.self, from: data)
+            let productArray = responseObject.complaints
+            DispatchQueue.main.async
+            {
+                completion(productArray,nil)
+            }
+           
+        }
+        catch {
+            print(error)
+            DispatchQueue.main.async
+            {
+                completion(nil,error)// parsing error
+            }
+            if let responseString = String(data: data, encoding: .utf8) {
+                print("responseString = \(responseString)")
+            } else {
+                print("unable to parse response as string")
+            }
+        }
+        
+    }
+    task.resume()
+
+}
+//MARK: -  ex2
+//using combine in urlSession
+///vc
+let ProductViewModel = ProductVM()
+ProductViewModel.fetchData2 { value, error in
+    self.arrayOfproducts = value!
+    self.productsTable.reloadData()
+}
+///vm
+func fetchData2(completion: @escaping ( [Complaint]?, Error?) -&gt; ()){
+    apiService.networkPostWithCombine.sink {Completion in
+        switch Completion{
+            case .finished:
+                print("finshed recive")
+            case .failure(let error):
+                print(error)
+        }
+    } receiveValue: { value in
+        completion(value,nil)
+    }
+}
+///network
+var networkPostWithCombine : AnyPublisher&lt;[Complaint],Error&gt;{
+    let url = URL(string: Url.shared.baseURL)
+    return URLSession.shared.dataTaskPublisher(for: url!).tryMap { output in
+        return output.data
+    }
+    .decode(type: [Complaint].self, decoder: JSONDecoder())
+    .receive(on: DispatchQueue.main)
+    .eraseToAnyPublisher()
+}</string>
+	<key>IDECodeSnippetIdentifier</key>
+	<string>D69F359C-4FA5-4A26-9BC3-5ABFF11D9FD2</string>
+	<key>IDECodeSnippetLanguage</key>
+	<string>Xcode.SourceCodeLanguage.Swift</string>
+	<key>IDECodeSnippetSummary</key>
+	<string></string>
+	<key>IDECodeSnippetTitle</key>
+	<string>combine</string>
+	<key>IDECodeSnippetUserSnippet</key>
+	<true/>
+	<key>IDECodeSnippetVersion</key>
+	<integer>2</integer>
+</dict>
+</plist>

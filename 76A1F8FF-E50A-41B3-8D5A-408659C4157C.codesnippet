@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDECodeSnippetCompletionPrefix</key>
+	<string></string>
+	<key>IDECodeSnippetCompletionScopes</key>
+	<array>
+		<string>All</string>
+	</array>
+	<key>IDECodeSnippetContents</key>
+	<string>//MARK: sreach bar methouds
+extension ReminderListVC : UISearchBarDelegate{
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        let request : NSFetchRequest&lt;Item&gt; = Item.fetchRequest()
+        //query
+        request.predicate = NSPredicate(format: "title CONTAINS[cd] %@", searchBar.text!)
+        // sorting result accending
+        request.sortDescriptors = [NSSortDescriptor(key: "title", ascending: true)]
+        loadItem(request: request)
+        
+    }
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        if searchBar.text?.count == 0{
+            loadItem()
+            //searchBar.resignFirstResponder() will not work without placed inside DispatchQueue.main.async
+            DispatchQueue.main.async {
+                // remove keyboard indicator from searchbar and hide keyboard
+                searchBar.resignFirstResponder()
+            }
+        }
+    }
+}</string>
+	<key>IDECodeSnippetIdentifier</key>
+	<string>76A1F8FF-E50A-41B3-8D5A-408659C4157C</string>
+	<key>IDECodeSnippetLanguage</key>
+	<string>Xcode.SourceCodeLanguage.Swift</string>
+	<key>IDECodeSnippetSummary</key>
+	<string>sreachbar in core data</string>
+	<key>IDECodeSnippetTitle</key>
+	<string>sreachbar methouds </string>
+	<key>IDECodeSnippetUserSnippet</key>
+	<true/>
+	<key>IDECodeSnippetVersion</key>
+	<integer>2</integer>
+</dict>
+</plist>

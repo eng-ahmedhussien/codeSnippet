@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDECodeSnippetCompletionPrefix</key>
+	<string></string>
+	<key>IDECodeSnippetCompletionScopes</key>
+	<array>
+		<string>All</string>
+	</array>
+	<key>IDECodeSnippetContents</key>
+	<string>import Foundation
+import UIKit
+
+extension UICollectionView {
+    
+    func registerCell&lt;Cell: UICollectionViewCell&gt;(cellClass: Cell.Type){
+        //MARK: Generic Register cells
+        self.register(UINib(nibName: String(describing: Cell.self), bundle: nil), forCellWithReuseIdentifier: String(describing: Cell.self))
+    }
+    
+    
+    func dequeue&lt;Cell: UICollectionViewCell&gt;(indexPath: IndexPath) -&gt; Cell{
+        let identifier = String(describing: Cell.self)
+        guard let cell = self.dequeueReusableCell(withReuseIdentifier: identifier, for: indexPath) as? Cell else {
+            fatalError("Error in cell")
+        }
+        return cell
+    }
+    
+    func registerHeaderFooter&lt;Cell: UICollectionReusableView&gt;(cellClass: Cell.Type, kind: String){
+        //MARK: Generic Register Header (Header/Footer)
+        self.register(UINib(nibName: String(describing: Cell.self), bundle: nil), forSupplementaryViewOfKind: kind, withReuseIdentifier: String(describing: Cell.self))
+    }
+    
+    //    UICollectionView.elementKindSectionHeader
+    
+    func dequeueHeaderFooter&lt;Cell: UICollectionReusableView&gt;(kind: String, indexPath:IndexPath) -&gt; Cell{
+        let identifier = String(describing: Cell.self)
+        guard let cell = self.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: identifier, for: indexPath) as? Cell else {
+            fatalError("Error in cell")
+        }
+        return cell
+    }
+
+    
+}
+</string>
+	<key>IDECodeSnippetIdentifier</key>
+	<string>B744D684-9216-47D1-98FA-12CEE0119742</string>
+	<key>IDECodeSnippetLanguage</key>
+	<string>Xcode.SourceCodeLanguage.Swift</string>
+	<key>IDECodeSnippetSummary</key>
+	<string></string>
+	<key>IDECodeSnippetTitle</key>
+	<string>genaric collection</string>
+	<key>IDECodeSnippetUserSnippet</key>
+	<true/>
+	<key>IDECodeSnippetVersion</key>
+	<integer>2</integer>
+</dict>
+</plist>

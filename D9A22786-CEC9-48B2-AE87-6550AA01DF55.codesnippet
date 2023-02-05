@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDECodeSnippetCompletionPrefix</key>
+	<string></string>
+	<key>IDECodeSnippetCompletionScopes</key>
+	<array>
+		<string>All</string>
+	</array>
+	<key>IDECodeSnippetContents</key>
+	<string>let url = URL(string: ((movies[indexPath.row])["image"] as? String)!)!
+        if let data = try? Data(contentsOf: url) {
+                // Create Image and Update Image View
+            cell.&lt;#imageName#&gt;?.image = UIImage(data: data)
+            }
+//MARK: - SDWebImage
+import SDWebImage (pod)
+self.&lt;#imageName#&gt;.sd_setImage(with: URL(string:imageSport ), placeholderImage: UIImage(named: "R2.png"))
+
+//MARK: - kingfisher
+import Kingfisher
+let url = URL(string:"")
+&lt;#imageName#&gt;.kf.setImage(with: url)
+let  placeimage = UIImage(named:"placeholder-image")
+&lt;#imageName#&gt;.kf.setImage(with: url,placeholder: placeimage)
+
+//MARK: - url session
+func getImage(from url: URL, completion: @escaping (Data?, URLResponse?, Error?) -&gt; ()) {
+    URLSession.shared.dataTask(with: url, completionHandler: completion).resume()
+}
+getImage(from: url!) { data, response, error in
+        guard let data = data, error == nil else { return }
+        DispatchQueue.main.async() { [weak self] in
+            self!.&lt;#imageName#&gt;.image = UIImage(data: data)
+        }
+    }</string>
+	<key>IDECodeSnippetIdentifier</key>
+	<string>D9A22786-CEC9-48B2-AE87-6550AA01DF55</string>
+	<key>IDECodeSnippetLanguage</key>
+	<string>Xcode.SourceCodeLanguage.Swift</string>
+	<key>IDECodeSnippetSummary</key>
+	<string></string>
+	<key>IDECodeSnippetTitle</key>
+	<string>image from url</string>
+	<key>IDECodeSnippetUserSnippet</key>
+	<true/>
+	<key>IDECodeSnippetVersion</key>
+	<integer>2</integer>
+</dict>
+</plist>

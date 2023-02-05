@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDECodeSnippetCompletionPrefix</key>
+	<string></string>
+	<key>IDECodeSnippetCompletionScopes</key>
+	<array>
+		<string>All</string>
+	</array>
+	<key>IDECodeSnippetContents</key>
+	<string> func getAnyData&lt;T:Codable&gt;(complition: @escaping (T?, Error?)-&gt;Void){
+        guard let url = Url.shared.getAllBrandsURl() else {return}
+        URLSession.shared.dataTask(with: url) { data, response, error in
+            if let data = data{
+                do{
+                    let json = try JSONDecoder().decode(T.self, from: data)
+                    DispatchQueue.main.async{
+                        complition(json, nil)
+                        print("success to get all brands")
+                    }
+                }catch let error{
+                    DispatchQueue.main.async{
+                        print("error when get All brands")
+                        complition(nil, error)
+                    }
+                }
+            }
+            if let error = error{
+                print(error.localizedDescription)
+            }
+        }.resume()
+    }</string>
+	<key>IDECodeSnippetIdentifier</key>
+	<string>364D25D3-E21C-4514-8935-8F0A16575318</string>
+	<key>IDECodeSnippetLanguage</key>
+	<string>Xcode.SourceCodeLanguage.Swift</string>
+	<key>IDECodeSnippetSummary</key>
+	<string></string>
+	<key>IDECodeSnippetTitle</key>
+	<string>genaric</string>
+	<key>IDECodeSnippetUserSnippet</key>
+	<true/>
+	<key>IDECodeSnippetVersion</key>
+	<integer>2</integer>
+</dict>
+</plist>

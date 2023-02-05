@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDECodeSnippetCompletionPrefix</key>
+	<string></string>
+	<key>IDECodeSnippetCompletionScopes</key>
+	<array>
+		<string>All</string>
+	</array>
+	<key>IDECodeSnippetContents</key>
+	<string>import Foundation
+import SQLite3
+
+class DBManger{
+    static let shared : DBManger = DBManger()
+    let dbPath: String = "myDb.sqlite"
+    var db:OpaquePointer?
+    
+     init(){
+        db = openDatabase()
+        createTable()
+    }
+
+    
+//
+//    init() {
+//        db = openDatabase()
+//        createTable()
+//    }
+
+    func openDatabase() -&gt; OpaquePointer? {
+        //create database file path
+        let filePath = try! FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false)
+            .appendingPathComponent(dbPath)
+        var db: OpaquePointer? = nil
+        if sqlite3_open(filePath.path, &amp;db) != SQLITE_OK
+        {
+            debugPrint("can't open database")
+            return nil
+        }
+        else
+        {
+            print("Successfully created connection to database at \(dbPath)")
+            return db
+        }
+    }
+
+    func createTable() {
+        let createTableString = "CREATE TABLE IF NOT EXISTS movie(movieName TEXT PRIMARY KEY,rYear INTEGER,rate INTEGER,movieImage TEXT);"
+        var createTableStatement: OpaquePointer? = nil
+        if sqlite3_prepare_v2(db, createTableString, -1, &amp;createTableStatement, nil) == SQLITE_OK
+        {
+            if sqlite3_step(createTableStatement) == SQLITE_DONE
+            {
+                print("movie table created.")
+            } else {
+                print("movie table could not be created.")
+            }
+        } else {
+            print("CREATE TABLE statement could not be prepared.")
+        }
+        sqlite3_finalize(createTableStatement)
+    }
+
+    func insert(movieName:String, rYear:Int,rate: Int,movieImage: String){
+
+        let movies = read()
+        for m in movies
+        {
+            if m.movieName == movieName
+            {
+                return
+            }
+        }
+        let insertStatementString = "INSERT INTO movie (movieName, rYear, rate,movieImage) VALUES (?, ?, ?, ?);"
+        var insertStatement: OpaquePointer? = nil
+        if sqlite3_prepare_v2(db, insertStatementString, -1, &amp;insertStatement, nil) == SQLITE_OK {
+            sqlite3_bind_text(insertStatement, 1, (movieName as NSString).utf8String, -1, nil)
+            sqlite3_bind_int(insertStatement, 2, Int32(rYear))
+            sqlite3_bind_int(insertStatement, 3, Int32(rate))
+            sqlite3_bind_text(insertStatement, 4, (movieImage as NSString).utf8String, -1, nil)
+
+            if sqlite3_step(insertStatement) == SQLITE_DONE {
+                print("Successfully inserted row.")
+            } else {
+                print("Could not insert row.")
+            }
+        } else {
+            print("INSERT statement could not be prepared.")
+        }
+        sqlite3_finalize(insertStatement)
+    }
+
+    func read() -&gt; [Movie] {
+        let queryStatementString = "SELECT * FROM movie;"
+        var queryStatement: OpaquePointer? = nil
+        var emps : [Movie] = []
+        if sqlite3_prepare_v2(db, queryStatementString, -1, &amp;queryStatement, nil) == SQLITE_OK {
+            while sqlite3_step(queryStatement) == SQLITE_ROW {
+               //
+                let movieName = String(describing: String(cString: sqlite3_column_text(queryStatement, 0)))
+                let rYear = sqlite3_column_int(queryStatement, 1)
+                let rate = sqlite3_column_int(queryStatement, 2)
+                let movieImage = String(describing: String(cString: sqlite3_column_text(queryStatement, 3)))
+              //  emps.append(Movie(id: Int(id), name: name, age: Int(year)))
+                emps.append(Movie(movieName:movieName, rYear:Int(rYear),rate: Int(rate),movieImage: movieImage))
+                print("Query Result:")
+                print("\(movieName) | \(rYear) | \(rate)| \(movieImage)")
+            }
+        } else {
+            print("SELECT statement could not be prepared")
+        }
+        sqlite3_finalize(queryStatement)
+        return emps
+    }
+
+    func deleteByID(rYear:Int) {
+        let deleteStatementStirng = "DELETE FROM movie WHERE rYear = ?;"
+        var deleteStatement: OpaquePointer? = nil
+        if sqlite3_prepare_v2(db, deleteStatementStirng, -1, &amp;deleteStatement, nil) == SQLITE_OK {
+            sqlite3_bind_int(deleteStatement, 1, Int32(rYear))
+            if sqlite3_step(deleteStatement) == SQLITE_DONE {
+                print("Successfully deleted row.")
+            } else {
+                print("Could not delete row.")
+            }
+        } else {
+            print("DELETE statement could not be prepared")
+        }
+        sqlite3_finalize(deleteStatement)
+    }
+}
+
+
+// predicate quary
+let predicate  = NSPredicate(format: "title CONTAINS[cd] %@",selectedCategory!.name!)
+let categoryPredicate = NSPredicate(format: "parent.name MATCHES %@",selectedCategory!.name!)
+let compoundPredicate =  NSCompoundPredicate(andPredicateWithSubpredicates: [categoryPredicate,predicate])
+       
+</string>
+	<key>IDECodeSnippetIdentifier</key>
+	<string>F3909544-0F61-4A03-90D5-C48E3B80208D</string>
+	<key>IDECodeSnippetLanguage</key>
+	<string>Xcode.SourceCodeLanguage.Swift</string>
+	<key>IDECodeSnippetSummary</key>
+	<string></string>
+	<key>IDECodeSnippetTitle</key>
+	<string>sql lite data base manger singl</string>
+	<key>IDECodeSnippetUserSnippet</key>
+	<true/>
+	<key>IDECodeSnippetVersion</key>
+	<integer>2</integer>
+</dict>
+</plist>

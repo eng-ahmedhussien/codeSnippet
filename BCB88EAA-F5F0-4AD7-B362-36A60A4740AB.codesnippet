@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDECodeSnippetCompletionPrefix</key>
+	<string></string>
+	<key>IDECodeSnippetCompletionScopes</key>
+	<array>
+		<string>All</string>
+	</array>
+	<key>IDECodeSnippetContents</key>
+	<string>class CustomCellView: UIView {
+
+    @IBOutlet weak var addCartButton: UIButton!
+    @IBOutlet weak var productImage: UIImageView!
+    @IBOutlet weak var productName: UILabel!
+    @IBOutlet weak var productPrice: UILabel!
+    @IBOutlet weak var quantityButtons: UIStackView!
+    @IBOutlet weak var productQuantity: UILabel!
+    
+    required init?(coder: NSCoder) {
+        super.init(coder: coder)
+        guard let view = loadFromNib() else {return}
+        view.frame = self.bounds
+        self.addSubview(view)
+    }
+    func loadFromNib()-&gt; UIView? {
+        return UINib(nibName: "CustomCellView", bundle: nil).instantiate(withOwner: self).first as? UIView
+    }
+}</string>
+	<key>IDECodeSnippetIdentifier</key>
+	<string>BCB88EAA-F5F0-4AD7-B362-36A60A4740AB</string>
+	<key>IDECodeSnippetLanguage</key>
+	<string>Xcode.SourceCodeLanguage.Swift</string>
+	<key>IDECodeSnippetSummary</key>
+	<string></string>
+	<key>IDECodeSnippetTitle</key>
+	<string>customCellView</string>
+	<key>IDECodeSnippetUserSnippet</key>
+	<true/>
+	<key>IDECodeSnippetVersion</key>
+	<integer>2</integer>
+</dict>
+</plist>

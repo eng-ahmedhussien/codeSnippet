@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDECodeSnippetCompletionPrefix</key>
+	<string></string>
+	<key>IDECodeSnippetCompletionScopes</key>
+	<array>
+		<string>All</string>
+	</array>
+	<key>IDECodeSnippetContents</key>
+	<string>// MARK:  viewDidLoad  
+@IBOutlet weak var TableView: UITableView!{
+    didSet{
+        TableView.delegate = self
+        TableView.dataSource = self
+        TableView.rowHeight = 161
+        // for cell nib
+        TableView.register(UINib(nibName: "LeagueCell", bundle: nil), forCellReuseIdentifier: "LeagueCell")
+        TableView.registerCellNib(cellClass: LeagueCell.self)
+    }
+}
+
+// MARK: - table whene using table view inside view controller
+extension CartVC: UITableViewDelegate,UITableViewDataSource {
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -&gt; Int {
+        return &lt;#array#&gt;.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -&gt; UITableViewCell {
+        //to use this line y must write in cell class  static let reuseID = String(describing: TableViewCell.self)
+        let cell = tableView.dequeueReusableCell(withIdentifier: TableViewCell.reuseID, for: indexPath) as! TableViewCell
+        //
+        let cell = tableView.dequeueReusableCell(withIdentifier: "ProductCell", for: indexPath) as? ProductCell
+        cell?.prepareCell(cell: &lt;#array#&gt;[indexPath.row])
+        return cell!
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        //MARK: animation when deselect row
+        tableView.deselectRow(at: indexPath,animated: true)
+        if  tableView.cellForRow(at: indexPath)?.accessoryType == .checkmark{
+            tableView.cellForRow(at: indexPath)?.accessoryType = .none
+        }
+        else{
+            //MARK: checkmark row when selected
+            tableView.cellForRow(at: indexPath)?.accessoryType = .checkmark
+        }
+    }
+
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        countriesNames.remove(at: indexPath.row)
+        countriesTable.reloadData()
+        
+    }
+    //MARK: titleForHeaderInSection
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -&gt; String? {
+        return "Favorite"
+    }
+    //MARK: willDisplayHeaderView
+    func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
+        guard let header = view as? UITableViewHeaderFooterView else { return }
+        header.textLabel?.textColor = UIColor.white
+        header.textLabel?.font = UIFont.boldSystemFont(ofSize: 30)
+        header.textLabel?.frame = header.bounds
+        header.textLabel?.textAlignment = .center
+        
+    }
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -&gt; CGFloat {
+        //isExpanded[indexPath.row] ? 220 : 70
+       return 80
+        
+    }
+
+}
+//MARK: -refresh tableview
+let refreshControl = UIRefreshControl()
+refreshControl.attributedTitle = NSAttributedString(string: "Pull to refresh")
+refreshControl.addTarget(self, action: #selector(self.refresh(_:)), for: .valueChanged)
+toDoTable.addSubview(refreshControl)
+// end refreshing.
+refreshControl.endRefreshing()
+
+
+
+// MARK: - addButton 
+@IBAction func addButton(_ sender: UIBarButtonItem) {
+        var textField = UITextField()
+        let alert = UIAlertController(title:"add item", message:"", preferredStyle: .alert)
+        let okButton = UIAlertAction(title: "add", style: .default) { action in
+            self.Rlist.append(textField.text!)
+            self.tableView.reloadData()
+        }
+        //MARK: add textfiled in alert
+        alert.addTextField { alertTextField in
+            alertTextField.placeholder = "create new item"
+            textField = alertTextField
+        }
+        alert.addAction(okButton)
+        present(alert, animated: true, completion: nil)
+    }</string>
+	<key>IDECodeSnippetIdentifier</key>
+	<string>686C7AB3-8FB1-467A-91F5-9F61D40CAFE2</string>
+	<key>IDECodeSnippetLanguage</key>
+	<string>Xcode.SourceCodeLanguage.Swift</string>
+	<key>IDECodeSnippetSummary</key>
+	<string>all func</string>
+	<key>IDECodeSnippetTitle</key>
+	<string>tableview</string>
+	<key>IDECodeSnippetUserSnippet</key>
+	<true/>
+	<key>IDECodeSnippetVersion</key>
+	<integer>2</integer>
+</dict>
+</plist>

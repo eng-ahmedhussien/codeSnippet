@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDECodeSnippetCompletionPrefix</key>
+	<string></string>
+	<key>IDECodeSnippetCompletionScopes</key>
+	<array>
+		<string>All</string>
+	</array>
+	<key>IDECodeSnippetContents</key>
+	<string>  // MARK: - Core Data stack
+
+    lazy var persistentContainer: NSPersistentContainer = {
+        let container = NSPersistentContainer(name: "DataModel")
+        container.loadPersistentStores(completionHandler: { (storeDescription, error) in
+            if let error = error as NSError? {
+                fatalError("Unresolved error \(error), \(error.userInfo)")
+            }
+        })
+        return container
+    }()
+
+    // MARK: - Core Data Saving support
+
+    func saveContext () {
+        let context = persistentContainer.viewContext
+        if context.hasChanges {
+            do {
+                try context.save()
+            } catch {
+                let nserror = error as NSError
+                fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
+            }
+        }
+    }
+
+
+//if add two line you can fetch and delete withoud using core data manger
+let Delegate = UIApplication.shared.delegate as! AppDelegate
+let context = Delegate.persistentContainer.viewContext
+// fetch by using
+var cart = [Cart]()
+cart = try context.fetch(Cart.fetchRequest())
+
+//delete 
+// delete all  i is object from core data model 
+for i in cartArray {
+    context.delete(i)
+}
+try! context.save()
+//
+context.delete(arrayFormCart[indexPath.row])
+arrayFormCart.remove(at: indexPath.row)
+try! context.save()
+//add 
+func addItemsToCart(product:Product){
+    do {
+        let items = try context.fetch(Cart.fetchRequest())
+        if isItemExist(productId: product.id!,cartsItems: items){
+            print("Already in cart")
+           // self.showAlreadyExist()
+        }else{
+            let order = Cart(context: context)
+            order.id = Int64(product.id!)
+            order.title = product.title
+            order.price = product.variants![0].price
+            order.image = product.image?.src
+            order.quantity = 1
+            order.userId = Int64(customerID!)
+            try? context.save()
+            print(order)
+        }
+    } catch let error {
+        print(error)
+    }
+}
+
+func isItemInCart(productId:String) -&gt; Bool {
+    var check : Bool = false
+    
+    do {
+        let items = try context.fetch(Cart.fetchRequest())
+        for i in items {
+            if i.id == productId {
+                check = true
+                break
+            }else {
+                check = false
+            }
+        }
+    } catch let error {
+        print(error)
+    }
+    return check
+}
+
+func isCartEmpty()-&gt;Bool{
+    var check : Bool = false
+    do {
+        let items = try context.fetch(Cart.fetchRequest())
+        check  = items.count == 0 ? true : false
+    } catch let error {
+        print(error)
+    }
+    return check
+}
+
+
+</string>
+	<key>IDECodeSnippetIdentifier</key>
+	<string>93DD4580-7B14-4251-B797-EF7865318A09</string>
+	<key>IDECodeSnippetLanguage</key>
+	<string>Xcode.SourceCodeLanguage.Swift</string>
+	<key>IDECodeSnippetSummary</key>
+	<string>core data fuce that added in appdelegate</string>
+	<key>IDECodeSnippetTitle</key>
+	<string>core data stack + saving support</string>
+	<key>IDECodeSnippetUserSnippet</key>
+	<true/>
+	<key>IDECodeSnippetVersion</key>
+	<integer>2</integer>
+</dict>
+</plist>

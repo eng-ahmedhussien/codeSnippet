@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDECodeSnippetCompletionPrefix</key>
+	<string></string>
+	<key>IDECodeSnippetCompletionScopes</key>
+	<array>
+		<string>All</string>
+	</array>
+	<key>IDECodeSnippetContents</key>
+	<string>//
+//  UIViewController+Ext.swift
+//  Shopify_app
+//
+//  Created by Ahmad Ashraf on 05/07/2022.
+//1- alert
+//2- load image from url
+import Foundation
+import UIKit
+//MARK: - showAlert
+extension UIViewController{
+    
+    func showAlertError(title: String, message: String){
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "OK", style: .destructive, handler: nil)
+        alert.addAction(okAction)
+        self.present(alert, animated: true, completion: nil)
+    }
+    
+    func showAlertExit (title:String,message:String){
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        let okButton = UIAlertAction(title: "ok", style: .default) { alert in
+            exit(0)
+        }
+        let cancelAction = UIAlertAction(title: "Cancel".localized, style: .cancel)
+        alert.addAction(cancelAction)
+        alert.addAction(okButton)
+        present(alert, animated: true, completion: nil)
+    }
+
+    func showConfirmAlert(title:String, message:String, complition:@escaping (Bool)-&gt;Void){
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        let cancelBtn = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        let confirmBtn = UIAlertAction(title: "Confirm", style: .destructive) { _ in
+            complition(true)
+        }
+        alert.addAction(cancelBtn)
+        alert.addAction(confirmBtn)
+        self.present(alert, animated: true, completion: nil)
+    }
+
+    func showAlertForInterNetConnection(){
+        let alert = UIAlertController(title: "network is not connected", message: "please, check your internet connection for using app..", preferredStyle: .alert)
+        let okBtn = UIAlertAction(title: "OK", style: .cancel, handler: nil)
+        alert.addAction(okBtn)
+        self.present(alert, animated: true, completion: nil)
+    }
+
+    func showAlertSheet(title:String, message:String,complition:@escaping (Bool)-&gt;Void){
+        let actionSheet = UIAlertController(title: title, message: message, preferredStyle: .actionSheet)
+        let logOut = UIAlertAction(title: "Log out", style: .destructive) { _ in
+            complition(true)
+        }
+        let cancel = UIAlertAction(title: "Cancel", style: .default) { _ in
+            complition(false)
+        }
+        actionSheet.addAction(logOut)
+        actionSheet.addAction(cancel)
+        self.present(actionSheet, animated: true, completion: nil)
+    }
+
+    func promptForAnswer() {
+        let alert = UIAlertController(title: "Enter extra details", message: nil, preferredStyle: .alert)
+        alert.addTextField()
+        alert.textFields![0].placeholder = "Name"
+        alert.addTextField()
+        alert.textFields![1].placeholder = "Price"
+        let addAction = UIAlertAction(title: "Add", style: .default) { [self, unowned alert] _ in
+            let name = alert.textFields![0].text
+            let price = alert.textFields![1].text
+            print("name=\(name)")
+            print("price=\(price)")
+//            if name != "" , price != ""{
+//                if (self.extras.count&lt;5){
+//                self.createExtra(name: name!, price: price!)
+//                }
+//                else{
+//                    AlertController.showAlert(inViewController:self, title: "Alert", message: "Max number of extras is 5")
+//                }
+//            // do something interesting with "answer" here
+//            }
+            
+        }
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
+        alert.addAction(addAction)
+        alert.addAction(cancelAction)
+        present(alert, animated: true)
+    }
+
+    func promptForAnswer(title:String, placeholder1:String,placeholder2:String,complition: @escaping (String?, Int?) -&gt; ()) {
+        let alert = UIAlertController(title: title, message: nil, preferredStyle: .alert)
+        alert.addTextField()
+        alert.textFields![0].placeholder = placeholder1
+        alert.addTextField()
+        alert.textFields![1].placeholder = placeholder2
+        let addAction = UIAlertAction(title: "Add", style: .default) { [self, unowned alert] _ in
+            let name = alert.textFields![0].text
+            let price = alert.textFields![1].text
+            let Intprice = (price! as NSString).integerValue
+            complition(name,Intprice)
+        }
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
+        alert.addAction(addAction)
+        alert.addAction(cancelAction)
+        present(alert, animated: true)
+    }
+
+    //add date piker in alert
+    func addDatePicker(){
+        let myDatePicker: UIDatePicker = UIDatePicker()
+        myDatePicker.timeZone = NSTimeZone.local
+        myDatePicker.frame = CGRect(x: 0, y: 15, width: 270, height: 200)
+        alert.view.addSubview(myDatePicker)
+    }
+    
+  
+    
+    func hideKeyboardWhenTappedAround() {
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(hideKeyboard))
+        view.addGestureRecognizer(tapGesture)
+    }
+    
+    @objc func hideKeyboard() {
+        view.endEditing(true)
+    }
+}
+//MARK: - load image from url
+extension UIImageView {
+    func downloaded(from url: URL, contentMode mode: ContentMode = .scaleAspectFit) {
+        contentMode = mode
+        URLSession.shared.dataTask(with: url) { data, response, error in
+            guard
+                let httpURLResponse = response as? HTTPURLResponse, httpURLResponse.statusCode == 200,
+                let mimeType = response?.mimeType, mimeType.hasPrefix("image"),
+                let data = data, error == nil,
+                let image = UIImage(data: data)
+                else { return }
+            DispatchQueue.main.async() { [weak self] in
+                self?.image = image
+            }
+        }.resume()
+    }
+    func downloaded(from link: String, contentMode mode: ContentMode = .scaleAspectFit) { 
+        guard let url = URL(string: link) else { return }
+        downloaded(from: url, contentMode: mode)
+    }
+}
+//using 
+&lt;#Image#&gt;.downloaded(from: url)
+
+//MARK: - changeRoot
+extension UIViewController {
+    
+    func changeRoot() {
+        let vc = storyboard?.instantiateViewController(withIdentifier: "CustomTabViewController") as? CustomTabViewController
+        let appDelegate = UIApplication.shared.delegate as? AppDelegate
+        appDelegate?.window?.rootViewController = vc
+        appDelegate?.window?.makeKeyAndVisible()
+    }
+}
+//MARK: - custom button extention
+extension UIButton {
+    
+    func designButton(borderWidth: CGFloat = 1, borderColor: UIColor = #colorLiteral(red: 0.2666666667, green: 0.7333333333, blue: 1, alpha: 1)) {
+       layer.cornerRadius = frame.height / 2
+       clipsToBounds = true
+       layer.borderWidth = borderWidth
+       layer.borderColor = borderColor.cgColor
+    }
+}
+
+extension UITextField {
+    
+    func addRightView(image: UIImage, isSecure: Bool = false) {
+        let imageView = UIImageView(frame: CGRect(x: 10, y: 10, width: 30, height: 30))
+        imageView.image = image
+        
+        if isSecure {
+            let button = UIButton(frame: imageView.frame)
+            button.setImage(#imageLiteral(resourceName: "eye"), for: .normal)
+            button.setImage(#imageLiteral(resourceName: "eye_close"), for: .selected)
+            button.isSelected = true
+            button.addTarget(self, action: #selector(onClickEye), for: .touchUpInside)
+            rightView = button
+        } else {
+            rightView = imageView
+        }
+        rightViewMode = .always
+    }
+    
+    @objc func onClickEye(sender: UIButton) {
+        self.isSecureTextEntry = !self.isSecureTextEntry
+        sender.isSelected = !sender.isSelected
+    }
+}</string>
+	<key>IDECodeSnippetIdentifier</key>
+	<string>3DE7BD1E-AE33-428A-94D6-6981322A433F</string>
+	<key>IDECodeSnippetLanguage</key>
+	<string>Xcode.SourceCodeLanguage.Swift</string>
+	<key>IDECodeSnippetSummary</key>
+	<string></string>
+	<key>IDECodeSnippetTitle</key>
+	<string>extentions</string>
+	<key>IDECodeSnippetUserSnippet</key>
+	<true/>
+	<key>IDECodeSnippetVersion</key>
+	<integer>2</integer>
+</dict>
+</plist>

@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDECodeSnippetCompletionPrefix</key>
+	<string></string>
+	<key>IDECodeSnippetCompletionScopes</key>
+	<array>
+		<string>All</string>
+	</array>
+	<key>IDECodeSnippetContents</key>
+	<string>//make app show up alert ask to allow using notification
+//in appdelegat add
+UNUserNotificationCenter.current().requestAuthorization(options: [.alert,.badge,.sound]) { sucess, error in
+    if sucess{
+    }
+    else{
+        
+    }
+}
+UNUserNotificationCenter.current().delegate = self
+
+//or
+
+let center = UNUserNotificationCenter.current()
+let options =    UNAuthorizationOptions = [.alert,.badge,.sound]
+center.requestAuthorization(options:options){sucess, error in
+    if sucess{
+    }
+    else{
+        
+    }  
+}
+center.delegate = self
+==========================================================================
+//create Notification
+func chatNotification(){
+    let content = UNMutableNotificationContent()
+    content.title = "chat"
+    content.subtitle = "room"
+    content.body = "body"
+    content.sound = .default
+    content.badge = 1
+   //optinal  content.userinfo = ["":""]
+    
+    //trigger show notification after 5 seconde
+    let trigger = UNTimeIntervalNotificationTrigger(timeInterval: TimeInterval(5), repeats: false)
+    
+   //trigger 2 show notification dialy at exact time
+    var component = DateComponents()
+    component.calendar = Calendar.current
+    component.weekday = 1 //which day notification started
+    component.hour = 20  // 8:30
+    component.minute = 30
+    let trigger2 = UNCalendarNotificationTrigger(dateMatching: component, repeats: false)
+    
+    //trigger3
+    let date = Date(timeIntervalSinceNow: 5)
+    let dateComponent = Calendar.current.dateComponents([.year,.month,.day,.hour,.minute,.second], from: date)
+    let trigger3 = UNCalendarNotificationTrigger(dateMatching: dateComponent, repeats: false)
+    
+    let request = UNNotificationRequest(identifier: "id1", content: content, trigger: trigger)
+    UNUserNotificationCenter.current().add(request)
+}
+==========================================================================
+/// to make notification show altho app open using  UNUserNotificationCenterDelegate 1,2,3
+//1- class AppDelegate: UIResponder, UIApplicationDelegate,UNUserNotificationCenterDelegate {
+//2- add   UNUserNotificationCenter.current().delegate = self in func application in appdelegate
+//3- add willpresent func in appDelegate 
+ func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -&gt; Void) {
+        completionHandler([.banner,.sound])
+}
+    
+//called when notifucation clicked
+func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -&gt; Void) {
+    //userinfo dictionary of data you customize 
+    if let  response = response.notification.request.content.userInfo as? [String:Any] {
+         print(response["information"])
+    }
+    //you can access any data in content like title 
+    if let  response = response.notification.request.content.title as? String {
+         print(response)
+    }
+    
+    // to remove badge from app icone
+    UIApplication.shared.applicationIconBadgeNumber = 0
+    }
+==========================================================================
+//remove all notification  
+UNUserNotificationCenter.current().removeAllPendingNotificationRequests()
+//remove  notification by id  
+UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: ["id1"])</string>
+	<key>IDECodeSnippetIdentifier</key>
+	<string>4B04A29A-731C-470D-BE99-6A1A9F89B135</string>
+	<key>IDECodeSnippetLanguage</key>
+	<string>Xcode.SourceCodeLanguage.Swift</string>
+	<key>IDECodeSnippetSummary</key>
+	<string></string>
+	<key>IDECodeSnippetTitle</key>
+	<string>NotificationCenter</string>
+	<key>IDECodeSnippetUserSnippet</key>
+	<true/>
+	<key>IDECodeSnippetVersion</key>
+	<integer>2</integer>
+</dict>
+</plist>

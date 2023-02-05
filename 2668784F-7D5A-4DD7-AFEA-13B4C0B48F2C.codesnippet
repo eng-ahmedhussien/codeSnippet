@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDECodeSnippetCompletionPrefix</key>
+	<string>alert</string>
+	<key>IDECodeSnippetCompletionScopes</key>
+	<array>
+		<string>All</string>
+	</array>
+	<key>IDECodeSnippetContents</key>
+	<string>func creatAlert (title:String,message:String){
+            let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+            let okButton = UIAlertAction(title: "ok", style: .default, handler: nil)
+            let okButton2 = UIAlertAction(title: "ok", style: .default){action in
+             print("pressed")
+            }
+            alert.addAction(okButton)
+            present(alert, animated: true, completion: nil)
+        }
+
+
+//alert text field
+alert.addTextField { alertTextField in
+    alertTextField.placeholder = "create new item"
+            textField = alertTextField
+        }
+</string>
+	<key>IDECodeSnippetIdentifier</key>
+	<string>2668784F-7D5A-4DD7-AFEA-13B4C0B48F2C</string>
+	<key>IDECodeSnippetLanguage</key>
+	<string>Xcode.SourceCodeLanguage.Swift</string>
+	<key>IDECodeSnippetSummary</key>
+	<string></string>
+	<key>IDECodeSnippetTitle</key>
+	<string>alert</string>
+	<key>IDECodeSnippetUserSnippet</key>
+	<true/>
+	<key>IDECodeSnippetVersion</key>
+	<integer>2</integer>
+</dict>
+</plist>

@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDECodeSnippetCompletionPrefix</key>
+	<string></string>
+	<key>IDECodeSnippetCompletionScopes</key>
+	<array>
+		<string>All</string>
+	</array>
+	<key>IDECodeSnippetContents</key>
+	<string>
+class ApplicationUserManger{
+    
+    static let shared = ApplicationUserManger()
+    private init() {}
+    func setUserStatus(userIsLogged: Bool){
+        UserDefaults.standard.set(userIsLogged, forKey: "User_Status")
+    }
+    
+    func getUserStatus()-&gt; Bool{
+        return UserDefaults.standard.bool(forKey: "User_Status")
+    }
+    
+    func setUserID(customerID: Int?){
+        UserDefaults.standard.set(customerID, forKey: "User_ID")
+    }
+    
+    func getUserID()-&gt; Int?{
+        return UserDefaults.standard.integer(forKey: "User_ID")
+    }
+    
+    func setUserName(userName: String?){
+        UserDefaults.standard.set(userName, forKey: "User_Name")
+    }
+    
+    func getUserName()-&gt; String?{
+        return UserDefaults.standard.string(forKey: "User_Name")
+    }
+    
+    func setUserEmail(userEmail: String?){
+        UserDefaults.standard.set(userEmail, forKey: "User_Email")
+    }
+    func setCurrency(currency: Double?){
+        UserDefaults.standard.set(currency, forKey: "Currency")
+    }
+    func getCurrency()-&gt; String?{
+//        return UserDefaults.standard.string(forKey: "Currency")
+        let currency = UserDefaults.standard.string(forKey: "Currency")
+        if currency == "USD"{
+            return "USD"
+        }
+        return currency ?? ""
+    }
+    func setSelectedCurrency(isUSD: Bool){
+        UserDefaults.standard.set(isUSD, forKey: "USD")
+    }
+    func getSelectedCurrency()-&gt; Bool{
+        return UserDefaults.standard.bool(forKey: "USD")
+    }
+    
+    func getUserEmail()-&gt; String?{
+        return UserDefaults.standard.string(forKey: "User_Email")
+    }
+    
+    func setTotalPrice(totalPrice:Double){
+        UserDefaults.standard.set(totalPrice, forKey: "Total_Price")
+    }
+    
+    func getTotalPrice()-&gt;Double?{
+        return UserDefaults.standard.double(forKey: "Total_Price")
+    }
+    
+    func setFoundAdress(isFoundAddress: Bool){
+        UserDefaults.standard.set(isFoundAddress, forKey: "Address_Found")
+    }
+    
+    func checkFoundAdress()-&gt; Bool{
+        return UserDefaults.standard.bool(forKey: "Address_Found")
+    }
+    
+    func checkUserIsLogged(completion: @escaping (Bool) -&gt; Void){
+        if getUserStatus() {
+            completion(true)
+        }else{
+            completion(false)
+        }
+    }
+}
+</string>
+	<key>IDECodeSnippetIdentifier</key>
+	<string>716A9BB8-AF02-44AF-AD5B-62A3A24E76F1</string>
+	<key>IDECodeSnippetLanguage</key>
+	<string>Xcode.SourceCodeLanguage.Swift</string>
+	<key>IDECodeSnippetSummary</key>
+	<string></string>
+	<key>IDECodeSnippetTitle</key>
+	<string>singleton user fefults</string>
+	<key>IDECodeSnippetUserSnippet</key>
+	<true/>
+	<key>IDECodeSnippetVersion</key>
+	<integer>2</integer>
+</dict>
+</plist>

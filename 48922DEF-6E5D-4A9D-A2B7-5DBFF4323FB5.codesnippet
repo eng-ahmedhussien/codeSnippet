@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDECodeSnippetCompletionPrefix</key>
+	<string></string>
+	<key>IDECodeSnippetCompletionScopes</key>
+	<array>
+		<string>All</string>
+	</array>
+	<key>IDECodeSnippetContents</key>
+	<string>let predicate  = NSPredicate(format: "title CONTAINS[cd] %@",selectedCategory!.name!)
+let categoryPredicate = NSPredicate(format: "parent.name MATCHES %@",selectedCategory!.name!)
+let compoundPredicate =  NSCompoundPredicate(andPredicateWithSubpredicates: [categoryPredicate,predicate])
+       </string>
+	<key>IDECodeSnippetIdentifier</key>
+	<string>48922DEF-6E5D-4A9D-A2B7-5DBFF4323FB5</string>
+	<key>IDECodeSnippetLanguage</key>
+	<string>Xcode.SourceCodeLanguage.Swift</string>
+	<key>IDECodeSnippetSummary</key>
+	<string></string>
+	<key>IDECodeSnippetTitle</key>
+	<string>NSpredicate</string>
+	<key>IDECodeSnippetUserSnippet</key>
+	<true/>
+	<key>IDECodeSnippetVersion</key>
+	<integer>2</integer>
+</dict>
+</plist>

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDECodeSnippetCompletionPrefix</key>
+	<string></string>
+	<key>IDECodeSnippetCompletionScopes</key>
+	<array>
+		<string>All</string>
+	</array>
+	<key>IDECodeSnippetContents</key>
+	<string>NSString *str= @"bla bla bla #123 bla bla 789";
+    NSMutableString *newStr = [[NSMutableString alloc] init];
+
+        for (int i=0; i&lt;[str length]; i++) {
+            if ([str characterAtIndex:i] &gt;=48 &amp;&amp; [str characterAtIndex:i] &lt;=59) {
+                [newStr appendFormat:@"%c",[str characterAtIndex:i]];
+            }
+        }
+
+        NSLog(@"%@  as int:%i", newStr, [newStr intValue]);
+    
+    
+        NSString *s= @"1233";
+        NSLog(@"%@  as int:%i", s, [s intValue]+1);
+}</string>
+	<key>IDECodeSnippetIdentifier</key>
+	<string>04ECCD84-EE5C-46B5-881F-9731A806627F</string>
+	<key>IDECodeSnippetLanguage</key>
+	<string>Xcode.SourceCodeLanguage.Objective-C</string>
+	<key>IDECodeSnippetSummary</key>
+	<string>objective c</string>
+	<key>IDECodeSnippetTitle</key>
+	<string>string to number</string>
+	<key>IDECodeSnippetUserSnippet</key>
+	<true/>
+	<key>IDECodeSnippetVersion</key>
+	<integer>2</integer>
+</dict>
+</plist>

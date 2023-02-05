@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDECodeSnippetCompletionPrefix</key>
+	<string></string>
+	<key>IDECodeSnippetCompletionScopes</key>
+	<array>
+		<string>All</string>
+	</array>
+	<key>IDECodeSnippetContents</key>
+	<string>//
+//  FavoritesFirebaseData.swift
+//  Shopify_app
+//
+//  Created by Ahmed Hussien on 23/12/1443 AH.
+//
+
+import Foundation
+import FirebaseCore
+import FirebaseFirestore
+import FirebaseFirestoreSwift
+class FavoritesDatabase{
+    
+    static let shared = FavoritesDatabase()
+    private init() {}
+    let db = Firestore.firestore()
+    var ref: DocumentReference? = nil
+    var favoritesArray  = [FavoritesViewModel]()
+    var arrayOfDic = [[String:Any]]()
+    func addData(favoritesItem:Product){
+        
+
+        let newFavItem = db.collection("FavoritesList").document()
+
+        newFavItem .setData([
+            "customerID":ApplicationUserManger.shared.getUserID() ?? "0",
+            "productID":favoritesItem.id ?? "0",
+            "productImage":favoritesItem.image?.src ?? "0",
+            "productName":favoritesItem.title ?? "0",
+            "productPrice":favoritesItem.variants![0].price ?? "0"
+
+        ])
+    }
+    
+    func getData()-&gt;[[String:Any]]{
+//
+//        DispatchQueue.main.async
+//        {
+//
+//            self.db.collection("FavoritesList").whereField("customerID", isEqualTo:"6281667313878")
+//            .getDocuments() {  (querySnapshot, err) in
+//                if let err = err {
+//                    print("Error getting documents: \(err)")
+//                } else {
+//                    for document in querySnapshot!.documents {
+//                        self.arrayOfDic.append(document.data())
+//                      //  print("\(document.data())")
+//                        //print("\(document.documentID) =&gt; \(document.data())")
+//                    }
+//                }
+//
+//        }
+//        }
+    
+       // return arrayOfDic
+//        let fdb =  db.collection("FavoritesList").document()
+//        fdb.getDocument(as: FavoriteModel.self) { result in
+//            switch result {
+//               case .success(let city):
+//                   // A `City` value was successfully initialized from the DocumentSnapshot.
+//                   print("City: \(city)")
+//               case .failure(let error):
+//                   // A `City` value could not be initialized from the DocumentSnapshot.
+//                   print("Error decoding city: \(error)")
+//               }
+//        }
+       
+        db.collection("FavoritesList").getDocuments() { (querySnapshot, err) in
+            if let err = err {
+                print("Error getting documents: \(err)")
+            } else {
+                for document in querySnapshot!.documents {
+                    do {
+                        //var f  = try document.data(as:FavoriteModel.self )
+                        print("data =  \(document.data())")
+                        self.arrayOfDic.append(document.data())
+                        
+                    } catch  {
+                        print("error")
+                    }
+//                    var f = try! document.data(as: FavoriteModel.self)
+//                     favoritesArray.append(f)
+//                    print("\(document.documentID) =&gt; \(try! document.data(as: FavoriteModel.self))")
+                }
+            }
+        }
+        print("arrayOfDic =  \(arrayOfDic)")
+        return arrayOfDic
+    }
+    
+}
+</string>
+	<key>IDECodeSnippetIdentifier</key>
+	<string>564F3100-51BF-45E9-9B62-489EFF1F81CE</string>
+	<key>IDECodeSnippetLanguage</key>
+	<string>Xcode.SourceCodeLanguage.Swift</string>
+	<key>IDECodeSnippetSummary</key>
+	<string></string>
+	<key>IDECodeSnippetTitle</key>
+	<string>Firebase DatabaseManger singleton</string>
+	<key>IDECodeSnippetUserSnippet</key>
+	<true/>
+	<key>IDECodeSnippetVersion</key>
+	<integer>2</integer>
+</dict>
+</plist>

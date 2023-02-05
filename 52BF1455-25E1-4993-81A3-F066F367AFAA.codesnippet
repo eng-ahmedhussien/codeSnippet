@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDECodeSnippetCompletionPrefix</key>
+	<string></string>
+	<key>IDECodeSnippetCompletionScopes</key>
+	<array>
+		<string>All</string>
+	</array>
+	<key>IDECodeSnippetContents</key>
+	<string>//
+//  CoreDataManager.swift
+//  Shopify_app
+//
+//  Created by Ahmad Ashraf on 06/07/2022.
+//
+
+import Foundation
+import UIKit
+import CoreData
+
+
+class CoreDataManager{
+    static let sharedInstance = CoreDataManager()
+    private init(){}
+    let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+}
+extension CoreDataManager {
+    
+//    func add&lt;T: NSManagedObject&gt;(returnType: T.Type, add: T) {
+//   // CoreDataManager.sharedInstance.add(returnType: Cart.self, add: arrayOfProduct[indexPath.row])
+//        do {
+//            let items = try context.fetch(Cart.fetchRequest())
+//            if isItemExist(productId: product.id!,cartsItems: items){
+//                print("Already in cart")
+//            }else{
+//                let order = Cart(context: context)
+//                order.id = Int64(add.id!)
+//                order.title = add.title
+//                order.price = add.variants![0].price
+//                order.image = add.image?.src
+//                order.quantity = 1
+//                do {
+//                    try context.save()
+//                }catch {
+//                    print("Products not deleted", error)
+//                }
+//            }
+//        } catch let error {
+//            print(error)
+//        }
+//    }
+    
+    func delete&lt;T: NSManagedObject&gt;(returnType: T.Type, delete: T) {
+   // CoreDataManager.sharedInstance.delete(returnType: Cart.self, delete: arrayOfProduct[indexPath.row])
+        context.delete(delete.self)
+        do {
+            try context.save()
+            
+        }catch {
+            print("Products not deleted", error)
+        }
+    }
+    
+    func fetch&lt;T: NSManagedObject&gt;(returnType: T.Type , completion: @escaping ([T]) -&gt; Void) {
+        do {
+            guard let result = try context.fetch(returnType.fetchRequest()) as? [T] else {
+                return
+            }
+            completion(result)
+        } catch {
+            //
+        }
+    }
+    
+    func getFavoriteProducts(completion: @escaping ([Favorites]?, Error?) -&gt; Void ) {
+        do{
+            let favoriteProducts = try context.fetch(Favorites.fetchRequest())
+            print("fetching data from Core DaTa")
+            completion(favoriteProducts, nil)
+        } catch {
+            completion(nil, error)
+            print("Error in Fetching Favorite Products: ", error)
+        }
+    }
+    
+    func getFavoriteProductsForCustomer(customerID: Int, completion: @escaping([Favorites]?, Error?) -&gt; Void) {
+        do {
+            let favoriteProducts = try context.fetch(Favorites.fetchRequest())
+            var specifiedFavorites: [Favorites] = []
+            for customer in favoriteProducts {
+                if customer.customerID == customerID {
+                    specifiedFavorites.append(customer)
+                }
+            }
+            completion(specifiedFavorites, nil)
+        } catch {
+            completion(nil, error)
+            print("Error", error)
+        }
+    }
+
+    func deleteProduct(Core:Favorites){
+        context.delete(Core)
+        do{
+            try context.save()
+            print("deleted")
+        }catch let error as NSError{
+            print("Error in saving")
+            print(error.localizedDescription)
+        }
+    }
+    
+    func addToCart(appDelegate: AppDelegate,Cart:Favorites){
+        
+        let manageContext = appDelegate.persistentContainer.viewContext
+        
+        if let entity = NSEntityDescription.entity(forEntityName: "Cart", in: manageContext){
+            let cart = NSManagedObject(entity: entity, insertInto: manageContext)
+            cart.setValue(id, forKey: "id")
+            cart.setValue(userId, forKey: "userId")
+            cart.setValue(title, forKey: "title")
+            cart.setValue(image, forKey: "image")
+            cart.setValue(price, forKey: "price")
+            cart.setValue(quantity, forKey: "quantity")
+            
+            
+            do {
+                try manageContext.save()
+            }catch let error as NSError {
+                print("Error in saving")
+                print(error.localizedDescription)
+            }
+        }
+    }
+
+    func isItemInCart(productId:String) -&gt; Bool {
+        var check : Bool = false
+        
+        do {
+            let items = try context.fetch(Cart.fetchRequest())
+            for i in items {
+                if i.id == productId {
+                    check = true
+                    break
+                }else {
+                    check = false
+                }
+            }
+        } catch let error {
+            print(error)
+        }
+        return check
+    }
+
+    func isCartEmpty()-&gt;Bool{
+        var check : Bool = false
+        do {
+            let items = try context.fetch(Cart.fetchRequest())
+            check  = items.count == 0 ? true : false
+        } catch let error {
+            print(error)
+        }
+        return check
+    }
+}
+</string>
+	<key>IDECodeSnippetIdentifier</key>
+	<string>52BF1455-25E1-4993-81A3-F066F367AFAA</string>
+	<key>IDECodeSnippetLanguage</key>
+	<string>Xcode.SourceCodeLanguage.Swift</string>
+	<key>IDECodeSnippetSummary</key>
+	<string></string>
+	<key>IDECodeSnippetTitle</key>
+	<string>core data manger </string>
+	<key>IDECodeSnippetUserSnippet</key>
+	<true/>
+	<key>IDECodeSnippetVersion</key>
+	<integer>2</integer>
+</dict>
+</plist>

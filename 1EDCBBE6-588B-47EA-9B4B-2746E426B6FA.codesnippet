@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDECodeSnippetCompletionPrefix</key>
+	<string></string>
+	<key>IDECodeSnippetCompletionScopes</key>
+	<array>
+		<string>All</string>
+	</array>
+	<key>IDECodeSnippetContents</key>
+	<string>// call this function in view load or in button action
+func setupPopButton(){
+    let AR = UIAction(title: "Arabic"){ _ in
+        print("ar")
+    }
+    let EN = UIAction(title: "English"){ _ in
+        print("En")
+    }
+    // languageButton outlet not action 
+    languageButton.menu = UIMenu(title: "", children: [AR,EN])
+}
+//MARK: - 
+var menuItems: [UIAction] {
+    return [
+        UIAction(title: "Standard item", image: UIImage(systemName: "sun.max"), handler: { (_) in   
+        }),
+        UIAction(title: "Disabled item", image: UIImage(systemName: "moon"), attributes: .disabled, handler: { (_) in 
+        }),
+        UIAction(title: "Delete..", image: UIImage(systemName: "trash"), attributes: .destructive, handler: { (_) in  
+        })
+    ]
+}
+
+var Menu: UIMenu {
+    return UIMenu(title: "My menu", image: nil, identifier: nil, options: [], children: menuItems)
+}
+
+// UIBarButtonItem with UIMenu
+navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Menu", image: nil, primaryAction: nil, menu: Menu)
+
+
+/*
+ With buttons it is a little bit more complicated. 
+If you want your UIMenu to appear immediately,
+you need to set the showsMenuAsPrimaryAction to true,
+otherwise the menu will appear after long press.
+ */
+
+@IBOutlet var showMenuButton: UIButton!
+
+func configureButtonMenu() {
+    showMenuButton.menu = Menu
+    showMenuButton.showsMenuAsPrimaryAction = true
+}
+//MARK: - using  DropDown in button
+import DropDown
+@IBAction func categoryBPressed(_ sender: UIButton) {
+sender.setImage(UIImage(systemName: "arrow.up"), for: .normal)
+dropDown.dataSource = ["Tomato soup", "Mini burgers", "Onion rings", "Baked potato", "Salad"]//4
+dropDown.anchorView = sender
+dropDown.bottomOffset = CGPoint(x: 0, y: sender.frame.size.height)
+dropDown.show()
+dropDown.selectionAction = { [weak self] (index: Int, item: String) in
+    guard let _ = self else { return }
+    sender.setTitle(item, for: .normal)
+    sender.setImage(UIImage(systemName: "arrow.down"), for: .normal)
+}
+}
+//MARK: - using  DropDown in uitextfiled
+
+@IBOutlet weak var additionsList: DropDown! //DropDown class added to uitextFiled
+
+func prepareDropDownList(){
+    additionsList.optionArray = ["single","double"]
+    additionsList.optionIds = [50,100]
+    additionsList.arrowSize = 15
+    additionsList.didSelect{(selectedText , index ,id) in
+         self.sizePriceLabel.text = "\(id) EG"
+     }
+    }</string>
+	<key>IDECodeSnippetIdentifier</key>
+	<string>1EDCBBE6-588B-47EA-9B4B-2746E426B6FA</string>
+	<key>IDECodeSnippetLanguage</key>
+	<string>Xcode.SourceCodeLanguage.Swift</string>
+	<key>IDECodeSnippetSummary</key>
+	<string></string>
+	<key>IDECodeSnippetTitle</key>
+	<string>popbutton</string>
+	<key>IDECodeSnippetUserSnippet</key>
+	<true/>
+	<key>IDECodeSnippetVersion</key>
+	<integer>2</integer>
+</dict>
+</plist>

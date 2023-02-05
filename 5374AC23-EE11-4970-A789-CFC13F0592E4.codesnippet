@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDECodeSnippetCompletionPrefix</key>
+	<string></string>
+	<key>IDECodeSnippetCompletionScopes</key>
+	<array>
+		<string>All</string>
+	</array>
+	<key>IDECodeSnippetContents</key>
+	<string>import UIKit
+
+extension UITableView {
+    func registerCellNib&lt;Cell: UITableViewCell&gt;(cellClass: Cell.Type) {
+        self.register(UINib(nibName: String(describing: Cell.self), bundle: nil), forCellReuseIdentifier: String(describing: Cell.self))
+    }
+    
+    func dequeue&lt;Cell: UITableViewCell&gt;() -&gt; Cell {
+        let identifier = String(describing: Cell.self)
+        guard let cell = self.dequeueReusableCell(withIdentifier: identifier) as? Cell else {
+            fatalError("Error in cell identifier")
+        }
+        return cell
+    }
+}
+</string>
+	<key>IDECodeSnippetIdentifier</key>
+	<string>5374AC23-EE11-4970-A789-CFC13F0592E4</string>
+	<key>IDECodeSnippetLanguage</key>
+	<string>Xcode.SourceCodeLanguage.Swift</string>
+	<key>IDECodeSnippetSummary</key>
+	<string></string>
+	<key>IDECodeSnippetTitle</key>
+	<string>TableView extensions</string>
+	<key>IDECodeSnippetUserSnippet</key>
+	<true/>
+	<key>IDECodeSnippetVersion</key>
+	<integer>2</integer>
+</dict>
+</plist>

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDECodeSnippetCompletionPrefix</key>
+	<string></string>
+	<key>IDECodeSnippetCompletionScopes</key>
+	<array>
+		<string>All</string>
+	</array>
+	<key>IDECodeSnippetContents</key>
+	<string>- (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText{
+    if(searchText.length ==0)
+    {
+        _isfilter=false;
+    }
+    else{
+        _isfilter=true;
+        _filterData = [NSMutableArray new];
+        for(int i=0;i&lt;_arrayData.count;i++)
+        {
+            NSRange namerange = [[_arrayData[i] objectForKey:@"name"] rangeOfString:searchText options:NSCaseInsensitiveSearch];
+            
+            if(namerange.location !=NSNotFound){
+                [_filterData addObject:[_arrayData[i] objectForKey:@"name"]];
+            }
+            
+        }
+    }
+    [_mytable reloadData];
+}</string>
+	<key>IDECodeSnippetIdentifier</key>
+	<string>807AD871-3079-414D-84AD-B5E5F4817AA3</string>
+	<key>IDECodeSnippetLanguage</key>
+	<string>Xcode.SourceCodeLanguage.Objective-C</string>
+	<key>IDECodeSnippetSummary</key>
+	<string>objc</string>
+	<key>IDECodeSnippetTitle</key>
+	<string>searchBar objc</string>
+	<key>IDECodeSnippetUserSnippet</key>
+	<true/>
+	<key>IDECodeSnippetVersion</key>
+	<integer>2</integer>
+</dict>
+</plist>

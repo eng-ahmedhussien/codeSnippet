@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDECodeSnippetCompletionPrefix</key>
+	<string></string>
+	<key>IDECodeSnippetCompletionScopes</key>
+	<array>
+		<string>All</string>
+	</array>
+	<key>IDECodeSnippetContents</key>
+	<string>//MARK: - JSONDecoder
+func getAll(complition: @escaping (&lt;#Model#&gt;?, Error?)-&gt;Void){
+    
+    guard let url = URL(string:"url") else{return}
+    // using request or url direct
+    let request = URLRequest(url: url)
+    let task = URLSession.shared.dataTask(with: url) {[weak self] data, response, error in
+        guard let self = self else{return}
+        guard let data = data else{return}
+        do {
+            let jsonData = try JSONDecoder().decode(&lt;#Model#&gt;.self, from: data)
+            DispatchQueue.main.async{
+                completion(jsonData.sports,nil)
+            }
+        } catch let jsonError {
+            DispatchQueue.main.async{
+                completion(nil,jsonError)
+            }
+        }
+    }
+    task.resume()
+}
+//MARK: - JSONSerialization
+guard let url = URL(string:"url") else{return}
+let request = URLRequest(url: url)
+guard let data = data else{return}
+let task = URLSession.session.dataTask(with: request) { data, response, error in
+    do {
+        let output = try JSONSerialization.jsonObject(with: data, options: .allowFragments) as! Array&lt;Dictionary&lt;String, Any&gt;&gt; //Array&lt;Movie&gt;
+        self.movies = output
+    }
+    catch{
+        print("Error due to Json Serlization")
+    }
+    DispatchQueue.main.async{
+        self.table.reloadData()
+    }
+}
+task.resume()
+
+</string>
+	<key>IDECodeSnippetIdentifier</key>
+	<string>3710884B-ED0C-41CB-B2AE-78F8B398BDC0</string>
+	<key>IDECodeSnippetLanguage</key>
+	<string>Xcode.SourceCodeLanguage.Swift</string>
+	<key>IDECodeSnippetSummary</key>
+	<string>fetch data from network </string>
+	<key>IDECodeSnippetTitle</key>
+	<string>URLSession</string>
+	<key>IDECodeSnippetUserSnippet</key>
+	<true/>
+	<key>IDECodeSnippetVersion</key>
+	<integer>2</integer>
+</dict>
+</plist>

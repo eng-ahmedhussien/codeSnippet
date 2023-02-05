@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDECodeSnippetCompletionPrefix</key>
+	<string></string>
+	<key>IDECodeSnippetCompletionScopes</key>
+	<array>
+		<string>All</string>
+	</array>
+	<key>IDECodeSnippetContents</key>
+	<string>func saveItems(){
+        do{
+            try context.save()
+            
+        }
+        catch{
+            print(" ahmed error !!\(error)")
+        }
+        tableView.reloadData()
+    }
+    func loadItem(){
+        let request : NSFetchRequest&lt;Item&gt; = Item.fetchRequest()
+        do{
+            Rlist = try context.fetch(request)
+        }
+        catch{
+            printContent("error fetching data \(error)")
+        }
+    }
+func loadItem(request : NSFetchRequest&lt;Item&gt; = Item.fetchRequest()){
+    do{
+        Rlist = try context.fetch(request)
+    }
+    catch{
+        printContent("error fetching data \(error)")
+    }
+    //refresh
+    tableView.reloadData()
+}
+    func addNewItem(title:String,checked:Bool){
+        let i = Item(context:context)
+        i.title = title
+        i.checked = checked
+        Rlist.append(i)
+    }</string>
+	<key>IDECodeSnippetIdentifier</key>
+	<string>F87FA74F-ECFA-4DBA-988B-B97F401A6867</string>
+	<key>IDECodeSnippetLanguage</key>
+	<string>Xcode.SourceCodeLanguage.Swift</string>
+	<key>IDECodeSnippetSummary</key>
+	<string>save + add + load items</string>
+	<key>IDECodeSnippetTitle</key>
+	<string>core data basic func</string>
+	<key>IDECodeSnippetUserSnippet</key>
+	<true/>
+	<key>IDECodeSnippetVersion</key>
+	<integer>2</integer>
+</dict>
+</plist>

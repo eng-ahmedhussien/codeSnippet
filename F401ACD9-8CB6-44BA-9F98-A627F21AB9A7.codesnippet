@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDECodeSnippetCompletionPrefix</key>
+	<string></string>
+	<key>IDECodeSnippetCompletionScopes</key>
+	<array>
+		<string>All</string>
+	</array>
+	<key>IDECodeSnippetContents</key>
+	<string>loadIndecator.hidesWhenStopped=true
+        loadIndecator.startAnimating()
+
+// NVActivityIndicatorView packege
+import NVActivityIndicatorView
+func indecatore(){
+    loadIndecator.color =  .orange
+    loadIndecator.type = .ballPulseSync
+    loadIndecator.padding = 150
+    loadIndecator.startAnimating()
+}
+
+//ProgressHUD
+import Foundation
+import UIKit
+import ProgressHUD
+
+struct Indectore{
+    static func initIndecatore(){
+        ProgressHUD.animationType = .circleSpinFade
+        ProgressHUD.colorAnimation = UIColor(named: "mainColor")!
+        ProgressHUD.show()
+    }
+}
+
+ProgressHUD.showSucceed("log out succss", interaction: true)</string>
+	<key>IDECodeSnippetIdentifier</key>
+	<string>F401ACD9-8CB6-44BA-9F98-A627F21AB9A7</string>
+	<key>IDECodeSnippetLanguage</key>
+	<string>Xcode.SourceCodeLanguage.Swift</string>
+	<key>IDECodeSnippetSummary</key>
+	<string></string>
+	<key>IDECodeSnippetTitle</key>
+	<string>loadIndecator</string>
+	<key>IDECodeSnippetUserSnippet</key>
+	<true/>
+	<key>IDECodeSnippetVersion</key>
+	<integer>2</integer>
+</dict>
+</plist>

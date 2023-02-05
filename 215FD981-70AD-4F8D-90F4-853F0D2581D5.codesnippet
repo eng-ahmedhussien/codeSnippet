@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDECodeSnippetCompletionPrefix</key>
+	<string></string>
+	<key>IDECodeSnippetCompletionScopes</key>
+	<array>
+		<string>All</string>
+	</array>
+	<key>IDECodeSnippetContents</key>
+	<string>@IBAction func integram(_ sender: UIButton) {
+        
+        
+        let appURL = URL(string:"https://www.\(instagram)")!
+        let application = UIApplication.shared
+        
+        if application.canOpenURL(appURL) {
+            application.open(appURL)
+        } else {
+            // if Instagram app is not installed, open URL inside Safari
+            let webURL = URL(string:"https://www.\(instagram)")!
+            application.open(webURL)
+            
+        }
+    }</string>
+	<key>IDECodeSnippetIdentifier</key>
+	<string>215FD981-70AD-4F8D-90F4-853F0D2581D5</string>
+	<key>IDECodeSnippetLanguage</key>
+	<string>Xcode.SourceCodeLanguage.Swift</string>
+	<key>IDECodeSnippetSummary</key>
+	<string></string>
+	<key>IDECodeSnippetTitle</key>
+	<string>url link</string>
+	<key>IDECodeSnippetUserSnippet</key>
+	<true/>
+	<key>IDECodeSnippetVersion</key>
+	<integer>2</integer>
+</dict>
+</plist>

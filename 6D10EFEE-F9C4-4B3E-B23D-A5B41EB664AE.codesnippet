@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDECodeSnippetCompletionPrefix</key>
+	<string></string>
+	<key>IDECodeSnippetCompletionScopes</key>
+	<array>
+		<string>All</string>
+	</array>
+	<key>IDECodeSnippetContents</key>
+	<string>///realtime data base
+
+///write data
+var ref = Database.database().reference()
+    var room1 = ref.child("Rooms")
+    room1.setValue("frist room")
+
+let ref = Database.database().reference()
+   let room = ref.child("Rooms").childByAutoId()
+   let roomDataArray : [String:Any] = ["room name":roomName]
+   room.setValue(roomDataArray )
+
+///read data
+let ref = Database.database().reference()
+//get single data        
+ref.child("users").child(uid).child("username").observeSingleEvent(of: .value) { ChatData in
+            print(ChatData.value)
+        }
+        
+func getRooms(){
+            let ref = Database.database().reference()
+            ref.child("Rooms").observe(.childAdded) { DataSnapshot in
+                //get all data as [String:Any] data type in firebase
+                let dataArray = DataSnapshot.value as! [String:Any]
+                //get all values by key from data
+                let roomName = dataArray["room name"] as! String
+                //Room(roomId: roomId,roomNname: roomName) model
+                let room = Room(roomId: DataSnapshot.key, roomNname: roomName)
+                print(room)
+                DispatchQueue.main.async
+                {
+                    self.rooms.append(room)
+                    self.roomsTable.reloadData()
+                }
+               
+            }
+        }        
+    
+///add user name to database 
+guard let userId = authResult?.user.uid , let userName = cell.userNameField.text else {return}
+    let ref = Database.database().reference()
+    //create new branch from users by using userId as key
+    let user =  ref.child("users").child(userId)
+    let userDataArray : [String:Any] = ["username":userName]
+    user.setValue(userDataArray)    
+//
+………………………………………………………………………………………………………………………………………………………………….………………………………………………………………………………………………………………………………………………………………….
+import FirebaseFirestore
+//using  Firestore
+let dbb = Firestore.firestore()
+//write
+dbb.collection("leaguse").addDocument(data: [
+   "id": leagu.idLeague,
+   "name": leagu.strLeague,
+   "sportsname":leagu.strSport,
+   "image": leagu.strBadge,
+   "LeagueAlternate": leagu.strLeagueAlternate
+])
+//read
+
+self.dbb.collection("leaguse").getDocuments() { (querySnapshot, err) in
+    if let err = err {
+        print("Error getting documents: \(err)")
+    } else {
+        DispatchQueue.main.async {
+            for document in querySnapshot!.documents {
+                self.arrayOfFavoriteLeagues.append(document.data())
+                 self.tableView.reloadData()
+            }
+        }
+    }
+}
+}
+//delete
+dbb.collection("leaguse").whereField("id", isEqualTo: leagueId)
+    .getDocuments() { (querySnapshot, err) in
+        if let err = err {
+            print("Error getting documents: \(err)")
+        } else {
+            for document in querySnapshot!.documents {
+                self.dbb.collection("leaguse").document(document.documentID).delete() { err in
+                    if let err = err {
+                        print("Error removing document: \(err)")
+                    } else {
+                        print("Document successfully removed!")
+                    }
+                }
+                
+            }
+        }
+}
+………………………………………………………………………………………………………………………………………………………………….………………………………………………………………………………………………………………………………………………………………….
+//Auth
+//MARK: add email and password
+Auth.auth().createUser(withEmail: email, password: password) { authResult, error in
+    if (error == nil){
+        print(authResult)
+    }
+}
+//ex
+Auth.auth().createUser(withEmail: email, password: password) { authResult, error in
+    if (error == nil){
+        self.dismiss(animated: true)
+        guard let userId = authResult?.user.uid , let userName = cell.userNameField.text else {return}
+        let ref = Database.database().reference()
+        //create new branch from users by using userId as key
+        let user =  ref.child("users").child(userId)
+        let userDataArray : [String:Any] = ["username":userName]
+        user.setValue(userDataArray)
+        UserDefaults.standard.set(userName, forKey: "currentuser")
+    }
+    else{
+        self.aleret(error:"email aready register befor ")
+    }
+}
+
+//MARK: sign in firebase 
+Auth.auth().signIn(withEmail: email, password: password) { authResult, error in
+    if (error == nil){
+   
+    }
+}
+//ex
+Auth.auth().signIn(withEmail: email, password: password) { authResult, error in
+    if (error == nil){
+        self.dismiss(animated: true)
+        let ref = Database.database().reference()
+        let userID = authResult?.user.uid
+        ref.child("users").child(userID!).observeSingleEvent(of: .value, with: { snapshot in
+            if let value = snapshot.value as? [String:Any]{
+               let  username = value["username"]!
+                UserDefaults.standard.set(username, forKey: "currentuser")
+                print(username)
+            }
+
+        }) { error in
+          print(error)
+        }
+    }
+    else{
+        self.aleret(error:"email or password is incorrect")
+    }
+}</string>
+	<key>IDECodeSnippetIdentifier</key>
+	<string>6D10EFEE-F9C4-4B3E-B23D-A5B41EB664AE</string>
+	<key>IDECodeSnippetLanguage</key>
+	<string>Xcode.SourceCodeLanguage.Swift</string>
+	<key>IDECodeSnippetSummary</key>
+	<string></string>
+	<key>IDECodeSnippetTitle</key>
+	<string>Fire base</string>
+	<key>IDECodeSnippetUserSnippet</key>
+	<true/>
+	<key>IDECodeSnippetVersion</key>
+	<integer>2</integer>
+</dict>
+</plist>

@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDECodeSnippetCompletionPrefix</key>
+	<string></string>
+	<key>IDECodeSnippetCompletionScopes</key>
+	<array>
+		<string>All</string>
+	</array>
+	<key>IDECodeSnippetContents</key>
+	<string>//MMVM structure
+//1-view Model
+//2-network
+//3-url
+//4-view controler
+
+//MARK: -url file
+struct Url {
+    static let shared = Url()
+    let baseURL = "http://40.127.194.127:5656/Salamtak/GetMedicationItems"
+    let param  = [
+        "indexFrom" : "1",
+        "indexTo" : "10",
+        "serchKey" : "pan"
+    ]
+    
+    func getAllUsers()-&gt; URL?{
+        return URL(string: baseURL + "user")
+    }
+    func getAllPosts()-&gt; URL?{
+        return URL(string: baseURL + "post")
+    }
+
+}
+//MARK: -view Model
+import Foundation
+class BrandsViewModel{
+    var brandsArray: [Smart_collections]? { didSet{ bindingData(brandsArray, nil) } }
+    var error: Error? { didSet { bindingData(nil, error)} }
+
+    let ApiService: ApiService
+    var bindingData : (([Smart_collections]?,Error?) -&gt; Void) = {_ , _ in}
+    init(ApiService: ApiService = NetworkManager()) { self.ApiService = ApiService }
+    func fetchData(){
+        ApiService.getAllBrands { brands, error in
+            if let brands = brands{
+                self.brandsArray = brands.smart_collections
+            }else{
+                self.error = error
+            }
+        }
+    }
+}
+// combine
+class BrandsViewModel{
+    let ApiService: ApiService
+    init(ApiService: ApiService = NetworkManager()) { self.ApiService = ApiService }
+    func fetchData()-&gt; Future&lt;[Complaint],Error&gt;{
+        return Future { data in
+            self.ApiService.networkPost(completion: { products, error in
+                if let products = products{
+                    data(.success(products))
+                }else{
+                    data(.failure(error!))
+                }
+            }
+        }
+    }
+}
+//MARK: -network manger
+
+import Foundation
+import Alamofire
+import SwiftyJSON
+class NetworkManager:ApiService{
+    func getAllPosts(complition: @escaping ([Post]?, Error?) -&gt; ()) {
+        
+        AF.request(Url.shared.getAllPosts()!,headers: Url.shared.headers).responseJSON { respons in
+            switch respons.result{
+            case .failure(let error):
+                    print(error)
+            case .success(_):
+                    let jsondata = JSON(respons.value)
+                    let data = jsondata["data"]
+               // guard let data = respons.data else { return }
+                do{
+                    let json = try JSONDecoder().decode([Post].self, from: data.rawData())
+                    complition(json, nil)
+                    //self.arrayOfPosts = json
+                 //   self.PostesTable.reloadData()
+                    print("success to get all brands")
+                }catch let error{
+                    complition(nil,error )
+                   // print(error)
+
+                }
+            }
+        }
+    }
+    
+    
+}
+
+//MARK: - view controler
+func initPostsView(){
+    let postViewModel = PostVM()
+    postViewModel.fetchData()
+    postViewModel.bindingData = { posts , error in
+           if let posts = posts{
+               self.arrayOfPosts = posts
+               self.PostesTable.reloadData()
+           }
+           if let error = error {
+               print(error)
+           }
+       }
+   }
+ //combine
+func initPostsView(){
+      let ProductViewModel = PostVM()
+      var observers : [AnyCancellable] = []
+      ProductViewModel.fetchData().receive(on: DispatchQueue.main).sink(receiveCompletion: { Completion in
+          switch Completion{
+              case .finished:
+                  print("finshed recive")
+              case .failure(let error):
+                  print(error)
+          }
+      }, receiveValue: { value in
+          self.arrayOfproducts = value
+          self.confirmView.isHidden = CoreDataManager.sharedInstance.isCartEmpty() ? true:false
+          self.productsTable.reloadData()
+      }).store(in: &amp;observers)    
+     }</string>
+	<key>IDECodeSnippetIdentifier</key>
+	<string>3D7C5DA1-1050-40A6-89EC-D0C8A6D2D6A4</string>
+	<key>IDECodeSnippetLanguage</key>
+	<string>Xcode.SourceCodeLanguage.Swift</string>
+	<key>IDECodeSnippetSummary</key>
+	<string></string>
+	<key>IDECodeSnippetTitle</key>
+	<string>MVVM</string>
+	<key>IDECodeSnippetUserSnippet</key>
+	<true/>
+	<key>IDECodeSnippetVersion</key>
+	<integer>2</integer>
+</dict>
+</plist>

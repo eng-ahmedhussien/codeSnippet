@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDECodeSnippetCompletionPrefix</key>
+	<string></string>
+	<key>IDECodeSnippetCompletionScopes</key>
+	<array>
+		<string>All</string>
+	</array>
+	<key>IDECodeSnippetContents</key>
+	<string> var dateToString:String!{
+        let dateFormtter = DateFormatter()
+        dateFormtter.timeStyle = .short
+        dateFormtter.dateFormat = "dd-MM-yyyy"
+        return dateFormtter.string(from: pikerData!)
+    }
+
+extension Date {
+    func getCurrentDate(_ format: String = "dd/MM/yyyy HH:mm:ss") -&gt; String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = format
+        dateFormatter.timeZone = .current
+        return dateFormatter.string(from: Date())
+    }
+}</string>
+	<key>IDECodeSnippetIdentifier</key>
+	<string>6C842AE6-E18E-46E9-A897-806C41BF16B3</string>
+	<key>IDECodeSnippetLanguage</key>
+	<string>Xcode.SourceCodeLanguage.Swift</string>
+	<key>IDECodeSnippetSummary</key>
+	<string>convert date to string type </string>
+	<key>IDECodeSnippetTitle</key>
+	<string>date to string</string>
+	<key>IDECodeSnippetUserSnippet</key>
+	<true/>
+	<key>IDECodeSnippetVersion</key>
+	<integer>2</integer>
+</dict>
+</plist>

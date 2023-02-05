@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDECodeSnippetCompletionPrefix</key>
+	<string></string>
+	<key>IDECodeSnippetCompletionScopes</key>
+	<array>
+		<string>All</string>
+	</array>
+	<key>IDECodeSnippetContents</key>
+	<string>
+//writen in viewload
+favoritesTableView.rowHeight = 120
+favoritesTableView.tableHeaderView = nil
+favoritesTableView.tableFooterView = nil
+// make cell height auto
+productsTable.rowHeight = UITableView.automaticDimension
+productsTable.estimatedRowHeight = 200
+
+//access cell from outside cellForItemAt function 
+let index = IndexPath(row: 1, section: 0)
+let cell =  self.collectionViewCaht.cellForItem(at: index) as! CollectionViewCell
+
+// make the background of UICollection view as transparent without making the cells in it transparent in Swift
+self.PeapleCollection.backgroundView?.backgroundColor = UIColor.clear
+self.PeapleCollection.backgroundColor = UIColor.clear
+
+// mark cell when selected
+tableView.cellForRow(at: indexPath)?.accessoryType = .checkmark
+
+//to access navgation lable and change text
+cell?.textLabel?.text = rooms[indexPath.row].roomNname
+
+………………………………………………………………………………………………………………………………………………………………….
+//for label to make corner radius should masksToBounds = true
+taskNumber.layer.cornerRadius = 25
+taskNumber.layer.masksToBounds = true
+
+cell!.layer.cornerRadius = (cell?.frame.height)!/2
+cell!.layer.borderColor = UIColor.black.cgColor
+cell!.layer.borderWidth = 2
+cell?.layer.cornerRadius  = 20
+cell!.clipsToBounds = true
+cell?.sportImage.layer.cornerRadius = (cell?.sportImage.frame.height)!/7
+
+// shadow
+blueView.layer.shadowColor = UIColor.black.cgColor
+blueView.layer.shadowOffset = CGSize(width: 3, height: 3)
+blueView.layer.shadowOpacity = 0.7
+blueView.layer.shadowRadius = 4.0
+
+//change button name 
+cell?.ButtonName.setTitle("Login", for: .normal)
+//title is navagation bar title
+title = room?.roomNname
+title = "asd"
+
+//color
+UIColor(named: "color name from assets")
+#colorLiteral
+#imageLiteral
+
+navigationController?.navigationBar.barTintColor = #colorLiteral(red: 0.1494832635, green: 0.1204270795, blue: 0.1253705323, alpha: 1)
+navigationController?.navigationBar.tintColor = .white
+
+//change background colore for image
+self.favoriteB.setBackgroundImage(UIImage(systemName: "star.fill"), for: .normal, barMetrics: .default)
+………………………………………………………………………………………………………………………………………………………………….
+@IBOutlet weak var postView: UIView!{
+    didSet{
+        postView.layer.shadowColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
+        postView.layer.shadowOpacity = 0.5
+        postView.layer.shadowRadius = 10
+        postView.layer.shadowOffset = CGSize(width: 2, height: 2)
+        postView.layer.cornerRadius = 10
+
+    }
+}</string>
+	<key>IDECodeSnippetIdentifier</key>
+	<string>0C232CC8-4D4E-42B6-9C70-D3E2E9FAA1A4</string>
+	<key>IDECodeSnippetLanguage</key>
+	<string>Xcode.SourceCodeLanguage.Swift</string>
+	<key>IDECodeSnippetSummary</key>
+	<string></string>
+	<key>IDECodeSnippetTitle</key>
+	<string>ui</string>
+	<key>IDECodeSnippetUserSnippet</key>
+	<true/>
+	<key>IDECodeSnippetVersion</key>
+	<integer>2</integer>
+</dict>
+</plist>

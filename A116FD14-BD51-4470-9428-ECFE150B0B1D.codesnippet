@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDECodeSnippetCompletionPrefix</key>
+	<string></string>
+	<key>IDECodeSnippetCompletionScopes</key>
+	<array>
+		<string>All</string>
+	</array>
+	<key>IDECodeSnippetContents</key>
+	<string>//MARK: -all srotyboard in the same file
+let toHomeView = storyboard?.instantiateViewController(identifier:"HomeVc") as? HomeVc
+present(toHomeView!, animated: true, completion: nil)
+navigationController?.pushViewController(toHomeView, animated: true)
+
+//MARK: -separated srotyboard 
+let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "TabBarViewController") as! TabBarViewController
+present(vc!, animated: true, completion: nil)
+navigationController?.pushViewController(vc, animated: true)
+
+// to go to root view
+let nav = UINavigationController(rootViewController: vc)
+nav.modalPresentationStyle = .fullScreen
+self.present(nav, animated: true, completion: nil)
+navigationController?.pushViewController(nav, animated: true)
+
+extension UIViewController {
+    
+    func changeRoot() {
+        let vc = storyboard?.instantiateViewController(withIdentifier: "CustomTabViewController") as? CustomTabViewController
+        let appDelegate = UIApplication.shared.delegate as? AppDelegate
+        appDelegate?.window?.rootViewController = vc
+        appDelegate?.window?.makeKeyAndVisible()
+    }
+}</string>
+	<key>IDECodeSnippetIdentifier</key>
+	<string>A116FD14-BD51-4470-9428-ECFE150B0B1D</string>
+	<key>IDECodeSnippetLanguage</key>
+	<string>Xcode.SourceCodeLanguage.Swift</string>
+	<key>IDECodeSnippetSummary</key>
+	<string>present + navigationController</string>
+	<key>IDECodeSnippetTitle</key>
+	<string>seque </string>
+	<key>IDECodeSnippetUserSnippet</key>
+	<true/>
+	<key>IDECodeSnippetVersion</key>
+	<integer>2</integer>
+</dict>
+</plist>

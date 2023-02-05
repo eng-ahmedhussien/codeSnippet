@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDECodeSnippetCompletionPrefix</key>
+	<string></string>
+	<key>IDECodeSnippetCompletionScopes</key>
+	<array>
+		<string>All</string>
+	</array>
+	<key>IDECodeSnippetContents</key>
+	<string>locManager = [CLLocationManager new];
+    [_locManager setDesiredAccuracy:kCLLocationAccuracyBest];
+    [_locManager setDistanceFilter:kCLHeadingFilterNone];
+    _locManager.delegate = self;
+    [_locManager requestWhenInUseAuthorization];
+    [_locManager startUpdatingLocation];</string>
+	<key>IDECodeSnippetIdentifier</key>
+	<string>21F710A2-7C4D-463E-BC2D-948F91219F85</string>
+	<key>IDECodeSnippetLanguage</key>
+	<string>Xcode.SourceCodeLanguage.Objective-C</string>
+	<key>IDECodeSnippetSummary</key>
+	<string>object c</string>
+	<key>IDECodeSnippetTitle</key>
+	<string>location manger</string>
+	<key>IDECodeSnippetUserSnippet</key>
+	<true/>
+	<key>IDECodeSnippetVersion</key>
+	<integer>2</integer>
+</dict>
+</plist>
