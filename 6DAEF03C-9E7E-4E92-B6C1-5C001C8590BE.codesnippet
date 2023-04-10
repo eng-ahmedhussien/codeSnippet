@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDECodeSnippetCompletionPrefix</key>
+	<string></string>
+	<key>IDECodeSnippetCompletionScopes</key>
+	<array>
+		<string>All</string>
+	</array>
+	<key>IDECodeSnippetContents</key>
+	<string>//MARK: - RXdatasource
+@IBOutlet weak var &lt;#TableView#&gt;: UITableView!{
+    didSet{
+        //insted of write tableview.delegate = self
+        &lt;#TableView#&gt;.rx.setDelegate(self).disposed(by: disposeBag)
+        
+        /* insted of write tableview.datascorce = self 
+         and write 
+         func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -&gt; Int {
+           return 3
+         }
+         
+         func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -&gt; UITableViewCell {
+            let cell =  popularTableView.dequeue() as PopularCell
+            return cell
+         }
+        */
+        
+        // popularItems is   var popularItems : BehaviorRelay&lt;[Int]&gt; = .init(value: [1,2,3]) 
+        homeVM.popularItems.asObservable().bind(to: popularTableView.rx.items(cellIdentifier: String(describing:&lt;#cellName#&gt;.self),cellType: &lt;#cellName#&gt;.self)){index,model,cell in
+        }.disposed(by: disposeBag)
+    
+        //or
+        
+       /* homeVM.popularItems.bind(to: popularTableView.rx.items(cellIdentifier:      String(describing:PopularCell.self),cellType: PopularCell.self)){index,model,cell in
+            
+        }.disposed(by: disposeBag)
+        */
+        
+        // return model whene select cell
+        &lt;#TableView#&gt;.rx.modelSelected(&lt;#model#&gt;.self).subscribe { [weak self] (product) in
+            guard let self = self else {return}
+        }.disposed(by: disposeBag)
+        
+        //or
+        
+        //return model index whene select cell
+        /* &lt;#TableView#&gt;.rx.itemSelected.subscribe { [weak self] (indexSelected) in
+         guard let self = self, let indexSelected = indexSelected.element else { return}
+         self.homeVM.didselctedIndex(indexSelected: indexSelected)
+       }.disposed(by: disposeBag) */
+        
+    }
+}</string>
+	<key>IDECodeSnippetIdentifier</key>
+	<string>6DAEF03C-9E7E-4E92-B6C1-5C001C8590BE</string>
+	<key>IDECodeSnippetLanguage</key>
+	<string>Xcode.SourceCodeLanguage.Swift</string>
+	<key>IDECodeSnippetSummary</key>
+	<string></string>
+	<key>IDECodeSnippetTitle</key>
+	<string>RX  For TabeView</string>
+	<key>IDECodeSnippetUserSnippet</key>
+	<true/>
+	<key>IDECodeSnippetVersion</key>
+	<integer>2</integer>
+</dict>
+</plist>

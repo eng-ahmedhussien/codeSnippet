@@ -116,7 +116,40 @@ var networkPostWithCombine : AnyPublisher&lt;[Complaint],Error&gt;{
     .decode(type: [Complaint].self, decoder: JSONDecoder())
     .receive(on: DispatchQueue.main)
     .eraseToAnyPublisher()
-}</string>
+}
+
+//MARK: - PassthroughSubject
+class Counter {
+    let publisher = PassthroughSubject&lt;Int, Never&gt;()
+
+    private(set) var value = 0 {
+        // Whenever our property was set, we send its new value
+        // to our subject/publisher:
+        didSet { publisher.send(value) }
+    }
+    func increment() {
+        value += 1
+    }
+}
+
+//used
+let counter = Counter()
+let cancellable = counter.publisher
+    .filter { $0 &gt; 2 }
+    .sink { value in
+        print(value)
+    }
+
+// Since we're filtering out all values below 3, only our final
+// increment call will result in a value being printed:
+counter.increment()
+counter.increment()
+counter.increment()
+
+
+
+//However, while the above approach works, it does come with a quite major downside. Since our PassthroughSubject is both a publisher and a subject, any code can send new values to it, even if that code lives outside of our Counter class — simply by calling send():
+counter.publisher.send(17)</string>
 	<key>IDECodeSnippetIdentifier</key>
 	<string>D69F359C-4FA5-4A26-9BC3-5ABFF11D9FD2</string>
 	<key>IDECodeSnippetLanguage</key>

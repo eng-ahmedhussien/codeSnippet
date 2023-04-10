@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDECodeSnippetCompletionPrefix</key>
+	<string></string>
+	<key>IDECodeSnippetCompletionScopes</key>
+	<array>
+		<string>All</string>
+	</array>
+	<key>IDECodeSnippetContents</key>
+	<string>import UIKit
+import RxSwift
+import RxCocoa
+
+class HomeVM {
+
+    //Observable
+    let observable = Observable&lt;[String]&gt;.of(
+           ["One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine", "Ten"]
+       )
+    let observable = Observable&lt;Int&gt;.just(1)
+    
+    //subscribe
+    observable.subscribe(onNext: { element in
+      print(element)
+    })
+    
+    //MARK: BehaviorRelay
+    let slides : BehaviorRelay&lt;[Int]&gt; = .init(value: [1,2,3])
+   // How to get the current value of a BehaviorRelay subject?
+    let currentSlides = slides.value
+    //How to modify the current value of BehaviorRelay subject?
+    slides.accept ([2,3,4])
+    //subscribe
+    slides.subscribe(onNext: { element in
+      print(element)
+    })
+    
+    //MARK: PublishSubject
+     let currentTempSubject = PublishSubject&lt;Double&gt; ()
+    //How to send data on PublishSubject
+     currentTempSubject.onNext (200)
+    //subscribe
+    currentTempSubject.subscribe(onNext: { element in
+      print(element)
+    })
+    
+}
+
+//MARK: - view controller
+import UIKit
+import RxSwift
+import RxCocoa
+
+class HomeVC: UIViewController {
+    
+    let homeVM = HomeVM()
+    var disposeBag = DisposeBag()
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        homeVM.setupTimer()
+        binde()
+        
+    }
+    //subscribe data whene publisher make onNext() (recive data)
+    func binde(){
+        homeVM.scrollToItemAtIndex.subscribe(onNext: { [weak self ] (index) in
+            self?.sliderCollectionView.scrollToItem(at: IndexPath(row: index, section: 0), at: .centeredHorizontally, animated: true)
+        }).disposed(by: disposeBag)
+        
+        //subscribe on textfiled
+        &lt;#TextField#&gt;.rx.text.orEmpty.bind(to:
+        loginViewModel.phoneBehavior).disposed(by: disposeBag)
+
+    }
+
+    
+    // subscribe on button tabed
+    func subscribeToButton () {
+        //throttle activate tab on button after 500 ms
+        &lt;#Button#&gt;.rx.tap
+        throttle(RxTimeInterval.milliseconds(500), scheduler MainScheduler.instance)
+            .subscribe(onNext: { (_) in print ("button tapped") ]).disposed(by: disposeBag)
+            }
+       }      
+        
+    //bind searchbar with table 
+   searchBare.rx.text.orEmpty.bind(to: productsTable.rx.items(cellIdentifier: String(describing:ProductCell.self), cellType: ProductCell.self)){index,model,cell in
+                print(model)
+                print(index)
+                print(cell)
+                
+            }
+}
+
+
+ searchBar
+.rx.text // Observable property thanks to RxCocoa
+ .orEmpty // Make it non-optional
+     .debounce(0.5, scheduler: MainScheduler.instance) // Wait 0.5 for changes.
+ .distinctUntilChanged() // If they didn't occur, check if the new value is the same as old.
+    .filter { !$0.isEmpty } // If the new value is really new, filter for non-empty query.
+   .subscribe(onNext: { [unowned self] query in // Here we subscribe to every new value, that is not empty (thanks to filter above).
+  self.shownCities = self.allCities.filter { $0.hasPrefix(query) } // We now do our "API Request" to find cities.
+ self.tableView.reloadData() // And reload table view data.
+ })
+.addDisposableTo(disposeBag)</string>
+	<key>IDECodeSnippetIdentifier</key>
+	<string>45D96D96-225F-448A-A081-AB352ECBBB67</string>
+	<key>IDECodeSnippetLanguage</key>
+	<string>Xcode.SourceCodeLanguage.Swift</string>
+	<key>IDECodeSnippetSummary</key>
+	<string></string>
+	<key>IDECodeSnippetTitle</key>
+	<string>RXswift</string>
+	<key>IDECodeSnippetUserSnippet</key>
+	<true/>
+	<key>IDECodeSnippetVersion</key>
+	<integer>2</integer>
+</dict>
+</plist>

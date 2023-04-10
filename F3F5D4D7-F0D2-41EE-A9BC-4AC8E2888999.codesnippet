@@ -9,19 +9,32 @@
 		<string>All</string>
 	</array>
 	<key>IDECodeSnippetContents</key>
-	<string>
-cell.imageView?.image = UIImage(named:"?.png")
-cell.imageView.image  = [UIImage imageNamed:_images[indexPath.row]];
-UIImage(systemName: "cart")
-</string>
+	<string>protocol Navigator{
+    associatedtype Destination
+    func navigate(to destination: Destination)-&gt;UIViewController
+}
+
+
+class MainNavigator : Navigator{
+    
+    enum Destination{
+        case Home
+    }
+    func navigate(to destination: Destination)-&gt;UIViewController {
+        switch destination.self{
+        case .Home :
+            return HomeVC()
+        }
+    }
+}</string>
 	<key>IDECodeSnippetIdentifier</key>
-	<string>318ACA89-A562-4DE9-BCF9-7FB0D9A451E8</string>
+	<string>F3F5D4D7-F0D2-41EE-A9BC-4AC8E2888999</string>
 	<key>IDECodeSnippetLanguage</key>
 	<string>Xcode.SourceCodeLanguage.Swift</string>
 	<key>IDECodeSnippetSummary</key>
 	<string></string>
 	<key>IDECodeSnippetTitle</key>
-	<string>image by name</string>
+	<string>Navigator</string>
 	<key>IDECodeSnippetUserSnippet</key>
 	<true/>
 	<key>IDECodeSnippetVersion</key>

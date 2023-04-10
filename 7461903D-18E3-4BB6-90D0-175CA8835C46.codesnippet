@@ -39,7 +39,7 @@ if currentLanguage == "en"{
 	<key>IDECodeSnippetSummary</key>
 	<string></string>
 	<key>IDECodeSnippetTitle</key>
-	<string>localized
+	<string>extention + localized
 </string>
 	<key>IDECodeSnippetUserSnippet</key>
 	<true/>

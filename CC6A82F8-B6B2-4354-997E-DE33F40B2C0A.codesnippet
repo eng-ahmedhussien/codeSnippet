@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDECodeSnippetCompletionPrefix</key>
+	<string></string>
+	<key>IDECodeSnippetCompletionScopes</key>
+	<array>
+		<string>All</string>
+	</array>
+	<key>IDECodeSnippetContents</key>
+	<string>lazy var stackView: UIStackView = {
+        let stack = UIStackView()
+        stack.distribution = .fillEqually
+        stack.spacing = 30
+        return stack
+    }()
+
+//constrains
+func setupUI ( ) {
+    self.addSubview(stackView)
+    stackView.translatesAutoresizingMaskIntoConstraints=false
+    stackView.topAnchor.constraint (equalTo: self.topAnchor).isActive = true
+    stackView.bottomAnchor.constraint(equalTo:self.bottomAnchor).isActive=true
+    stackView.leadingAnchor.constraint (equalTo: self.leadingAnchor).isActive = true
+    stackView.trailingAnchor.constraint (equalTo: self.trailingAnchor).isActive = true
+}
+//MARK: - button
+
+lazy var middleButton: UIButton = {
+    let middleButton = UIButton()
+    middleButton.setImage(UIImage(systemName: "cart"), for: .normal)
+    middleButton.backgroundColor = .red
+    middleButton.layer.cornerRadius = 35
+   // middleButton.imageEdgeInsets = .init(top:10, left: 0, bottom: 0, right: 0)
+    return middleButton
+}()
+
+
+
+func createMiddleButton(){
+    self.tabBar.addSubview(middleButton)
+    
+    middleButton.addTarget(self, action: #selector(action(_:)), for: .touchUpInside)
+    
+    //MARK: constrians
+    //to add constrinas programtly must write  button.translatesAutoresizingMaskIntoConstraints=false
+    middleButton.translatesAutoresizingMaskIntoConstraints=false
+    
+    NSLayoutConstraint.activate([
+        middleButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+        middleButton.widthAnchor.constraint(equalToConstant:70),
+        middleButton.heightAnchor.constraint(equalToConstant:70),
+        //middleButton.bottomAnchor.constraint(equalTo: tabBar.bottomAnchor, constant: -60)
+        middleButton.topAnchor.constraint(equalTo: tabBar.bottomAnchor,constant: -125)
+    ])
+}
+
+@objc func action(_ sender:UIButton){
+    sender.backgroundColor = .blue
+    //print("button cliced ")
+}</string>
+	<key>IDECodeSnippetIdentifier</key>
+	<string>CC6A82F8-B6B2-4354-997E-DE33F40B2C0A</string>
+	<key>IDECodeSnippetLanguage</key>
+	<string>Xcode.SourceCodeLanguage.Swift</string>
+	<key>IDECodeSnippetSummary</key>
+	<string></string>
+	<key>IDECodeSnippetTitle</key>
+	<string>programmatically ui item</string>
+	<key>IDECodeSnippetUserSnippet</key>
+	<true/>
+	<key>IDECodeSnippetVersion</key>
+	<integer>2</integer>
+</dict>
+</plist>

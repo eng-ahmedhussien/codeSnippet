@@ -159,6 +159,21 @@ extension UIImageView {
 //using 
 &lt;#Image#&gt;.downloaded(from: url)
 
+//MARK: - load image from url Kingfisher
+import UIKit
+import Kingfisher
+
+extension UIImageView {
+    func setImage(with urlString: String) {
+        guard let url = URL.init(string: urlString) else {
+            return
+        }
+        let resource = ImageResource(downloadURL: url, cacheKey: urlString)
+        kf.indicatorType = .activity
+        kf.setImage(with: resource)
+    }
+}
+
 //MARK: - changeRoot
 extension UIViewController {
     

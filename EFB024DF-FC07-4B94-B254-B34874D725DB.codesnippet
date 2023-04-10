@@ -9,19 +9,28 @@
 		<string>All</string>
 	</array>
 	<key>IDECodeSnippetContents</key>
-	<string>
-cell.imageView?.image = UIImage(named:"?.png")
-cell.imageView.image  = [UIImage imageNamed:_images[indexPath.row]];
-UIImage(systemName: "cart")
-</string>
+	<string>//MARK: - 1
+lazy var mainNavigator : MainNavigator = {
+        return.init()
+    }()
+//MARK: - 2
+var mainNavigator : MainNavigator
+init()) {
+    mainNavigator = .init()
+}
+//MARK: - 3
+var mainNavigator : MainNavigator
+init(mainNavigator:MainNavigator)) {
+    self.mainNavigator = mainNavigator
+}</string>
 	<key>IDECodeSnippetIdentifier</key>
-	<string>318ACA89-A562-4DE9-BCF9-7FB0D9A451E8</string>
+	<string>EFB024DF-FC07-4B94-B254-B34874D725DB</string>
 	<key>IDECodeSnippetLanguage</key>
 	<string>Xcode.SourceCodeLanguage.Swift</string>
 	<key>IDECodeSnippetSummary</key>
 	<string></string>
 	<key>IDECodeSnippetTitle</key>
-	<string>image by name</string>
+	<string>init</string>
 	<key>IDECodeSnippetUserSnippet</key>
 	<true/>
 	<key>IDECodeSnippetVersion</key>

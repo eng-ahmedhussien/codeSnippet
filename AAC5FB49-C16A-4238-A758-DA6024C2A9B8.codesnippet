@@ -15,7 +15,21 @@
                 let emailTest = NSPredicate(format:"SELF MATCHES %@", emailRegEx)
         let result = emailTest.evaluate(with: testStr)
                 return result
-            }</string>
+            }
+
+// extention
+extension String {
+    var isValidEmail: Bool {
+        let emailRegEx = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,64}"
+
+        let emailTest = NSPredicate(format: "SELF MATCHES %@", emailRegEx)
+        return emailTest.evaluate(with: self)
+    }
+}
+
+//used
+let approved = "test@test.com".isValidEmail // true
+let rejected = "12345".isValidEmail // false</string>
 	<key>IDECodeSnippetIdentifier</key>
 	<string>AAC5FB49-C16A-4238-A758-DA6024C2A9B8</string>
 	<key>IDECodeSnippetLanguage</key>
@@ -23,7 +37,7 @@
 	<key>IDECodeSnippetSummary</key>
 	<string></string>
 	<key>IDECodeSnippetTitle</key>
-	<string>Email</string>
+	<string>extention + isValedEmail</string>
 	<key>IDECodeSnippetUserSnippet</key>
 	<true/>
 	<key>IDECodeSnippetVersion</key>

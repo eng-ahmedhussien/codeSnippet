@@ -17,24 +17,29 @@
         TableView.rowHeight = 161
         // for cell nib
         TableView.register(UINib(nibName: "LeagueCell", bundle: nil), forCellReuseIdentifier: "LeagueCell")
-        TableView.registerCellNib(cellClass: LeagueCell.self)
     }
 }
-
-// MARK: - table whene using table view inside view controller
-extension CartVC: UITableViewDelegate,UITableViewDataSource {
+// MARK: 
+extension ViewController: UITableViewDelegate,UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -&gt; Int {
         return &lt;#array#&gt;.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -&gt; UITableViewCell {
-        //to use this line y must write in cell class  static let reuseID = String(describing: TableViewCell.self)
+        // to use this line y must write in cell class  static let reuseID = String(describing: TableViewCell.self)
         let cell = tableView.dequeueReusableCell(withIdentifier: TableViewCell.reuseID, for: indexPath) as! TableViewCell
-        //
+        //or
+        // use normal 
         let cell = tableView.dequeueReusableCell(withIdentifier: "ProductCell", for: indexPath) as? ProductCell
         cell?.prepareCell(cell: &lt;#array#&gt;[indexPath.row])
         return cell!
+    }
+    
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        countriesNames.remove(at: indexPath.row)
+        countriesTable.reloadData()
+        
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -48,16 +53,12 @@ extension CartVC: UITableViewDelegate,UITableViewDataSource {
             tableView.cellForRow(at: indexPath)?.accessoryType = .checkmark
         }
     }
-
-    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-        countriesNames.remove(at: indexPath.row)
-        countriesTable.reloadData()
-        
-    }
+    
     //MARK: titleForHeaderInSection
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -&gt; String? {
         return "Favorite"
     }
+    
     //MARK: willDisplayHeaderView
     func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
         guard let header = view as? UITableViewHeaderFooterView else { return }
@@ -74,14 +75,44 @@ extension CartVC: UITableViewDelegate,UITableViewDataSource {
     }
 
 }
-//MARK: -refresh tableview
+//MARK: - RXdatasource
+@IBOutlet weak var &lt;#TableView#&gt;: UITableView!{
+    didSet{
+        //insted of write tableview.delegate = self
+        &lt;#TableView#&gt;.rx.setDelegate(self).disposed(by: disposeBag)
+        
+        /* insted of write tableview.datascorce = self 
+         and write 
+         func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -&gt; Int {
+           return 3
+         }
+         
+         func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -&gt; UITableViewCell {
+            let cell =  popularTableView.dequeue() as PopularCell
+            return cell
+         }
+        */
+        // popularItems is   var popularItems : BehaviorRelay&lt;[Int]&gt; = .init(value: [1,2,3]) 
+        homeVM.popularItems.asObservable().bind(to: popularTableView.rx.items(cellIdentifier: String(describing:PopularCell.self),cellType: PopularCell.self)){index,model,cell in
+        }.disposed(by: disposeBag)
+    
+        //or
+       /* homeVM.popularItems.bind(to: popularTableView.rx.items(cellIdentifier:      String(describing:PopularCell.self),cellType: PopularCell.self)){index,model,cell in
+            
+        }.disposed(by: disposeBag)
+        */
+        
+        
+    }
+}
+
+//MARK: - refresh tableview
 let refreshControl = UIRefreshControl()
 refreshControl.attributedTitle = NSAttributedString(string: "Pull to refresh")
 refreshControl.addTarget(self, action: #selector(self.refresh(_:)), for: .valueChanged)
 toDoTable.addSubview(refreshControl)
 // end refreshing.
 refreshControl.endRefreshing()
-
 
 
 // MARK: - addButton 
@@ -99,7 +130,10 @@ refreshControl.endRefreshing()
         }
         alert.addAction(okButton)
         present(alert, animated: true, completion: nil)
-    }</string>
+    }
+
+
+</string>
 	<key>IDECodeSnippetIdentifier</key>
 	<string>686C7AB3-8FB1-467A-91F5-9F61D40CAFE2</string>
 	<key>IDECodeSnippetLanguage</key>

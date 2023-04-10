@@ -13,39 +13,48 @@
 
 ///write data
 var ref = Database.database().reference()
+
     var room1 = ref.child("Rooms")
     room1.setValue("frist room")
-
-let ref = Database.database().reference()
+    //or 
+    ref.child("users/(userId)").setValue(user)
+    //or
    let room = ref.child("Rooms").childByAutoId()
    let roomDataArray : [String:Any] = ["room name":roomName]
    room.setValue(roomDataArray )
 
 ///read data
 let ref = Database.database().reference()
-//get single data        
-ref.child("users").child(uid).child("username").observeSingleEvent(of: .value) { ChatData in
+   //get single data        
+   ref.child("users").child(uid).child("username").observeSingleEvent(of: .value) { ChatData in
             print(ChatData.value)
-        }
+    }
+ //or
+   ref.child("users").observe(.value) { snapshot in
+   let dict = snapshot.value as? [String : AnyObject] ?? [:]
+  // ...
+  }
+
+
         
 func getRooms(){
-            let ref = Database.database().reference()
-            ref.child("Rooms").observe(.childAdded) { DataSnapshot in
-                //get all data as [String:Any] data type in firebase
-                let dataArray = DataSnapshot.value as! [String:Any]
-                //get all values by key from data
-                let roomName = dataArray["room name"] as! String
-                //Room(roomId: roomId,roomNname: roomName) model
-                let room = Room(roomId: DataSnapshot.key, roomNname: roomName)
-                print(room)
-                DispatchQueue.main.async
-                {
-                    self.rooms.append(room)
-                    self.roomsTable.reloadData()
-                }
-               
-            }
-        }        
+    let ref = Database.database().reference()
+    ref.child("Rooms").observe(.childAdded) { DataSnapshot in
+        //get all data as [String:Any] data type in firebase
+        let dataArray = DataSnapshot.value as! [String:Any]
+        //get all values by key from data
+        let roomName = dataArray["room name"] as! String
+        //Room(roomId: roomId,roomNname: roomName) model
+        let room = Room(roomId: DataSnapshot.key, roomNname: roomName)
+        print(room)
+        DispatchQueue.main.async
+        {
+            self.rooms.append(room)
+            self.roomsTable.reloadData()
+        }
+        
+    }
+}        
     
 ///add user name to database 
 guard let userId = authResult?.user.uid , let userName = cell.userNameField.text else {return}
@@ -55,21 +64,61 @@ guard let userId = authResult?.user.uid , let userName = cell.userNameField.text
     let userDataArray : [String:Any] = ["username":userName]
     user.setValue(userDataArray)    
 //
-………………………………………………………………………………………………………………………………………………………………….………………………………………………………………………………………………………………………………………………………………….
+//MARK: - Firestor Cloud Firestore
 import FirebaseFirestore
 //using  Firestore
-let dbb = Firestore.firestore()
-//write
-dbb.collection("leaguse").addDocument(data: [
+let db = Firestore.firestore()
+
+
+//MARK:
+/*
+ -&gt;users
+   -&gt;alovelace
+     first : "Ada"
+     last : "Lovelace"
+     born : 1815
+ */
+let alovelaceDocumentRef = db.collection("users").document("alovelace")
+
+//or
+
+/*
+ -&gt;leaguse
+     id : "1"
+     name : "asd"
+     ..
+ */
+db.collection("leaguse").addDocument(data: [
    "id": leagu.idLeague,
    "name": leagu.strLeague,
    "sportsname":leagu.strSport,
    "image": leagu.strBadge,
    "LeagueAlternate": leagu.strLeagueAlternate
 ])
-//read
 
-self.dbb.collection("leaguse").getDocuments() { (querySnapshot, err) in
+//or collection with subcollection
+
+/*
+
+ -&gt;rooms
+    #roomA
+       name : "my chat room"
+       -&gt;messages
+           #message1
+              from : "alex"
+              msg : "Hello World!"
+            #message2
+               ...
+    #roomB 
+      ...
+ */
+let messageRef = db
+    .collection("rooms").document("roomA")
+    .collection("messages").document("message1")
+
+//MARK: read data
+
+self.db.collection("leaguse").getDocuments() { (querySnapshot, err) in
     if let err = err {
         print("Error getting documents: \(err)")
     } else {
@@ -82,8 +131,9 @@ self.dbb.collection("leaguse").getDocuments() { (querySnapshot, err) in
     }
 }
 }
-//delete
-dbb.collection("leaguse").whereField("id", isEqualTo: leagueId)
+
+//MARK: delete
+db.collection("leaguse").whereField("id", isEqualTo: leagueId)
     .getDocuments() { (querySnapshot, err) in
         if let err = err {
             print("Error getting documents: \(err)")
@@ -100,8 +150,8 @@ dbb.collection("leaguse").whereField("id", isEqualTo: leagueId)
             }
         }
 }
-………………………………………………………………………………………………………………………………………………………………….………………………………………………………………………………………………………………………………………………………………….
-//Auth
+
+//MARK: - Auth
 //MARK: add email and password
 Auth.auth().createUser(withEmail: email, password: password) { authResult, error in
     if (error == nil){

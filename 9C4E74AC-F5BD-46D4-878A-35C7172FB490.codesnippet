@@ -9,19 +9,28 @@
 		<string>All</string>
 	</array>
 	<key>IDECodeSnippetContents</key>
-	<string>
-cell.imageView?.image = UIImage(named:"?.png")
-cell.imageView.image  = [UIImage imageNamed:_images[indexPath.row]];
-UIImage(systemName: "cart")
-</string>
+	<string>var timer : Timer?
+func setupTimer(){
+        timer = Timer.scheduledTimer(timeInterval: 2.5, target: self, selector: #selector(moveToIndex), userInfo: nil, repeats: true)
+    }
+
+@objc func moveToIndex(){
+    if currentAdsIndex &lt; arrayOfAds.count - 1 {
+        currentAdsIndex += 1
+    }else{
+        currentAdsIndex = 0
+    }
+    
+    adsCollectionView.scrollToItem(at: IndexPath(row: currentAdsIndex, section: 0), at: .centeredHorizontally, animated: true)
+}</string>
 	<key>IDECodeSnippetIdentifier</key>
-	<string>318ACA89-A562-4DE9-BCF9-7FB0D9A451E8</string>
+	<string>9C4E74AC-F5BD-46D4-878A-35C7172FB490</string>
 	<key>IDECodeSnippetLanguage</key>
 	<string>Xcode.SourceCodeLanguage.Swift</string>
 	<key>IDECodeSnippetSummary</key>
-	<string></string>
+	<string>timer on collection view pages</string>
 	<key>IDECodeSnippetTitle</key>
-	<string>image by name</string>
+	<string>timer</string>
 	<key>IDECodeSnippetUserSnippet</key>
 	<true/>
 	<key>IDECodeSnippetVersion</key>

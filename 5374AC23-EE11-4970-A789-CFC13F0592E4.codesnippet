@@ -16,6 +16,8 @@ extension UITableView {
         self.register(UINib(nibName: String(describing: Cell.self), bundle: nil), forCellReuseIdentifier: String(describing: Cell.self))
     }
     
+    //useing
+  
     func dequeue&lt;Cell: UITableViewCell&gt;() -&gt; Cell {
         let identifier = String(describing: Cell.self)
         guard let cell = self.dequeueReusableCell(withIdentifier: identifier) as? Cell else {
@@ -23,6 +25,20 @@ extension UITableView {
         }
         return cell
     }
+
+    
+    func registerHeader&lt;Header:UITableViewHeaderFooterView&gt;(HeaderClass: Header.Type) {
+        self.register(UINib(nibName: String(describing: Header.self), bundle: nil), forHeaderFooterViewReuseIdentifier: String(describing: Cell.self))
+    }
+    
+    func dequeueHeader&lt;Header: UITableViewHeaderFooterView&gt;() -&gt; Header {
+        let identifier = String(describing: Header.self)
+        guard let Header = self.dequeueReusableHeaderFooterView(withIdentifier:identifier) as! Header else {
+            fatalError("Error in Header identifier")
+        }
+        return Header
+    }
+
 }
 </string>
 	<key>IDECodeSnippetIdentifier</key>
@@ -32,7 +48,7 @@ extension UITableView {
 	<key>IDECodeSnippetSummary</key>
 	<string></string>
 	<key>IDECodeSnippetTitle</key>
-	<string>TableView extensions</string>
+	<string>extensions TableView</string>
 	<key>IDECodeSnippetUserSnippet</key>
 	<true/>
 	<key>IDECodeSnippetVersion</key>

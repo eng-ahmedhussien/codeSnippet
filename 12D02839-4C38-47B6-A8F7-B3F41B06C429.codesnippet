@@ -9,22 +9,18 @@
 		<string>All</string>
 	</array>
 	<key>IDECodeSnippetContents</key>
-	<string>
-cell.imageView?.image = UIImage(named:"?.png")
-cell.imageView.image  = [UIImage imageNamed:_images[indexPath.row]];
-UIImage(systemName: "cart")
-</string>
+	<string>#imageLiteral(resourceName: "filledStar")</string>
 	<key>IDECodeSnippetIdentifier</key>
-	<string>318ACA89-A562-4DE9-BCF9-7FB0D9A451E8</string>
+	<string>12D02839-4C38-47B6-A8F7-B3F41B06C429</string>
 	<key>IDECodeSnippetLanguage</key>
 	<string>Xcode.SourceCodeLanguage.Swift</string>
 	<key>IDECodeSnippetSummary</key>
 	<string></string>
 	<key>IDECodeSnippetTitle</key>
-	<string>image by name</string>
+	<string>imageLiteral</string>
 	<key>IDECodeSnippetUserSnippet</key>
 	<true/>
 	<key>IDECodeSnippetVersion</key>
-	<integer>2</integer>
+	<integer>0</integer>
 </dict>
 </plist>

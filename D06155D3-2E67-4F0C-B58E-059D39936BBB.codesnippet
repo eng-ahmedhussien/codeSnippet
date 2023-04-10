@@ -10,7 +10,7 @@
 	</array>
 	<key>IDECodeSnippetContents</key>
 	<string>
-//MARK: - request with headers using responseJSON
+//MARK: - get request with headers using responseJSON
 let headers : HTTPHeaders = [
     "app-id" : "62fb78b30fb89e62ca11c547"
 ]
@@ -48,7 +48,7 @@ AF.request(&lt;#url#&gt;,headers:headers).responseJSON { respons in
         }
     }
 }
-//MARK: - request with headers using responseDecodable
+//MARK: - get request with headers using responseDecodable
 AF.request(&lt;#url#&gt;,headers: headers).responseDecodable(of: &lt;# model#&gt;.self) { response in
     switch response.result{
     case .failure(let error):
@@ -70,7 +70,7 @@ AF.request(&lt;#url#&gt;,headers:headers).responseDecodable(of: &lt;# model#&gt;
     case .failure(let error):
             print(error)
     case .success(_):
-            //response.value of kind  Posts
+            //response.value of kind  model
             print(response.value)
             print("success to get all brands")
     }
@@ -142,7 +142,40 @@ func getAllPosts(complition: @escaping ([Post]?, Error?) -&gt; ()) {
         }
     }
 }
-//MARK: - 
+//MARK: - post &amp; put request and rescive data
+let customer = CustomerAddress(addresses: [address])
+let putObject = PutAddress(customer: customer)
+guard let url = Url.shared.addAddress(id: "\(customerId)") else {return}
+
+AF.request(url,method: .put,parameters: putObject).responseData{response in
+    switch response.result {
+    case .success(let data):
+        do {
+            guard let jsonObject = try JSONSerialization.jsonObject(with: data) as? [String: Any] else {
+                print("Error: Cannot convert data to JSON object")
+                return
+            }
+            guard let prettyJsonData = try? JSONSerialization.data(withJSONObject: jsonObject, options: .prettyPrinted) else {
+                print("Error: Cannot convert JSON object to Pretty JSON data")
+                return
+            }
+            guard let prettyPrintedJson = String(data: prettyJsonData, encoding: .utf8) else {
+                print("Error: Could print JSON in String")
+                return
+            }
+            print("prettyJsonData = \(prettyPrintedJson)")
+            completion(response.data,response.response,response.error)
+        } catch {
+            print("Error: Trying to convert JSON data to string")
+            return
+        }
+    case .failure(let error):
+        print(error)
+    }
+}
+
+
+//MARK: - old
 Alamofire.request(url).responseJSON { response in
     switch response.result {
         case .success( _):

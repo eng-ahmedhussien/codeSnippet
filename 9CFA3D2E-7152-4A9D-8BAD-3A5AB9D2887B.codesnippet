@@ -67,6 +67,17 @@ extension UIView {
             layer.masksToBounds = (newValue &gt; 0)
         }
     }
+    
+    // Circle viet
+    @IBInspectable
+    var isCircle: Bool {
+        set {
+            layer.cornerRadius = self.frame.size.width / 2
+        }
+        get {
+            return self.isCircle
+        }
+    }
 
     @IBInspectable
     var borderWidth: CGFloat {

@@ -10,30 +10,31 @@
 	</array>
 	<key>IDECodeSnippetContents</key>
 	<string>
-//writen in viewload
+//MARK: writen in viewload
 favoritesTableView.rowHeight = 120
 favoritesTableView.tableHeaderView = nil
 favoritesTableView.tableFooterView = nil
-// make cell height auto
+
+//MARK: make cell height auto
 productsTable.rowHeight = UITableView.automaticDimension
 productsTable.estimatedRowHeight = 200
 
-//access cell from outside cellForItemAt function 
+//MARK: access cell from outside cellForItemAt function 
 let index = IndexPath(row: 1, section: 0)
 let cell =  self.collectionViewCaht.cellForItem(at: index) as! CollectionViewCell
 
-// make the background of UICollection view as transparent without making the cells in it transparent in Swift
+//MARK: make the background of UICollection view as transparent without making the cells in it transparent in Swift
 self.PeapleCollection.backgroundView?.backgroundColor = UIColor.clear
 self.PeapleCollection.backgroundColor = UIColor.clear
 
-// mark cell when selected
+//MARK: mark cell when selected
 tableView.cellForRow(at: indexPath)?.accessoryType = .checkmark
 
-//to access navgation lable and change text
+//MARK: to access navgation lable and change text
 cell?.textLabel?.text = rooms[indexPath.row].roomNname
 
 ………………………………………………………………………………………………………………………………………………………………….
-//for label to make corner radius should masksToBounds = true
+//MARK: for label to make corner radius should masksToBounds = true
 taskNumber.layer.cornerRadius = 25
 taskNumber.layer.masksToBounds = true
 
@@ -44,27 +45,31 @@ cell?.layer.cornerRadius  = 20
 cell!.clipsToBounds = true
 cell?.sportImage.layer.cornerRadius = (cell?.sportImage.frame.height)!/7
 
-// shadow
+//MARK: shadow
 blueView.layer.shadowColor = UIColor.black.cgColor
 blueView.layer.shadowOffset = CGSize(width: 3, height: 3)
 blueView.layer.shadowOpacity = 0.7
 blueView.layer.shadowRadius = 4.0
 
-//change button name 
+//MARK: change button name 
 cell?.ButtonName.setTitle("Login", for: .normal)
-//title is navagation bar title
+
+//MARK: title is navagation bar title
 title = room?.roomNname
 title = "asd"
 
-//color
+//MARK: color
 UIColor(named: "color name from assets")
-#colorLiteral
+tintColor = .white
+
 #imageLiteral
+starImage = #imageLiteral(resourceName: "filledStar")
 
-navigationController?.navigationBar.barTintColor = #colorLiteral(red: 0.1494832635, green: 0.1204270795, blue: 0.1253705323, alpha: 1)
-navigationController?.navigationBar.tintColor = .white
+#colorLiteral
+barTintColor = #colorLiteral(red: 0.1494832635, green: 0.1204270795, blue: 0.1253705323, alpha: 1)
 
-//change background colore for image
+
+//MARK: change background colore for image
 self.favoriteB.setBackgroundImage(UIImage(systemName: "star.fill"), for: .normal, barMetrics: .default)
 ………………………………………………………………………………………………………………………………………………………………….
 @IBOutlet weak var postView: UIView!{

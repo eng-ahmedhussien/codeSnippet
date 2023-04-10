@@ -73,9 +73,10 @@ class BrandsViewModel{
 import Foundation
 import Alamofire
 import SwiftyJSON
+                                        
 class NetworkManager:ApiService{
+    
     func getAllPosts(complition: @escaping ([Post]?, Error?) -&gt; ()) {
-        
         AF.request(Url.shared.getAllPosts()!,headers: Url.shared.headers).responseJSON { respons in
             switch respons.result{
             case .failure(let error):
@@ -98,9 +99,33 @@ class NetworkManager:ApiService{
             }
         }
     }
-    
-    
-}
+
+//MARK: genaric rquest func
+  // typealias Handler = ((Brands?, Error?)-&gt;Void)
+  typealias Handler&lt;T&gt; = (T?, Error?) -&gt; Void
+    func getAll&lt;T:Codable&gt;(url:URL?,modelType: T.Type, complition: @escaping Handler&lt;T&gt;) {
+          guard let url = url else {return}
+          URLSession.shared.dataTask(with: url) { data, response, error in
+           if let data = data{
+              do{
+                  let json = try JSONDecoder().decode(modelType.self, from: data)
+                  DispatchQueue.main.async{
+                  complition(json, nil)
+                  print("success to get all Data")
+                 }
+               }catch let error{
+                   DispatchQueue.main.async{
+                   print("error when get All data")
+                    complition(nil, error)
+                                    }
+                }
+            }
+            if let error = error{
+               print(error.localizedDescription)
+            }
+           }.resume()
+    }               
+}                                      
 
 //MARK: - view controler
 func initPostsView(){
