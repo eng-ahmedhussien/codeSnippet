@@ -10,37 +10,37 @@
 	</array>
 	<key>IDECodeSnippetContents</key>
 	<string>//MARK:   combine
-//MARK: -  ex1
-///in view model
+//MARK: -  Ex1
+
+//in view model
 func fetchData(searchkey:String)-&gt; Future&lt;[Complaint],Error&gt;{
     return Future { data in
-        //api calling
+        // api calling
         // success
         data(.success(products))
         // fail
         data(.failure(error!))
     }
 }
-///in controler
+// in controler
 var observers : [AnyCancellable] = []
 let ViewModel = ProductVM()
-//.receive(on: DispatchQueue.main)  -&gt; put receive data in main queue directly
-//.sink mange bindingData
-ViewModel.fetchData()
-    .receive(on: DispatchQueue.main)
-    .sink(receiveCompletion: { Completion in
-    switch Completion{
+///.receive(on: DispatchQueue.main)  -&gt; put receive data in main queue directly
+///.sink mange bindingData
+
+ViewModel.fetchData().receive(on: DispatchQueue.main).sink(receiveCompletion: { Completion in
+        switch Completion{
         case .finished:
             print("finshed recive")
         case .failure(let error):
             print(error)
-    }
-}, receiveValue: { value in
-    self.arrayOfproducts = value
-    self.productsTable.reloadData()
-}).store(in: &amp;observers)
+        }
+    }, receiveValue: { value in
+        self.arrayOfproducts = value
+        self.productsTable.reloadData()
+    }).store(in: &amp;observers)
 
-///in networkManger
+//in networkManger
 func networkPost(completion: @escaping ([Complaint]?, Error?) -&gt; (),searchkey:String){
     guard let url = URL(string: Url.shared.baseURL) else {return}
     var request = URLRequest(url: url)
@@ -49,12 +49,15 @@ func networkPost(completion: @escaping ([Complaint]?, Error?) -&gt; (),searchkey
     let postString = "indexFrom=1&amp;indexTo=10&amp;serchKey=\(searchkey)";
     request.httpBody = postString.data(using: String.Encoding.utf8);
     let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
+        
         guard let data = data,let response = response as? HTTPURLResponse,error == nil
-        else {                                                               // check for fundamental networking error
+        else {
+            ///networking error
             print("error", error ?? URLError(.badServerResponse))
             return
         }
-        guard (200 ... 299) ~= response.statusCode else {                    // check for http errors
+        guard (200 ... 299) ~= response.statusCode else {                    
+            ///check for http errors
             print("statusCode should be 2xx, but is \(response.statusCode)")
             print("response = \(response)")
             return
@@ -63,17 +66,14 @@ func networkPost(completion: @escaping ([Complaint]?, Error?) -&gt; (),searchkey
         do {
             let responseObject = try JSONDecoder().decode(Posts.self, from: data)
             let productArray = responseObject.complaints
-            DispatchQueue.main.async
-            {
+            DispatchQueue.main.async{
                 completion(productArray,nil)
             }
-           
         }
         catch {
             print(error)
-            DispatchQueue.main.async
-            {
-                completion(nil,error)// parsing error
+            DispatchQueue.main.async{
+                completion(nil,error)///parsing error
             }
             if let responseString = String(data: data, encoding: .utf8) {
                 print("responseString = \(responseString)")
@@ -81,20 +81,19 @@ func networkPost(completion: @escaping ([Complaint]?, Error?) -&gt; (),searchkey
                 print("unable to parse response as string")
             }
         }
-        
     }
     task.resume()
-
 }
 //MARK: -  ex2
 //using combine in urlSession
-///vc
+
+//vc
 let ProductViewModel = ProductVM()
 ProductViewModel.fetchData2 { value, error in
     self.arrayOfproducts = value!
     self.productsTable.reloadData()
 }
-///vm
+//vm
 func fetchData2(completion: @escaping ( [Complaint]?, Error?) -&gt; ()){
     apiService.networkPostWithCombine.sink {Completion in
         switch Completion{
@@ -107,7 +106,7 @@ func fetchData2(completion: @escaping ( [Complaint]?, Error?) -&gt; ()){
         completion(value,nil)
     }
 }
-///network
+//network
 var networkPostWithCombine : AnyPublisher&lt;[Complaint],Error&gt;{
     let url = URL(string: Url.shared.baseURL)
     return URLSession.shared.dataTaskPublisher(for: url!).tryMap { output in
@@ -119,9 +118,9 @@ var networkPostWithCombine : AnyPublisher&lt;[Complaint],Error&gt;{
 }
 
 //MARK: - PassthroughSubject
+
 class Counter {
     let publisher = PassthroughSubject&lt;Int, Never&gt;()
-
     private(set) var value = 0 {
         // Whenever our property was set, we send its new value
         // to our subject/publisher:
@@ -145,8 +144,6 @@ let cancellable = counter.publisher
 counter.increment()
 counter.increment()
 counter.increment()
-
-
 
 //However, while the above approach works, it does come with a quite major downside. Since our PassthroughSubject is both a publisher and a subject, any code can send new values to it, even if that code lives outside of our Counter class — simply by calling send():
 counter.publisher.send(17)</string>

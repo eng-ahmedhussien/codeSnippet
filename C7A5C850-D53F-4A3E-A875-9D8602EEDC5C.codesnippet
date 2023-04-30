@@ -9,13 +9,7 @@
 		<string>All</string>
 	</array>
 	<key>IDECodeSnippetContents</key>
-	<string>//
-//  SplashController.swift
-//  YoMeda
-//
-//  Created by Ahmed Hussien on 21/10/2022.
-//
-
+	<string>
 import UIKit
 
 class SplashController: UIViewController {

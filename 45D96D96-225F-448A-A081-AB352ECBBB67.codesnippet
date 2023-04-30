@@ -15,33 +15,33 @@ import RxCocoa
 
 class HomeVM {
 
-    //Observable
+    //MARK: Observable
     let observable = Observable&lt;[String]&gt;.of(
            ["One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine", "Ten"]
        )
     let observable = Observable&lt;Int&gt;.just(1)
     
-    //subscribe
+    ///subscribe
     observable.subscribe(onNext: { element in
       print(element)
     })
     
     //MARK: BehaviorRelay
     let slides : BehaviorRelay&lt;[Int]&gt; = .init(value: [1,2,3])
-   // How to get the current value of a BehaviorRelay subject?
+    ///How to get the current value of a BehaviorRelay subject?
     let currentSlides = slides.value
-    //How to modify the current value of BehaviorRelay subject?
+    ///How to modify the current value of BehaviorRelay subject?
     slides.accept ([2,3,4])
-    //subscribe
+    ///subscribe
     slides.subscribe(onNext: { element in
       print(element)
     })
     
     //MARK: PublishSubject
      let currentTempSubject = PublishSubject&lt;Double&gt; ()
-    //How to send data on PublishSubject
+    ///How to send data on PublishSubject
      currentTempSubject.onNext (200)
-    //subscribe
+    ///subscribe
     currentTempSubject.subscribe(onNext: { element in
       print(element)
     })
@@ -62,21 +62,20 @@ class HomeVC: UIViewController {
         super.viewDidLoad()
         homeVM.setupTimer()
         binde()
-        
     }
-    //subscribe data whene publisher make onNext() (recive data)
-    func binde(){
+    
+    //subscribe on data whene publisher make onNext() (recive data)
+    func subscribe(){
         homeVM.scrollToItemAtIndex.subscribe(onNext: { [weak self ] (index) in
             self?.sliderCollectionView.scrollToItem(at: IndexPath(row: index, section: 0), at: .centeredHorizontally, animated: true)
         }).disposed(by: disposeBag)
         
-        //subscribe on textfiled
+        //bind textfiled to phoneRelay
         &lt;#TextField#&gt;.rx.text.orEmpty.bind(to:
         loginViewModel.phoneBehavior).disposed(by: disposeBag)
 
     }
 
-    
     // subscribe on button tabed
     func subscribeToButton () {
         //throttle activate tab on button after 500 ms
@@ -96,9 +95,8 @@ class HomeVC: UIViewController {
 }
 
 
- searchBar
-.rx.text // Observable property thanks to RxCocoa
- .orEmpty // Make it non-optional
+ searchBar.rx.text // Observable property thanks to RxCocoa
+.orEmpty // Make it non-optional
      .debounce(0.5, scheduler: MainScheduler.instance) // Wait 0.5 for changes.
  .distinctUntilChanged() // If they didn't occur, check if the new value is the same as old.
     .filter { !$0.isEmpty } // If the new value is really new, filter for non-empty query.

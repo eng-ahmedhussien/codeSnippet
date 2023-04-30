@@ -35,31 +35,58 @@
         }
     }
 
+//MARK: -
+func saveItems(){
+    do{ try context.save() }
+    catch{ print(" ahmed error !!\(error)") }
+    tableView.reloadData()
+}
+func loadItem(){
+    let request : NSFetchRequest&lt;Item&gt; = Item.fetchRequest()
+    do{ Rlist = try context.fetch(request) }
+    catch{ printContent("error fetching data \(error)") }
+}
 
+func loadItem(request : NSFetchRequest&lt;Item&gt; = Item.fetchRequest()){
+    do{ Rlist = try context.fetch(request) }
+    catch{ printContent("error fetching data \(error)") }
+    //refresh
+    tableView.reloadData()
+}
+
+func addNewItem(title:String,checked:Bool){
+    let i = Item(context:context)
+    i.title = title
+    i.checked = checked
+    Rlist.append(i)
+    }
 //if add two line you can fetch and delete withoud using core data manger
 let Delegate = UIApplication.shared.delegate as! AppDelegate
 let context = Delegate.persistentContainer.viewContext
-// fetch by using
+
+//fetch by using
 var cart = [Cart]()
 cart = try context.fetch(Cart.fetchRequest())
 
-//delete 
 // delete all  i is object from core data model 
 for i in cartArray {
     context.delete(i)
 }
+
+//save
 try! context.save()
-//
+
+//delete
 context.delete(arrayFormCart[indexPath.row])
 arrayFormCart.remove(at: indexPath.row)
 try! context.save()
+
 //add 
 func addItemsToCart(product:Product){
     do {
         let items = try context.fetch(Cart.fetchRequest())
         if isItemExist(productId: product.id!,cartsItems: items){
             print("Already in cart")
-           // self.showAlreadyExist()
         }else{
             let order = Cart(context: context)
             order.id = Int64(product.id!)
@@ -115,7 +142,7 @@ func isCartEmpty()-&gt;Bool{
 	<key>IDECodeSnippetSummary</key>
 	<string>core data fuce that added in appdelegate</string>
 	<key>IDECodeSnippetTitle</key>
-	<string>core data stack + saving support</string>
+	<string>Core Data Basic Func </string>
 	<key>IDECodeSnippetUserSnippet</key>
 	<true/>
 	<key>IDECodeSnippetVersion</key>

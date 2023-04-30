@@ -38,9 +38,9 @@ func getAnyData&lt;T:Codable&gt;(url:URL?,modelType: T.Type, complition: @escapi
 	<key>IDECodeSnippetLanguage</key>
 	<string>Xcode.SourceCodeLanguage.Swift</string>
 	<key>IDECodeSnippetSummary</key>
-	<string></string>
+	<string>getAnyData uisng URLSession</string>
 	<key>IDECodeSnippetTitle</key>
-	<string>genaric</string>
+	<string>genaric getAnyData</string>
 	<key>IDECodeSnippetUserSnippet</key>
 	<true/>
 	<key>IDECodeSnippetVersion</key>

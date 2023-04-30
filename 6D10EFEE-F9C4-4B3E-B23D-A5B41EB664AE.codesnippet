@@ -9,12 +9,12 @@
 		<string>All</string>
 	</array>
 	<key>IDECodeSnippetContents</key>
-	<string>///realtime data base
+	<string>//MARK: - realtime data base
 
 ///write data
 var ref = Database.database().reference()
 
-    var room1 = ref.child("Rooms")
+   var room1 = ref.child("Rooms")
     room1.setValue("frist room")
     //or 
     ref.child("users/(userId)").setValue(user)
@@ -47,8 +47,7 @@ func getRooms(){
         //Room(roomId: roomId,roomNname: roomName) model
         let room = Room(roomId: DataSnapshot.key, roomNname: roomName)
         print(room)
-        DispatchQueue.main.async
-        {
+        DispatchQueue.main.async{
             self.rooms.append(room)
             self.roomsTable.reloadData()
         }

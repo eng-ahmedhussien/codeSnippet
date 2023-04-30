@@ -9,17 +9,17 @@
 		<string>All</string>
 	</array>
 	<key>IDECodeSnippetContents</key>
-	<string>//MARK: -all srotyboard in the same file
+	<string>//MARK: - all srotyboard in the same file
 let toHomeView = storyboard?.instantiateViewController(identifier:"HomeVc") as? HomeVc
 present(toHomeView!, animated: true, completion: nil)
 navigationController?.pushViewController(toHomeView, animated: true)
 
-//MARK: -separated srotyboard 
+//MARK: - separated srotyboard 
 let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "TabBarViewController") as! TabBarViewController
 present(vc!, animated: true, completion: nil)
 navigationController?.pushViewController(vc, animated: true)
 
-// to go to root view
+//MARK: - to go to root view
 let nav = UINavigationController(rootViewController: vc)
 nav.modalPresentationStyle = .fullScreen
 self.present(nav, animated: true, completion: nil)
@@ -33,7 +33,12 @@ extension UIViewController {
         appDelegate?.window?.rootViewController = vc
         appDelegate?.window?.makeKeyAndVisible()
     }
-}</string>
+}
+
+//MARK: - present full
+vc.modalPresentationStyle = .fullScreen
+
+</string>
 	<key>IDECodeSnippetIdentifier</key>
 	<string>A116FD14-BD51-4470-9428-ECFE150B0B1D</string>
 	<key>IDECodeSnippetLanguage</key>

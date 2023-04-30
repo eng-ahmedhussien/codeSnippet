@@ -3,17 +3,16 @@
 <plist version="1.0">
 <dict>
 	<key>IDECodeSnippetCompletionPrefix</key>
-	<string></string>
+	<string>filtter Array</string>
 	<key>IDECodeSnippetCompletionScopes</key>
 	<array>
 		<string>All</string>
 	</array>
 	<key>IDECodeSnippetContents</key>
-	<string> let filterArray = self.arrayOfProducts.filter { element in
-                    return element.vendor == self.brandName
-                }
-                self.arrayOfBrandProducts = filterArray
-                self.productsCollection.reloadData()</string>
+	<string>let filterArray = self.arrayOfProducts.filter { element in
+    return element.vendor == self.brandName
+}
+</string>
 	<key>IDECodeSnippetIdentifier</key>
 	<string>C0BB8B7C-72B0-4785-B219-8DCA1DE1C16F</string>
 	<key>IDECodeSnippetLanguage</key>

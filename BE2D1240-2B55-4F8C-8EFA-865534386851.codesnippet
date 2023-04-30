@@ -9,8 +9,13 @@
 		<string>All</string>
 	</array>
 	<key>IDECodeSnippetContents</key>
-	<string>let string = NSString(string: mySwiftString)
-string.doubleValue</string>
+	<string>//to Double
+let string = NSString(string: mySwiftString)
+string.doubleValue
+
+//to int
+let myInt3 = (price! as NSString).integerValue
+let myInt2 = Int(price!) ?? 0</string>
 	<key>IDECodeSnippetIdentifier</key>
 	<string>BE2D1240-2B55-4F8C-8EFA-865534386851</string>
 	<key>IDECodeSnippetLanguage</key>
@@ -18,7 +23,7 @@ string.doubleValue</string>
 	<key>IDECodeSnippetSummary</key>
 	<string></string>
 	<key>IDECodeSnippetTitle</key>
-	<string>string to Double</string>
+	<string>string to</string>
 	<key>IDECodeSnippetUserSnippet</key>
 	<true/>
 	<key>IDECodeSnippetVersion</key>

@@ -33,7 +33,7 @@ struct Url {
     }
 
 }
-//MARK: -view Model
+//MARK: - view Model
 import Foundation
 class BrandsViewModel{
     var brandsArray: [Smart_collections]? { didSet{ bindingData(brandsArray, nil) } }
@@ -84,24 +84,22 @@ class NetworkManager:ApiService{
             case .success(_):
                     let jsondata = JSON(respons.value)
                     let data = jsondata["data"]
-               // guard let data = respons.data else { return }
+               ///guard let data = respons.data else { return }
                 do{
                     let json = try JSONDecoder().decode([Post].self, from: data.rawData())
                     complition(json, nil)
-                    //self.arrayOfPosts = json
-                 //   self.PostesTable.reloadData()
+                    ///self.arrayOfPosts = json
+                   ///self.PostesTable.reloadData()
                     print("success to get all brands")
                 }catch let error{
                     complition(nil,error )
-                   // print(error)
-
                 }
             }
         }
     }
 
-//MARK: genaric rquest func
-  // typealias Handler = ((Brands?, Error?)-&gt;Void)
+/// genaric rquest func
+///typealias Handler = ((Brands?, Error?)-&gt;Void)
   typealias Handler&lt;T&gt; = (T?, Error?) -&gt; Void
     func getAll&lt;T:Codable&gt;(url:URL?,modelType: T.Type, complition: @escaping Handler&lt;T&gt;) {
           guard let url = url else {return}

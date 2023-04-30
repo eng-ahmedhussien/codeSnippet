@@ -95,7 +95,7 @@ class ApplicationUserManger{
 	<key>IDECodeSnippetSummary</key>
 	<string></string>
 	<key>IDECodeSnippetTitle</key>
-	<string>singleton user fefults</string>
+	<string>singleton UserDefaults</string>
 	<key>IDECodeSnippetUserSnippet</key>
 	<true/>
 	<key>IDECodeSnippetVersion</key>

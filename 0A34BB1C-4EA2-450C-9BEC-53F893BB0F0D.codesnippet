@@ -9,27 +9,37 @@
 		<string>All</string>
 	</array>
 	<key>IDECodeSnippetContents</key>
-	<string>#when but constrains to image 
+	<string>❇️ when but constrains to image 
 1- height = self || static height
 2- width = aspect ratio to self 
 3- top space container 
 4- center horizontally 
 
-#label 
+❇️ label 
 1- vertical spacing to the top item
 2-  center horizontally 
 
-#textView
+❇️ textView
 to make it like chat 
 1-put it in stack and make it leading 
 2- put  constant width  for it
 3- modify width constraints change Relation to “less than or equal”
 
-#scrollView
-1-show add component inside scroll in view or stack
-2-put constrain to stack 0,0,0,0 to scrollview not fram
-3- make stack equal width to scroll
+❇️ scrollView
+1-add 0,0,0,0 constrains to  scroll
+2- add component inside scroll in view or stack
+2- put constrain to stack/view 0,0,0,0 to scrollview not Fram
+3- make stack equal width and equal hight to scroll
 
+❇️ stack with labels and buttons
+add trailing and leading to stack
+add center H or any thing
+increases hugging priority to lable that want to become 2 line 
+don’t add any constraint to any object inside stack 
+
+❇️ collection view (to control cell size)
+1- make cell size = cell size in collection view
+2-Estimate size = none (in collection view)
 </string>
 	<key>IDECodeSnippetIdentifier</key>
 	<string>0A34BB1C-4EA2-450C-9BEC-53F893BB0F0D</string>

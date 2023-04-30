@@ -14,7 +14,6 @@
 favoritesTableView.rowHeight = 120
 favoritesTableView.tableHeaderView = nil
 favoritesTableView.tableFooterView = nil
-
 //MARK: make cell height auto
 productsTable.rowHeight = UITableView.automaticDimension
 productsTable.estimatedRowHeight = 200
@@ -59,29 +58,18 @@ title = room?.roomNname
 title = "asd"
 
 //MARK: color
+barTintColor = #colorLiteral(red: 0.1494832635, green: 0.1204270795, blue: 0.1253705323, alpha: 1)
 UIColor(named: "color name from assets")
 tintColor = .white
 
-#imageLiteral
+//MARK: Image
 starImage = #imageLiteral(resourceName: "filledStar")
-
-#colorLiteral
-barTintColor = #colorLiteral(red: 0.1494832635, green: 0.1204270795, blue: 0.1253705323, alpha: 1)
-
-
-//MARK: change background colore for image
+image = UIImage(named:"?.png")
+image  = [UIImage imageNamed:_images[indexPath.row]];
+UIImage(systemName: "cart")
+///change background colore for image
 self.favoriteB.setBackgroundImage(UIImage(systemName: "star.fill"), for: .normal, barMetrics: .default)
-………………………………………………………………………………………………………………………………………………………………….
-@IBOutlet weak var postView: UIView!{
-    didSet{
-        postView.layer.shadowColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
-        postView.layer.shadowOpacity = 0.5
-        postView.layer.shadowRadius = 10
-        postView.layer.shadowOffset = CGSize(width: 2, height: 2)
-        postView.layer.cornerRadius = 10
-
-    }
-}</string>
+</string>
 	<key>IDECodeSnippetIdentifier</key>
 	<string>0C232CC8-4D4E-42B6-9C70-D3E2E9FAA1A4</string>
 	<key>IDECodeSnippetLanguage</key>
@@ -89,7 +77,7 @@ self.favoriteB.setBackgroundImage(UIImage(systemName: "star.fill"), for: .normal
 	<key>IDECodeSnippetSummary</key>
 	<string></string>
 	<key>IDECodeSnippetTitle</key>
-	<string>ui</string>
+	<string>UI</string>
 	<key>IDECodeSnippetUserSnippet</key>
 	<true/>
 	<key>IDECodeSnippetVersion</key>

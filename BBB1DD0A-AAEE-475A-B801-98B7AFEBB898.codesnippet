@@ -9,34 +9,33 @@
 		<string>All</string>
 	</array>
 	<key>IDECodeSnippetContents</key>
-	<string>    @IBAction func addImage(_ sender: UIButton) {
-        let imgPicker : UIImagePickerController = UIImagePickerController()
-        imgPicker.delegate = self
-
-        if UIImagePickerController.isSourceTypeAvailable(.photoLibrary){
-            imgPicker.sourceType    = .photoLibrary
-            imgPicker.allowsEditing = false
-            self.present(imgPicker, animated: true, completion: nil)
-           
-        }
-        else{
-            print("Accessing Photo Library is not allowed")
-        }
-    }
+	<string>@IBAction func addImage(_ sender: UIButton) {
+    let imgPicker : UIImagePickerController = UIImagePickerController()
+    imgPicker.delegate = self
     
-    @IBAction func openCamera(_ sender: UIButton) {
-        let imagePicker : UIImagePickerController = UIImagePickerController()
-        imagePicker.delegate = self
-
-        if UIImagePickerController.isSourceTypeAvailable(UIImagePickerController.SourceType.camera){
-
-            imagePicker.sourceType = .camera
-            self.present(imagePicker, animated: true, completion: nil)
-        }else{
-            print("Camera Not available")
-        }
+    if UIImagePickerController.isSourceTypeAvailable(.photoLibrary){
+        imgPicker.sourceType    = .photoLibrary
+        imgPicker.allowsEditing = false
+        self.present(imgPicker, animated: true, completion: nil)
+    }
+    else{
+        print("Accessing Photo Library is not allowed")
     }
 }
+
+@IBAction func openCamera(_ sender: UIButton) {
+    let imagePicker : UIImagePickerController = UIImagePickerController()
+    imagePicker.delegate = self
+    
+    if UIImagePickerController.isSourceTypeAvailable(UIImagePickerController.SourceType.camera){
+        
+        imagePicker.sourceType = .camera
+        self.present(imagePicker, animated: true, completion: nil)
+    }else{
+        print("Camera Not available")
+    }
+}
+
 ........................................................................................................
 @IBAction func chooseImage(_ sender: Any) {
     let imagePicker = UIImagePickerController()
@@ -44,7 +43,6 @@
     imagePicker.allowsEditing = true
     present(imagePicker, animated: true, completion: nil)
 }
-
 
 extension ViewController:UIImagePickerControllerDelegate,UINavigationControllerDelegate{
         

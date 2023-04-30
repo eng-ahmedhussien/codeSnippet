@@ -12,18 +12,16 @@
 	<string>loadIndecator.hidesWhenStopped=true
         loadIndecator.startAnimating()
 
-// NVActivityIndicatorView packege
+//MARK: - NVActivityIndicatorView packege
 import NVActivityIndicatorView
-func indecatore(){
+func initIndecatore(){
     loadIndecator.color =  .orange
     loadIndecator.type = .ballPulseSync
     loadIndecator.padding = 150
     loadIndecator.startAnimating()
 }
 
-//ProgressHUD
-import Foundation
-import UIKit
+//MARK: - ProgressHUD
 import ProgressHUD
 
 struct Indectore{
@@ -33,7 +31,7 @@ struct Indectore{
         ProgressHUD.show()
     }
 }
-
+///uesed
 ProgressHUD.showSucceed("log out succss", interaction: true)</string>
 	<key>IDECodeSnippetIdentifier</key>
 	<string>F401ACD9-8CB6-44BA-9F98-A627F21AB9A7</string>

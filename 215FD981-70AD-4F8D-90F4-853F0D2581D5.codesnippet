@@ -10,20 +10,20 @@
 	</array>
 	<key>IDECodeSnippetContents</key>
 	<string>@IBAction func integram(_ sender: UIButton) {
+    
+    
+    let appURL = URL(string:"https://www.\(instagram)")!
+    let application = UIApplication.shared
+    
+    if application.canOpenURL(appURL) {
+        application.open(appURL)
+    } else {
+        // if Instagram app is not installed, open URL inside Safari
+        let webURL = URL(string:"https://www.\(instagram)")!
+        application.open(webURL)
         
-        
-        let appURL = URL(string:"https://www.\(instagram)")!
-        let application = UIApplication.shared
-        
-        if application.canOpenURL(appURL) {
-            application.open(appURL)
-        } else {
-            // if Instagram app is not installed, open URL inside Safari
-            let webURL = URL(string:"https://www.\(instagram)")!
-            application.open(webURL)
-            
-        }
-    }</string>
+    }
+}</string>
 	<key>IDECodeSnippetIdentifier</key>
 	<string>215FD981-70AD-4F8D-90F4-853F0D2581D5</string>
 	<key>IDECodeSnippetLanguage</key>

@@ -29,25 +29,6 @@ AF.request(&lt;#url#&gt;,headers:headers).responseJSON { respons in
         }
     }
 }
-//
-AF.request(&lt;#url#&gt;,headers:headers).responseJSON { respons in
-    switch respons.result{
-    case .failure(let error):
-            print(error)
-    case .success(_):
-            var jsondata = JSON(respons.value)
-            var dat = jsondata["data"]
-        guard let data = respons.data else { return }
-        do{
-            let json = try JSONDecoder().decode(&lt;# model#&gt;.self, from: dat.rawData())
-            print(json)
-            print("success to get all brands")
-        }catch let error{
-            print(error)
-
-        }
-    }
-}
 //MARK: - get request with headers using responseDecodable
 AF.request(&lt;#url#&gt;,headers: headers).responseDecodable(of: &lt;# model#&gt;.self) { response in
     switch response.result{
@@ -78,7 +59,7 @@ AF.request(&lt;#url#&gt;,headers:headers).responseDecodable(of: &lt;# model#&gt;
 .....................................................................................
 //MARK: - example
 // "hint" posts is the model and contains [post] called data
-// old
+//old
 func getAllPosts(complition: @escaping ([Post]?, Error?) -&gt; ()) {
     AF.request(Url.shared.getAllPosts()!,headers:Url.shared.headers).responseJSON { respons in
         switch respons.result{
@@ -89,23 +70,6 @@ func getAllPosts(complition: @escaping ([Post]?, Error?) -&gt; ()) {
                 do{
                     let json = try JSONDecoder().decode(Posts?.self, from: data)
                     complition(json?.data, nil)
-                }catch let error{
-                    complition(nil,error )
-                }
-        }
-    }
-}
-func getAllPosts(complition: @escaping ([Post]?, Error?) -&gt; ()) {
-    AF.request(Url.shared.getAllPosts()!,headers: Url.shared.headers).responseJSON { respons in
-        switch respons.result{
-            case .failure(let error):
-                print(error)
-            case .success(_):
-                let jsondata = JSON(respons.value)
-                let data = jsondata["data"]
-                do{
-                    let json = try JSONDecoder().decode([Post].self, from: data.rawData())
-                    complition(json, nil)
                 }catch let error{
                     complition(nil,error )
                 }
@@ -175,41 +139,6 @@ AF.request(url,method: .put,parameters: putObject).responseData{response in
 }
 
 
-//MARK: - old
-Alamofire.request(url).responseJSON { response in
-    switch response.result {
-        case .success( _):
-            guard let data = response.data else{return}
-            do {
-                let decodedData = try JSONDecoder().decode(AllSports.self, from:data)
-                completion(decodedData.sports,nil)
-            } catch let jsonError {
-                completion(nil,jsonError)
-            }
-
-        case .failure(let error):
-            completion(nil,error)
-    }
-
-}
-
-Alamofire.request(url).validate().responseJSON { response in
-    switch response.result {
-        case .success( _):
-            guard let data = response.data else{return}
-            do {
-                let decodedData = try JSONDecoder().decode(AllSports.self, from:data)
-                completion(decodedData.sports,nil)
-            } catch let jsonError {
-                completion(nil,jsonError)
-            }
-            
-        case .failure(let error):
-            completion(nil,error)
-    }
-    
-}
-}
 </string>
 	<key>IDECodeSnippetIdentifier</key>
 	<string>D06155D3-2E67-4F0C-B58E-059D39936BBB</string>

@@ -9,14 +9,15 @@
 		<string>All</string>
 	</array>
 	<key>IDECodeSnippetContents</key>
-	<string>lazy var stackView: UIStackView = {
+	<string>//MARK: - stackView
+lazy var stackView: UIStackView = {
         let stack = UIStackView()
         stack.distribution = .fillEqually
         stack.spacing = 30
         return stack
     }()
 
-//constrains
+///constrains
 func setupUI ( ) {
     self.addSubview(stackView)
     stackView.translatesAutoresizingMaskIntoConstraints=false
@@ -25,8 +26,8 @@ func setupUI ( ) {
     stackView.leadingAnchor.constraint (equalTo: self.leadingAnchor).isActive = true
     stackView.trailingAnchor.constraint (equalTo: self.trailingAnchor).isActive = true
 }
-//MARK: - button
 
+//MARK: - button
 lazy var middleButton: UIButton = {
     let middleButton = UIButton()
     middleButton.setImage(UIImage(systemName: "cart"), for: .normal)
@@ -36,15 +37,11 @@ lazy var middleButton: UIButton = {
     return middleButton
 }()
 
-
-
 func createMiddleButton(){
     self.tabBar.addSubview(middleButton)
-    
     middleButton.addTarget(self, action: #selector(action(_:)), for: .touchUpInside)
-    
-    //MARK: constrians
-    //to add constrinas programtly must write  button.translatesAutoresizingMaskIntoConstraints=false
+    ///constrians
+    ///to add constrinas programtly must write  button.translatesAutoresizingMaskIntoConstraints=false
     middleButton.translatesAutoresizingMaskIntoConstraints=false
     
     NSLayoutConstraint.activate([
@@ -58,7 +55,6 @@ func createMiddleButton(){
 
 @objc func action(_ sender:UIButton){
     sender.backgroundColor = .blue
-    //print("button cliced ")
 }</string>
 	<key>IDECodeSnippetIdentifier</key>
 	<string>CC6A82F8-B6B2-4354-997E-DE33F40B2C0A</string>

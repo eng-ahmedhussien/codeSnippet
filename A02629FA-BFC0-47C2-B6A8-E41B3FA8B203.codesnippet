@@ -9,9 +9,10 @@
 		<string>All</string>
 	</array>
 	<key>IDECodeSnippetContents</key>
-	<string>&lt;##&gt;Button.addTarget(self, action: #selector(action(_:)), for: .touchUpInside)
-@objc func action(_ sender:UIButton){
-}</string>
+	<string>
+&lt;##&gt;Button.addTarget(self, action: #selector(action(_:)), for: .touchUpInside)
+
+@objc func action(_ sender:UIButton){}</string>
 	<key>IDECodeSnippetIdentifier</key>
 	<string>A02629FA-BFC0-47C2-B6A8-E41B3FA8B203</string>
 	<key>IDECodeSnippetLanguage</key>

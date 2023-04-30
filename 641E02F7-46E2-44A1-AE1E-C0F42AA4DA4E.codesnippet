@@ -9,7 +9,7 @@
 		<string>All</string>
 	</array>
 	<key>IDECodeSnippetContents</key>
-	<string> let url = URL(string:arr[indexPath.row])
+	<string>let url = URL(string:arr[indexPath.row])
 image1.kf.setImage(with: url)
 let  placeimage = UIImage(named:"product-placeholder-wp")
 image1.kf.setImage(with: url,placeholder: placeimage)

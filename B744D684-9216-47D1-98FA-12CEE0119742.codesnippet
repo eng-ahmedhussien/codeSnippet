@@ -19,7 +19,9 @@ extension UICollectionView {
         self.register(UINib(nibName: String(describing: Cell.self), bundle: nil), forCellWithReuseIdentifier: String(describing: Cell.self))
     }
     
-    
+    ///using
+    ///let cell  = collectionview.dequeue(indexPath:indexpayh) as cellName
+    ///return cell
     func dequeue&lt;Cell: UICollectionViewCell&gt;(indexPath: IndexPath) -&gt; Cell{
         let identifier = String(describing: Cell.self)
         guard let cell = self.dequeueReusableCell(withReuseIdentifier: identifier, for: indexPath) as? Cell else {
@@ -42,8 +44,6 @@ extension UICollectionView {
         }
         return cell
     }
-
-    
 }
 </string>
 	<key>IDECodeSnippetIdentifier</key>
@@ -53,7 +53,7 @@ extension UICollectionView {
 	<key>IDECodeSnippetSummary</key>
 	<string></string>
 	<key>IDECodeSnippetTitle</key>
-	<string>extention CollectionView </string>
+	<string>extention +  CollectionView </string>
 	<key>IDECodeSnippetUserSnippet</key>
 	<true/>
 	<key>IDECodeSnippetVersion</key>

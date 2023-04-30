@@ -9,16 +9,15 @@
 		<string>All</string>
 	</array>
 	<key>IDECodeSnippetContents</key>
-	<string>//
-//  UIViewController+Ext.swift
-//  Shopify_app
-//
-//  Created by Ahmad Ashraf on 05/07/2022.
-//1- alert
-//2- load image from url
+	<string>///Extention 
+///1-  Alert
+///2-  Load image from url
+///3-  Load image from url Kingfisher
+///4-  ChangeRoot ViewController
+///5-  Custom button extention
 import Foundation
 import UIKit
-//MARK: - showAlert
+//MARK: -1 showAlert
 extension UIViewController{
     
     func showAlertError(title: String, message: String){
@@ -135,7 +134,7 @@ extension UIViewController{
         view.endEditing(true)
     }
 }
-//MARK: - load image from url
+//MARK: -2 load image from url
 extension UIImageView {
     func downloaded(from url: URL, contentMode mode: ContentMode = .scaleAspectFit) {
         contentMode = mode
@@ -159,7 +158,7 @@ extension UIImageView {
 //using 
 &lt;#Image#&gt;.downloaded(from: url)
 
-//MARK: - load image from url Kingfisher
+//MARK: -3 load image from url Kingfisher
 import UIKit
 import Kingfisher
 
@@ -174,7 +173,7 @@ extension UIImageView {
     }
 }
 
-//MARK: - changeRoot
+//MARK: -4 ChangeRoot ViewController
 extension UIViewController {
     
     func changeRoot() {
@@ -184,7 +183,7 @@ extension UIViewController {
         appDelegate?.window?.makeKeyAndVisible()
     }
 }
-//MARK: - custom button extention
+//MARK: -5 custom button extention
 extension UIButton {
     
     func designButton(borderWidth: CGFloat = 1, borderColor: UIColor = #colorLiteral(red: 0.2666666667, green: 0.7333333333, blue: 1, alpha: 1)) {
@@ -194,7 +193,7 @@ extension UIButton {
        layer.borderColor = borderColor.cgColor
     }
 }
-
+//MARK: -6 custom UITextField extention
 extension UITextField {
     
     func addRightView(image: UIImage, isSecure: Bool = false) {

@@ -15,6 +15,11 @@
         TableView.delegate = self
         TableView.dataSource = self
         TableView.rowHeight = 161
+
+        //MARK: make cell height auto
+        TableView.rowHeight = UITableView.automaticDimension
+        TableView.estimatedRowHeight = 200
+        
         // for cell nib
         TableView.register(UINib(nibName: "LeagueCell", bundle: nil), forCellReuseIdentifier: "LeagueCell")
     }

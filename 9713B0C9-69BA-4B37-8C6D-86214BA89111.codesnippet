@@ -11,24 +11,25 @@
 	<key>IDECodeSnippetContents</key>
 	<string>import Floaty //pod
 func FloatyButton(){
+    
     let floaty = Floaty()
-        floaty.buttonColor = .orange
-        floaty.paddingX = 20
-        floaty.paddingY = 100
+    floaty.buttonColor = .orange
+    floaty.paddingX = 20
+    floaty.paddingY = 100
+    
+    floaty.openAnimationType = .pop
+    floaty.buttonImage = UIImage(named: "plus")
+    floaty.itemButtonColor = .orange
+    floaty.itemTitleColor = .white
+    floaty.addItem("T-Shirts", icon: UIImage(named: "shirt")) { _ in
+    }
+    floaty.addItem("Shoes", icon: UIImage(named: "shoes")){ _ in
+    }
+    floaty.addItem("Accessories", icon: UIImage(named: "acc")){ _ in
         
-        floaty.openAnimationType = .pop
-        floaty.buttonImage = UIImage(named: "plus")
-        floaty.itemButtonColor = .orange
-        floaty.itemTitleColor = .white
-        floaty.addItem("T-Shirts", icon: UIImage(named: "shirt")) { _ in
-        }
-        floaty.addItem("Shoes", icon: UIImage(named: "shoes")){ _ in
-        }
-        floaty.addItem("Accessories", icon: UIImage(named: "acc")){ _ in
-
-        }
-        view.addSubview(floaty)
-    }</string>
+    }
+    view.addSubview(floaty)
+}</string>
 	<key>IDECodeSnippetIdentifier</key>
 	<string>9713B0C9-69BA-4B37-8C6D-86214BA89111</string>
 	<key>IDECodeSnippetLanguage</key>
