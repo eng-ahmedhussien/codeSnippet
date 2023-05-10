@@ -9,7 +9,24 @@
 		<string>All</string>
 	</array>
 	<key>IDECodeSnippetContents</key>
-	<string>var timer : Timer?
+	<string>//MARK: method 1
+var timer  = Timer.scheduledTimer(timeInterval: 2.5, target: self, selector: #selector(moveToIndex), userInfo: nil, repeats: true)
+@objc func moveToIndex(){ 
+    /// do action
+    /// if want End a timer
+     timer?.invalidate()
+}
+    
+
+//MARK: method2
+let timer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { timer in
+    print("Timer fired!")
+    ///if want End a timer
+    timer.invalidate()
+}
+
+//MARK: - ex methoud 1
+var timer : Timer?
 func setupTimer(){
         timer = Timer.scheduledTimer(timeInterval: 2.5, target: self, selector: #selector(moveToIndex), userInfo: nil, repeats: true)
     }
@@ -22,7 +39,8 @@ func setupTimer(){
     }
     
     adsCollectionView.scrollToItem(at: IndexPath(row: currentAdsIndex, section: 0), at: .centeredHorizontally, animated: true)
-}</string>
+}
+</string>
 	<key>IDECodeSnippetIdentifier</key>
 	<string>9C4E74AC-F5BD-46D4-878A-35C7172FB490</string>
 	<key>IDECodeSnippetLanguage</key>

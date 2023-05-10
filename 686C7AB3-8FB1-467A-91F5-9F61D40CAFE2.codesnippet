@@ -32,9 +32,6 @@ extension ViewController: UITableViewDelegate,UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -&gt; UITableViewCell {
-        // to use this line y must write in cell class  static let reuseID = String(describing: TableViewCell.self)
-        let cell = tableView.dequeueReusableCell(withIdentifier: TableViewCell.reuseID, for: indexPath) as! TableViewCell
-        //or
         // use normal 
         let cell = tableView.dequeueReusableCell(withIdentifier: "ProductCell", for: indexPath) as? ProductCell
         cell?.prepareCell(cell: &lt;#array#&gt;[indexPath.row])

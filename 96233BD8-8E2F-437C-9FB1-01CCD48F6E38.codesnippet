@@ -9,16 +9,12 @@
 		<string>All</string>
 	</array>
 	<key>IDECodeSnippetContents</key>
-	<string>DispatchQueue.main.async
-{
-    
-}
-
+	<string>DispatchQueue.main.async {}
 
 //backround 
-DispatchQueue.global(qos: .background).async {
-    &lt;#code#&gt;
-}</string>
+DispatchQueue.global(qos: .background).async {}
+
+DispatchQueue.main.asyncAfter(deadline: .now() + 1) {}</string>
 	<key>IDECodeSnippetIdentifier</key>
 	<string>96233BD8-8E2F-437C-9FB1-01CCD48F6E38</string>
 	<key>IDECodeSnippetLanguage</key>

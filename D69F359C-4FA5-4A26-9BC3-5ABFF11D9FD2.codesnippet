@@ -10,24 +10,26 @@
 	</array>
 	<key>IDECodeSnippetContents</key>
 	<string>//MARK:   combine
-//MARK: -  Ex1
+//MARK: Ex1
 
+//using future
 //in view model
 func fetchData(searchkey:String)-&gt; Future&lt;[Complaint],Error&gt;{
     return Future { data in
-        // api calling
-        // success
+        ///api calling
+        ///success
         data(.success(products))
-        // fail
+        ///fail
         data(.failure(error!))
     }
 }
+
 // in controler
 var observers : [AnyCancellable] = []
 let ViewModel = ProductVM()
-///.receive(on: DispatchQueue.main)  -&gt; put receive data in main queue directly
-///.sink mange bindingData
 
+///.receive(on: DispatchQueue.main)  -&gt; put receive data in main queue directly
+///.sink  -&gt; mange bindingData
 ViewModel.fetchData().receive(on: DispatchQueue.main).sink(receiveCompletion: { Completion in
         switch Completion{
         case .finished:
@@ -108,14 +110,33 @@ func fetchData2(completion: @escaping ( [Complaint]?, Error?) -&gt; ()){
 }
 //network
 var networkPostWithCombine : AnyPublisher&lt;[Complaint],Error&gt;{
-    let url = URL(string: Url.shared.baseURL)
-    return URLSession.shared.dataTaskPublisher(for: url!).tryMap { output in
+    guard let url = URL(string: Url.shared.baseURL)else {return}
+    ///tryMap check data is good
+    return URLSession.shared.dataTaskPublisher(for: url).tryMap { output in
         return output.data
     }
     .decode(type: [Complaint].self, decoder: JSONDecoder())
     .receive(on: DispatchQueue.main)
     .eraseToAnyPublisher()
 }
+
+
+//network  checkNameAvailable
+struct NetworkService {
+    func checkNameAvailable(name: String) -&gt; AnyPublisher&lt;Bool, Never&gt; {
+        guard let url = URL(string: "http://127.0.0.1:8080/isNameValid?name=\(name)") else {
+            return Just(false).eraseToAnyPublisher()
+        }
+        return URLSession.shared.dataTaskPublisher(for: url)
+            .map(\.data)
+            .decode(type: NameAvailableMessage.self,
+                    decoder: JSONDecoder())
+            .map(\.isAvailable)
+            .replaceError(with: false)
+            .eraseToAnyPublisher()
+    }
+}
+
 
 //MARK: - PassthroughSubject
 
@@ -138,15 +159,180 @@ let cancellable = counter.publisher
     .sink { value in
         print(value)
     }
+/// Since we're filtering out all values below 3, only our final
+/// increment call will result in a value being printed:
+counter.increment()
+///
+counter.publisher.send(17)
 
-// Since we're filtering out all values below 3, only our final
-// increment call will result in a value being printed:
-counter.increment()
-counter.increment()
-counter.increment()
+//MARK: -  swiftui combine
+@Published var textFieldText: String = ""
+@Published var textIsValid: Bool = false
 
-//However, while the above approach works, it does come with a quite major downside. Since our PassthroughSubject is both a publisher and a subject, any code can send new values to it, even if that code lives outside of our Counter class — simply by calling send():
-counter.publisher.send(17)</string>
+init () {
+addTextFieldSubscriber ()
+}
+
+func addTextFieldSubscriber() {
+    $textFieldText
+      ///debounce usede in texte filed
+        .debounce(for: 0.8, scheduler: RunLoop.main)
+        .removeDuplicates()
+        .map { (text) -&gt; Bool in
+            if text.count &gt; 3 {
+                return true
+            }
+            else
+                return false
+        }
+        .assign(to: \.textisValid, on: self)
+        /// assign ==  sink
+        .sink(receiveValue: { [weak self] (isValid) in
+            self.textIsValid = isValid
+        })
+        .store(in: &amp;cancellables)
+}
+
+//Ex2 form validation
+{
+    class UserViewModel: ObservableObject {
+  // Input
+  @Published var username = ""
+  @Published var password = ""
+  @Published var passwordAgain = ""
+  @Published var usernameMessage = ""
+  @Published var passwordMessage = ""
+
+  // Output
+  @Published var isValid = false
+  var cancellable : [AnyCancellable] = []
+    
+    init(){
+        formValidation()
+        hintMessage()
+    }
+
+    
+    //Username validation
+    private var isUsernameValidPublisher: AnyPublisher&lt;Bool, Never&gt; {
+        $username
+          .debounce(for: 0.8, scheduler: RunLoop.main)
+          .removeDuplicates()
+          .map { input in
+            return input.count &gt;= 3
+          }
+          .eraseToAnyPublisher()
+      }
+    
+    //password validation
+    private var isPasswordEmptyPublisher: AnyPublisher&lt;Bool, Never&gt; {
+        $password
+          .debounce(for: 0.5, scheduler: RunLoop.main)
+          .removeDuplicates()
+          .map { password in
+            return password == ""
+          }
+          .eraseToAnyPublisher()
+      }
+    private var arePasswordsEqualPublisher : AnyPublisher&lt;Bool,Never&gt;{
+        Publishers.CombineLatest($password, $passwordAgain)
+            .debounce(for: 0.5, scheduler: RunLoop.main)
+            .map{ password, passwordAgain in
+                return password == passwordAgain
+            }.eraseToAnyPublisher()
+    }
+    enum PasswordCheck {
+       case valid
+       case empty
+       case noMatch
+       case notStrongEnough
+     }
+    private var isPasswordValidPublisher: AnyPublisher&lt;PasswordCheck, Never&gt; {
+        Publishers.CombineLatest(isPasswordEmptyPublisher,arePasswordsEqualPublisher)
+            .map { passwordIsEmpty, passwordsAreEqual in
+                if (passwordIsEmpty) {
+                    return .empty
+                }
+                else if (!passwordsAreEqual) {
+                    return .noMatch
+                }
+                else {
+                    return .valid
+                }
+            }
+            .eraseToAnyPublisher()
+    }
+      
+    //final validation
+    private var isFormValidPublisher: AnyPublisher&lt;Bool, Never&gt; {
+        Publishers.CombineLatest(isUsernameValidPublisher, isPasswordValidPublisher)
+          .map { usernameIsValid, passwordIsValid in
+            return usernameIsValid &amp;&amp; (passwordIsValid == .valid)
+          }
+        .eraseToAnyPublisher()
+      }
+   
+    func hintMessage(){
+        isUsernameValidPublisher
+            .receive(on: RunLoop.main)
+            .map { valid in
+                valid ? "" : "username must at leat have 3 characters"
+            }
+            .assign(to: \.usernameMessage, on: self)
+            .store(in: &amp;cancellable)
+        
+        isPasswordValidPublisher
+            .receive(on: RunLoop.main)
+            .map { passwordCheck in
+                switch passwordCheck {
+                case .empty:
+                    return "Password must not be empty"
+                case .noMatch:
+                    return "Passwords don't match"
+                default:
+                    return ""
+                }
+            }
+            .assign(to: \.passwordMessage, on: self)
+            .store(in: &amp;cancellable)
+    }
+    
+    func formValidation(){
+        isFormValidPublisher
+            .receive(on: RunLoop.main)
+            .assign(to: \.isValid,on: self)
+            .store(in: &amp;cancellable)
+    }
+
+    
+        
+}
+
+struct ContentView: View {
+    @ObservedObject private var userViewModel = UserViewModel()
+    var body: some View {
+        Form(content: {
+            Section (footer: Text(userViewModel.usernameMessage).foregroundColor(.red)){
+                TextField("Username", text: $userViewModel.username)
+                    .autocapitalization(.none)
+            }
+            Section(footer: Text(userViewModel.passwordMessage).foregroundColor(.red)){
+                SecureField("Password", text: $userViewModel.password)
+                SecureField("Password again", text: $userViewModel.passwordAgain)
+            }
+             Section {
+                Button {
+                    print("")
+                } label: {
+                    Text("Sign up")
+                }.disabled(!userViewModel.isValid)
+
+            }
+        })
+      }
+
+}
+}</string>
 	<key>IDECodeSnippetIdentifier</key>
 	<string>D69F359C-4FA5-4A26-9BC3-5ABFF11D9FD2</string>
 	<key>IDECodeSnippetLanguage</key>
