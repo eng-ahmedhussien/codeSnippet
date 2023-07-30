@@ -10,13 +10,21 @@
 	</array>
 	<key>IDECodeSnippetContents</key>
 	<string>//MARK: - JSONDecoder
+// Traditional way to fetch using completion block callback
 func getAll(complition: @escaping (&lt;#Model#&gt;?, Error?)-&gt;Void){
-    
     guard let url = URL(string:"url") else{return}
     // using request or url direct
     let request = URLRequest(url: url)
     let task = URLSession.shared.dataTask(with: url) {[weak self] data, response, error in
         guard let self = self else{return}
+        if let error = error {
+            print(error)
+            return
+        }
+        guard let response = response as? HTTPURLResponse, (200...299).contains(response.statusCode) else {
+            print("Error \(String(describing: response))")
+            return
+        }
         guard let data = data else{return}
         do {
             let jsonData = try JSONDecoder().decode(&lt;#Model#&gt;.self, from: data)
@@ -31,6 +39,7 @@ func getAll(complition: @escaping (&lt;#Model#&gt;?, Error?)-&gt;Void){
     }
     task.resume()
 }
+
 //MARK: - JSONSerialization
 guard let url = URL(string:"url") else{return}
 let request = URLRequest(url: url)

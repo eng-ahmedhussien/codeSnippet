@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDECodeSnippetCompletionPrefix</key>
+	<string></string>
+	<key>IDECodeSnippetCompletionScopes</key>
+	<array>
+		<string>All</string>
+	</array>
+	<key>IDECodeSnippetContents</key>
+	<string>import Foundation
+import UIKit
+
+class LocalFileManager{
+    
+    static var instance = LocalFileManager()
+    private init(){}
+
+    func getURLForFolder(folderName: String) -&gt;  URL?  {
+        guard  let path = FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask).first else {return nil}
+        return path.appendingPathComponent(folderName)
+
+    }
+    
+    private func getURLForImage(imageName: String, folderName: String) -&gt; URL? {
+        guard let folderURL = getURLForFolder(folderName: folderName) else {
+            return nil
+        }
+        return folderURL.appendingPathComponent(imageName + ".png")
+    }
+
+      //write data
+    func saveIamgeInFileManger(image:UIImage,imageName:String,folderName: String){
+          
+        // create folder
+        createFolderIfNeeded(folderName: folderName)
+          guard
+            let data = image.pngData(),
+            let folderPath = getURLForImage(imageName: imageName, folderName: folderName)
+          else {return}
+          do{
+              try data.write(to: folderPath)
+          }catch let error{
+              print("Error saving image. ImageName: \(imageName). \(error)")
+          }
+      }
+    
+ 
+    
+    private func createFolderIfNeeded(folderName: String) {
+        guard let url = getURLForFolder(folderName: folderName) else { return }
+        
+        if !FileManager.default.fileExists(atPath: url.path) {
+            do {
+                try FileManager.default.createDirectory(at: url, withIntermediateDirectories: true, attributes: nil)
+            } catch let error {
+                print("Error creating directory. FolderName: \(folderName). \(error)")
+            }
+        }
+    }
+    
+    //read data
+    func getImage(imageName: String, folderName: String) -&gt; UIImage? {
+        guard
+            let url = getURLForImage(imageName: imageName, folderName: folderName),
+            FileManager.default.fileExists(atPath: url.path) else {
+            return nil
+        }
+        return UIImage(contentsOfFile: url.path)
+    }
+
+}
+
+</string>
+	<key>IDECodeSnippetIdentifier</key>
+	<string>5D8D16E2-4417-4038-86B7-B7D90F982F87</string>
+	<key>IDECodeSnippetLanguage</key>
+	<string>Xcode.SourceCodeLanguage.Swift</string>
+	<key>IDECodeSnippetSummary</key>
+	<string></string>
+	<key>IDECodeSnippetTitle</key>
+	<string>LocalFileManager</string>
+	<key>IDECodeSnippetUserSnippet</key>
+	<true/>
+	<key>IDECodeSnippetVersion</key>
+	<integer>2</integer>
+</dict>
+</plist>

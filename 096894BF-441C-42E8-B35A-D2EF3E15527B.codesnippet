@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDECodeSnippetCompletionPrefix</key>
+	<string></string>
+	<key>IDECodeSnippetCompletionScopes</key>
+	<array>
+		<string>All</string>
+	</array>
+	<key>IDECodeSnippetContents</key>
+	<string>//getData from url by 3 methods
+///1- getDataByFuture
+///2- getDataByPublisher
+///3- getDataByComplition
+//using dataTaskPublisher &amp;&amp; dataTask
+
+//MARK: - NetworkService
+typealias Handler&lt;T&gt; = (T?, Error?) -&gt; Void
+
+enum DataError: Error {
+    case invalidURL
+    case networkError
+    case decodingError
+}
+protocol NetworkServiceProtocol{
+    
+    func getDataByFuture&lt;T:Codable&gt;(modelType:T.Type,url:String) -&gt; Future&lt;T,Error&gt;
+    func getDataByPublisher&lt;T:Codable&gt;(modelType: T.Type,url:String) -&gt; AnyPublisher&lt;T,Error&gt;
+    func getDataByComplition&lt;T:Codable&gt;(modelType: T.Type,url:String,complition: @escaping Handler&lt;T&gt;)
+   
+}
+
+class NetworkService:NetworkServiceProtocol{
+    
+    private var cancellables = Set&lt;AnyCancellable&gt;()
+    
+    func getDataByFuture&lt;T:Codable&gt;(modelType: T.Type,url:String)-&gt;Future&lt;T, Error&gt; {
+        
+        return Future { [weak self] future in
+            guard let self = self else {return}
+            guard let url = URL(string: url) else{
+                future(.failure(DataError.invalidURL))
+                return
+            }
+            /*
+             //Optional: Configuring URLSession with a timeout interval
+            let configuration = URLSessionConfiguration.default
+            configuration.timeoutIntervalForResource = 60.0 // 60 seconds
+            let session = URLSession(configuration: configuration)
+             */
+            URLSession.shared.dataTaskPublisher(for: url)
+                .tryMap { output in
+                    return output.data
+                }
+                .decode(type: modelType.self, decoder: JSONDecoder())
+                .receive(on: RunLoop.main)
+                .sink { completion in
+                    switch completion{
+                    case .finished:
+                        print("finshed recive")
+                    case .failure(let error):
+                        future(.failure(error))
+                    }
+                } receiveValue: { receiveValue in
+                    future(.success(receiveValue))
+                }
+                .store(in: &amp;self.cancellables)
+        }
+    }
+    
+    func getDataByPublisher&lt;T:Codable&gt;(modelType: T.Type,url:String) -&gt; AnyPublisher&lt;T,Error&gt; {
+        
+        guard let url = URL(string: url) else {
+            return Fail(error: DataError.invalidURL).eraseToAnyPublisher()
+        }
+        
+        return URLSession.shared.dataTaskPublisher(for: url)
+            .tryMap { output in
+                return output.data
+            }
+            .decode(type: T.self, decoder: JSONDecoder())
+            .receive(on: DispatchQueue.main)
+            .eraseToAnyPublisher()
+    }
+    
+    func getDataByComplition&lt;T:Codable&gt;(modelType: T.Type,url:String, complition: @escaping Handler&lt;T&gt;) {
+        guard let url = URL(string: url)else {
+            complition(nil, DataError.invalidURL)
+            return
+        }
+        URLSession.shared.(with: url) { data, response, error in
+            if let data = data{
+                do{
+                    let json = try JSONDecoder().decode(modelType.self, from: data)
+                    DispatchQueue.main.async{
+                        complition(json, nil)
+                        print("success to get all Data")
+                    }
+                }catch let decodingError{
+                    DispatchQueue.main.async{
+                        print("error when get All data")
+                        complition(nil, decodingError)
+                    }
+                }
+            }
+            if let error = error {
+                DispatchQueue.main.async {
+                    print("Error in network request: \(error.localizedDescription)")
+                    complition(nil, DataError.networkError)
+                }
+            }
+        }.resume()
+    }
+    
+}
+
+//MARK: - VM
+class HomeViewModel:ObservableObject{
+
+    @Published var allMenue : AllDishes?
+    private var cancellables = Set&lt;AnyCancellable&gt;()
+    private var networkService : NetworkServiceProtocol
+    private var url = "https://yummie.glitch.me/dish-categories"
+    
+    init(networkService:NetworkServiceProtocol = NetworkService()){
+        self.networkService = networkService
+    }
+    
+    func fetchDataByFuture(){
+        networkService.getDataByFuture(modelType: APIResponse.self, url:url)
+            .sink { completion in
+                switch completion {
+                case .finished:
+                    print("Data retrieval finished")
+                case .failure(let error):
+                    print("Data retrieval failed with error: \(error.localizedDescription)")
+                }
+            } receiveValue: { data in
+                self.allMenue = data.data
+            }
+            .store(in: &amp;cancellables)
+        
+    }
+    
+    func fetchDataByPublisher() {
+        networkService.getDataByPublisher(modelType: APIResponse.self,url:url)
+            .sink { completion in
+                switch completion {
+                case .finished:
+                    print("Data retrieval finished")
+                case .failure(let error):
+                    print("Data retrieval failed with error: \(error.localizedDescription)")
+                }
+            } receiveValue: { data in
+                self.allMenue = data.data
+            }
+            .store(in: &amp;cancellables)
+    }
+    
+    func fetchDataByCompletion() {
+        networkService.getDataByComplition(modelType: APIResponse.self,url:url) { data, error in
+            if let data = data {
+                self.allMenue = data.data
+            } else if let error = error {
+                // Handle error
+                print("Data retrieval using completion failed with error: \(error.localizedDescription)")
+            }
+        }
+    }
+        
+}
+</string>
+	<key>IDECodeSnippetIdentifier</key>
+	<string>096894BF-441C-42E8-B35A-D2EF3E15527B</string>
+	<key>IDECodeSnippetLanguage</key>
+	<string>Xcode.SourceCodeLanguage.Swift</string>
+	<key>IDECodeSnippetSummary</key>
+	<string>getData from url by 3 methods</string>
+	<key>IDECodeSnippetTitle</key>
+	<string>getData</string>
+	<key>IDECodeSnippetUserSnippet</key>
+	<true/>
+	<key>IDECodeSnippetVersion</key>
+	<integer>2</integer>
+</dict>
+</plist>

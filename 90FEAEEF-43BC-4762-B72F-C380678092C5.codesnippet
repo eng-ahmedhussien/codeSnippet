@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDECodeSnippetCompletionPrefix</key>
+	<string></string>
+	<key>IDECodeSnippetCompletionScopes</key>
+	<array>
+		<string>All</string>
+	</array>
+	<key>IDECodeSnippetContents</key>
+	<string>import UIKit
+import GoogleMaps
+import GoogleMapsUtils
+
+class ViewController: UIViewController,GMSMapViewDelegate {
+    
+    private var mapView: GMSMapView!
+    private var clusterManager: GMUClusterManager!
+    private var circle: GMSCircle? = nil
+    
+    
+    override func loadView() {
+        ///Load the map at set latitude/longitude and zoom level
+        let camera:GMSCameraPosition = GMSCameraPosition.camera(withLatitude: -33.86, longitude: 151.20, zoom: 11)
+        let mapID = GMSMapID(identifier: "AIzaSyCGFyzAXlGWjub9zD5eIU3aNN4bPsPXRwE")
+        mapView = GMSMapView(frame: .zero, camera: camera)
+        /// to display the map, set the root view of the view controller to mapView, which makes the map display fullscreen.
+        self.view = mapView
+        mapView.delegate = self
+    }
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        // Add a single marker with a custom icon
+        let mapCenter = CLLocationCoordinate2DMake(mapView.camera.target.latitude, mapView.camera.target.longitude)
+        let marker = GMSMarker(position: mapCenter)
+        marker.icon = UIImage(named: "custom_pin")
+        marker.map = mapView
+        
+        let markerArray = MarkerGenerator(near: mapCenter, count: 100).markerArray
+        // Comment the following code out if using the marker clusterer
+        //            for marker in markerArray {
+        //              marker.map = mapView
+        //            }
+        
+        // Set up the cluster manager with a supplied icon generator and renderer.
+        let algorithm = GMUNonHierarchicalDistanceBasedAlgorithm()
+        let iconGenerator = GMUDefaultClusterIconGenerator()
+        let renderer = GMUDefaultClusterRenderer(mapView: mapView, clusterIconGenerator: iconGenerator)
+        clusterManager = GMUClusterManager(map: mapView, algorithm: algorithm, renderer: renderer)
+        clusterManager.setMapDelegate(self)
+        clusterManager.add(markerArray)
+        clusterManager.cluster()
+        
+    }
+    
+    func mapView(_ mapView: GMSMapView, didTap marker: GMSMarker) -&gt; Bool {
+        
+        // Clear previous circles
+         // circle?.map = nil
+        
+        // Animate to the marker
+        mapView.animate(toLocation: marker.position)
+        
+        // If the tap was on a marker cluster, zoom in on the cluster
+        if let _ = marker.userData as? GMUCluster {
+            mapView.animate(toZoom: mapView.camera.zoom + 1)
+            return true
+        }
+        
+        /*// Draw a new circle around the tapped marker
+        circle = GMSCircle(position: marker.position, radius: 800)
+        circle?.fillColor = UIColor(red: 0.67, green: 0.67, blue: 0.67, alpha: 0.5)
+        circle?.map = mapView
+         */
+        
+        return false
+    }
+    
+    
+    
+}
+
+struct MarkerGenerator {
+    var markerArray: [GMSMarker] = [GMSMarker]()
+    
+    init(near location:CLLocationCoordinate2D, count:Int) {
+        for _ in 1...count {
+            let extent:Double = 0.1
+            let lat:Double = location.latitude + extent * Double.random(in: -1.0...1.0)
+            let lng:Double = location.longitude + extent * Double.random(in: -1.0...1.0)
+            let randomLocation:CLLocationCoordinate2D = CLLocationCoordinate2DMake(lat, lng)
+            let marker:GMSMarker = GMSMarker(position: randomLocation)
+            marker.icon = UIImage(named: "custom_pin.png")
+            self.markerArray.append(marker)
+        }
+    }
+    
+}
+
+</string>
+	<key>IDECodeSnippetIdentifier</key>
+	<string>90FEAEEF-43BC-4762-B72F-C380678092C5</string>
+	<key>IDECodeSnippetLanguage</key>
+	<string>Xcode.SourceCodeLanguage.Swift</string>
+	<key>IDECodeSnippetSummary</key>
+	<string>display map + marker place  + cluster marker place + </string>
+	<key>IDECodeSnippetTitle</key>
+	<string>GoogleMap</string>
+	<key>IDECodeSnippetUserSnippet</key>
+	<true/>
+	<key>IDECodeSnippetVersion</key>
+	<integer>2</integer>
+</dict>
+</plist>

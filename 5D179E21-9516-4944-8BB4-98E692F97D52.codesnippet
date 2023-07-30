@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDECodeSnippetCompletionPrefix</key>
+	<string></string>
+	<key>IDECodeSnippetCompletionScopes</key>
+	<array>
+		<string>All</string>
+	</array>
+	<key>IDECodeSnippetContents</key>
+	<string>import Foundation
+import SwiftUI
+
+extension Color {
+    static let theme = ColorTheme()
+}
+
+struct ColorTheme{
+    let primary = Color("AccentColor")
+    let secondary = Color("SecondaryColor")
+    
+    let error = Color("ErrorColor")
+    let success = Color("SuccessColor")
+    
+    let bgInput = Color("InputColor")
+    let bgDropdown = Color("DropdownColor")
+    let bgDisabled = Color.gray.opacity(0.5)
+    let bgError = Color("ErrorColor").opacity(0.1)
+    let bgSuccess = Color("SuccessColor").opacity(0.1)
+    let bgWhite = Color.white
+    
+    let txtInput = Color("AccentColor")
+    let txtDisabled = Color.gray
+    let txtBlack = Color("TextColor")
+    let txtPlaceholder = Color("PlaceholderColor")
+    let txtWhite = Color.white
+}
+
+extension Color {
+    init(hex: String) {
+        let scanner = Scanner(string: hex)
+        var rgbValue: UInt64 = 0
+        scanner.scanHexInt64(&amp;rgbValue)
+        
+        let r = (rgbValue &amp; 0xff0000) &gt;&gt; 16
+        let g = (rgbValue &amp; 0xff00) &gt;&gt; 8
+        let b = rgbValue &amp; 0xff
+        
+        self.init(red: Double(r) / 0xff, green: Double(g) / 0xff, blue: Double(b) / 0xff)
+    }
+}
+</string>
+	<key>IDECodeSnippetIdentifier</key>
+	<string>5D179E21-9516-4944-8BB4-98E692F97D52</string>
+	<key>IDECodeSnippetLanguage</key>
+	<string>Xcode.SourceCodeLanguage.Swift</string>
+	<key>IDECodeSnippetSummary</key>
+	<string></string>
+	<key>IDECodeSnippetTitle</key>
+	<string>SwiftUi color Extention</string>
+	<key>IDECodeSnippetUserSnippet</key>
+	<true/>
+	<key>IDECodeSnippetVersion</key>
+	<integer>2</integer>
+</dict>
+</plist>

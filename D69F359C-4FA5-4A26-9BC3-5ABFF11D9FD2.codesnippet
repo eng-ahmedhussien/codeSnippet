@@ -9,86 +9,7 @@
 		<string>All</string>
 	</array>
 	<key>IDECodeSnippetContents</key>
-	<string>//MARK:   combine
-//MARK: Ex1
-
-//using future
-//in view model
-func fetchData(searchkey:String)-&gt; Future&lt;[Complaint],Error&gt;{
-    return Future { data in
-        ///api calling
-        ///success
-        data(.success(products))
-        ///fail
-        data(.failure(error!))
-    }
-}
-
-// in controler
-var observers : [AnyCancellable] = []
-let ViewModel = ProductVM()
-
-///.receive(on: DispatchQueue.main)  -&gt; put receive data in main queue directly
-///.sink  -&gt; mange bindingData
-ViewModel.fetchData().receive(on: DispatchQueue.main).sink(receiveCompletion: { Completion in
-        switch Completion{
-        case .finished:
-            print("finshed recive")
-        case .failure(let error):
-            print(error)
-        }
-    }, receiveValue: { value in
-        self.arrayOfproducts = value
-        self.productsTable.reloadData()
-    }).store(in: &amp;observers)
-
-//in networkManger
-func networkPost(completion: @escaping ([Complaint]?, Error?) -&gt; (),searchkey:String){
-    guard let url = URL(string: Url.shared.baseURL) else {return}
-    var request = URLRequest(url: url)
-    request.httpMethod = "POST"
-    // request.httpShouldHandleCookies = false
-    let postString = "indexFrom=1&amp;indexTo=10&amp;serchKey=\(searchkey)";
-    request.httpBody = postString.data(using: String.Encoding.utf8);
-    let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
-        
-        guard let data = data,let response = response as? HTTPURLResponse,error == nil
-        else {
-            ///networking error
-            print("error", error ?? URLError(.badServerResponse))
-            return
-        }
-        guard (200 ... 299) ~= response.statusCode else {                    
-            ///check for http errors
-            print("statusCode should be 2xx, but is \(response.statusCode)")
-            print("response = \(response)")
-            return
-        }
-        
-        do {
-            let responseObject = try JSONDecoder().decode(Posts.self, from: data)
-            let productArray = responseObject.complaints
-            DispatchQueue.main.async{
-                completion(productArray,nil)
-            }
-        }
-        catch {
-            print(error)
-            DispatchQueue.main.async{
-                completion(nil,error)///parsing error
-            }
-            if let responseString = String(data: data, encoding: .utf8) {
-                print("responseString = \(responseString)")
-            } else {
-                print("unable to parse response as string")
-            }
-        }
-    }
-    task.resume()
-}
-//MARK: -  ex2
-//using combine in urlSession
-
+	<string>//MARK: urlSession.shared.dataTaskPiblisher combine in 
 //vc
 let ProductViewModel = ProductVM()
 ProductViewModel.fetchData2 { value, error in
@@ -109,7 +30,7 @@ func fetchData2(completion: @escaping ( [Complaint]?, Error?) -&gt; ()){
     }
 }
 //network
-var networkPostWithCombine : AnyPublisher&lt;[Complaint],Error&gt;{
+var networkWithCombine : AnyPublisher&lt;[Complaint],Error&gt;{
     guard let url = URL(string: Url.shared.baseURL)else {return}
     ///tryMap check data is good
     return URLSession.shared.dataTaskPublisher(for: url).tryMap { output in
@@ -165,6 +86,7 @@ counter.increment()
 ///
 counter.publisher.send(17)
 
+
 //MARK: -  swiftui combine
 @Published var textFieldText: String = ""
 @Published var textIsValid: Bool = false
@@ -193,7 +115,7 @@ func addTextFieldSubscriber() {
         .store(in: &amp;cancellables)
 }
 
-//Ex2 form validation
+//MARK: - Ex2 Form validation
 {
     class UserViewModel: ObservableObject {
   // Input
@@ -332,7 +254,9 @@ struct ContentView: View {
       }
 
 }
-}</string>
+}
+
+</string>
 	<key>IDECodeSnippetIdentifier</key>
 	<string>D69F359C-4FA5-4A26-9BC3-5ABFF11D9FD2</string>
 	<key>IDECodeSnippetLanguage</key>
