@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDECodeSnippetCompletionPrefix</key>
+	<string></string>
+	<key>IDECodeSnippetCompletionScopes</key>
+	<array>
+		<string>All</string>
+	</array>
+	<key>IDECodeSnippetContents</key>
+	<string>extension Spacer {
+    @ViewBuilder static func width(_ value: CGFloat?) -&gt; some View {
+        switch value {
+            case .some(let value): Spacer().frame(width: max(value, 0))
+            case nil: Spacer()
+        }
+    }
+    @ViewBuilder static func height(_ value: CGFloat?) -&gt; some View {
+        switch value {
+            case .some(let value): Spacer().frame(height: max(value, 0))
+            case nil: Spacer()
+        }
+    }
+}
+fileprivate extension UIScreen {
+    static var safeArea: UIEdgeInsets {
+        UIApplication.shared
+            .connectedScenes
+            .compactMap { $0 as? UIWindowScene }
+            .flatMap(\.windows)
+            .first(where: \.isKeyWindow)?
+            .safeAreaInsets ?? .zero
+    }
+}
+extension View {
+    func alignHorizontally(_ alignment: HorizontalAlignment, _ value: CGFloat = 0) -&gt; some View {
+        HStack(spacing: 0) {
+            Spacer.width(alignment == .leading ? value : nil)
+            self
+            Spacer.width(alignment == .trailing ? value : nil)
+        }
+    }
+    func alignVertically(_ edge: VerticalAlignment, _ value: CGFloat = 0) -&gt; some View {
+           VStack(spacing: 0) {
+               Spacer.height(edge == .top ? value : nil)
+               self
+               Spacer.height(edge == .bottom ? value : nil)
+           }
+       }
+}
+</string>
+	<key>IDECodeSnippetIdentifier</key>
+	<string>7154192A-0242-4E11-AD29-2A2FB4D3FD4F</string>
+	<key>IDECodeSnippetLanguage</key>
+	<string>Xcode.SourceCodeLanguage.Swift</string>
+	<key>IDECodeSnippetSummary</key>
+	<string></string>
+	<key>IDECodeSnippetTitle</key>
+	<string>alignHorizontallySwiftUI</string>
+	<key>IDECodeSnippetUserSnippet</key>
+	<true/>
+	<key>IDECodeSnippetVersion</key>
+	<integer>2</integer>
+</dict>
+</plist>

@@ -15,7 +15,7 @@ func getAll(complition: @escaping (&lt;#Model#&gt;?, Error?)-&gt;Void){
     guard let url = URL(string:"url") else{return}
     // using request or url direct
     let request = URLRequest(url: url)
-    let task = URLSession.shared.dataTask(with: url) {[weak self] data, response, error in
+    let task = URLSession.shared.dataTask(with: request) {[weak self] data, response, error in
         guard let self = self else{return}
         if let error = error {
             print(error)

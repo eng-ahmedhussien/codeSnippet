@@ -19,6 +19,10 @@
         
         //if using extention for collection view (genaric)
         sliderCollectionView.registerCell(cellClass:&lt;#cellClassName#&gt;.self)
+        
+        if let layout = CollectionView.collectionViewLayout as? UICollectionViewFlowLayout {
+            layout.scrollDirection = .horizontal
+        }
     }
 }
 
@@ -53,28 +57,6 @@ extension HomeVC:UICollectionViewDelegate,UICollectionViewDataSource{
     
    
 }
-//MARK: - UICollectionViewDelegateFlowLayout
-extension HomeVC:UICollectionViewDelegateFlowLayout{
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -&gt; CGSize
-    {
-        let leftAndRightPaddings: CGFloat = 40
-        let numberOfItemsPerRow: CGFloat = 2.0
-        
-        let width = (collectionView.frame.width-leftAndRightPaddings)/numberOfItemsPerRow
-        return CGSize(width: width, height: width) 
-        
-        //make cell size = collection szie/2
-        let width = collectionView.frame.size.width/2
-        return CGSize(width: width, height: width)
-        
-        // make cell size equal full collection view
-        return self.collectionViewCaht.frame.size
-        
-        //make cell size = collection szie
-        return sliderCollectionView.bounds.size
-    }
-}
 
 //MARK: - using scrollToItem to scroll to spasefic index
 
@@ -89,7 +71,21 @@ extension HomeVC:UICollectionViewDelegateFlowLayout{
 extension CollectionViewCell:UICollectionViewDelegateFlowLayout{
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -&gt; CGSize {
+        
+        // method 1
         return CGSize(width: collectionView.frame.size.width / 2 , height: collectionView.frame.height)
+        
+        // method 2
+        let leftAndRightPaddings: CGFloat = 40
+        let numberOfItemsPerRow: CGFloat = 2.0
+        let width = (collectionView.frame.width-leftAndRightPaddings)/numberOfItemsPerRow
+        return CGSize(width: width, height: width) 
+        
+        // make cell size equal full collection view
+        return self.collectionViewCaht.frame.size
+        
+        //make cell size = collection szie
+        return collectionView.bounds.size
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -&gt; UIEdgeInsets {

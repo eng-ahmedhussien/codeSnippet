@@ -10,14 +10,16 @@
 	</array>
 	<key>IDECodeSnippetContents</key>
 	<string>//MARK: urlSession.shared.dataTaskPiblisher combine in 
-//vc
+//view
 let ProductViewModel = ProductVM()
 ProductViewModel.fetchData2 { value, error in
     self.arrayOfproducts = value!
     self.productsTable.reloadData()
 }
 //vm
-func fetchData2(completion: @escaping ( [Complaint]?, Error?) -&gt; ()){
+@Published var allvalue : Model?
+private var cancellables = Set&lt;AnyCancellable&gt;()
+func fetchData2(){
     apiService.networkPostWithCombine.sink {Completion in
         switch Completion{
             case .finished:
@@ -26,20 +28,30 @@ func fetchData2(completion: @escaping ( [Complaint]?, Error?) -&gt; ()){
                 print(error)
         }
     } receiveValue: { value in
-        completion(value,nil)
+        allvalue = value
     }
 }
 //network
-var networkWithCombine : AnyPublisher&lt;[Complaint],Error&gt;{
-    guard let url = URL(string: Url.shared.baseURL)else {return}
-    ///tryMap check data is good
-    return URLSession.shared.dataTaskPublisher(for: url).tryMap { output in
-        return output.data
+class NetworkManager{
+    
+    private var cancellables = Set&lt;AnyCancellable&gt;()
+    
+    func getAll() -&gt; AnyPublisher&lt;User, Error&gt; {
+        
+        guard let url = Url.shared.getAllUsers() else {return Fail(error: URLError(.badURL)).eraseToAnyPublisher()}
+        
+        var request = URLRequest(url: url)
+        request.allHTTPHeaderFields = Url.shared.param
+        
+        return URLSession.shared.dataTaskPublisher(for: request)
+            .map(\.data)
+            .decode(type: User.self, decoder: JSONDecoder())
+            .receive(on: DispatchQueue.main)
+            .eraseToAnyPublisher()
     }
-    .decode(type: [Complaint].self, decoder: JSONDecoder())
-    .receive(on: DispatchQueue.main)
-    .eraseToAnyPublisher()
+    
 }
+
 
 
 //network  checkNameAvailable
@@ -87,7 +99,7 @@ counter.increment()
 counter.publisher.send(17)
 
 
-//MARK: -  swiftui combine
+//MARK: -  swiftui combine Subscriber on TextField
 @Published var textFieldText: String = ""
 @Published var textIsValid: Bool = false
 

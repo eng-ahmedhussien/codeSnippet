@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDECodeSnippetCompletionPrefix</key>
+	<string></string>
+	<key>IDECodeSnippetCompletionScopes</key>
+	<array>
+		<string>All</string>
+	</array>
+	<key>IDECodeSnippetContents</key>
+	<string>@State var adressType: TypeElement
+ @Binding var selectedAdress:TypeElement?
+ @StateObject var addressTypsListVM : AddressTypesListVM
+ @StateObject var addressTypsListVM : AddressTypesListVM =  AddressTypesListVM() //direct init
+ @ObservedObject  var userProfileVM :UserProfileVM
+ let closePopup : ()-&gt;Void
+
+init(adressType: TypeElement,
+     selectedAdress: Binding&lt;TypeElement?&gt;,
+     closePopup: @escaping () -&gt; Void,
+     viewModel: AddressTypesListVM,
+     userProfileVM,
+     userProfileVM) {
+            // @State
+            self._adressType = State(initialValue: adressType)
+            self.adressType = adressType
+  
+            //clouser
+            self.closePopup = closePopup
+  
+            //@Binding
+            self._selectedAdress = selectedAdress
+  
+            // @StateObject
+             self._addressTypsListVM = StateObject(wrappedValue: AddressTypesListVM()) //direct init
+             self._addressTypsListVM = StateObject(wrappedValue: viewModel)
+  
+             self._userProfileVM = ObservedObject(wrappedValue: userProfileVM)
+        }
+
+        
+init(viewModel: MyViewModel) {
+        _viewModel = StateObject(wrappedValue: viewModel)
+    }
+</string>
+	<key>IDECodeSnippetIdentifier</key>
+	<string>E94973B2-4F4F-4BEA-88AA-B2B3AFE5FD0C</string>
+	<key>IDECodeSnippetLanguage</key>
+	<string>Xcode.SourceCodeLanguage.Swift</string>
+	<key>IDECodeSnippetSummary</key>
+	<string></string>
+	<key>IDECodeSnippetTitle</key>
+	<string>initSwiftui</string>
+	<key>IDECodeSnippetUserSnippet</key>
+	<true/>
+	<key>IDECodeSnippetVersion</key>
+	<integer>2</integer>
+</dict>
+</plist>

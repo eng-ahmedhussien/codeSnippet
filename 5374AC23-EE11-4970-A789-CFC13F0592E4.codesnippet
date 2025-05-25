@@ -9,37 +9,93 @@
 		<string>All</string>
 	</array>
 	<key>IDECodeSnippetContents</key>
-	<string>import UIKit
+	<string>//
+//  CustomTabBar.swift
+//  Pizza_app
+//
+//  Created by Ahmed Hussien on 21/03/2023.
+//
 
-extension UITableView {
-    func registerCellNib&lt;Cell: UITableViewCell&gt;(cellClass: Cell.Type) {
-        self.register(UINib(nibName: String(describing: Cell.self), bundle: nil), forCellReuseIdentifier: String(describing: Cell.self))
-    }
+import Foundation
+import UIKit
+
+@IBDesignable
+class CustomTabBar: UITabBar {
+    private var shapeLayer: CALayer?
     
-    //useing
-  
-    func dequeue&lt;Cell: UITableViewCell&gt;() -&gt; Cell {
-        let identifier = String(describing: Cell.self)
-        guard let cell = self.dequeueReusableCell(withIdentifier: identifier) as? Cell else {
-            fatalError("Error in cell identifier")
+    override func draw(_ rect: CGRect) {
+        self.addShape ()
+    }
+    private func addShape () {
+        let shapeLayer = CAShapeLayer ()
+        shapeLayer.path = createPath ()
+        shapeLayer.strokeColor = UIColor.lightGray.cgColor
+        shapeLayer.fillColor = UIColor.white.cgColor
+        shapeLayer.lineWidth = 1.0
+        
+        if let oldShapeLayer = self.shapeLayer {
+            self.layer.replaceSublayer(oldShapeLayer, with: shapeLayer)
+        } else {
+            self.layer.insertSublayer(shapeLayer, at: 0)
         }
-        return cell
-    }
-
-    
-    func registerHeader&lt;Header:UITableViewHeaderFooterView&gt;(HeaderClass: Header.Type) {
-        self.register(UINib(nibName: String(describing: Header.self), bundle: nil), forHeaderFooterViewReuseIdentifier: String(describing: Cell.self))
+        self.shapeLayer = shapeLayer
     }
     
-    func dequeueHeader&lt;Header: UITableViewHeaderFooterView&gt;() -&gt; Header {
-        let identifier = String(describing: Header.self)
-        guard let Header = self.dequeueReusableHeaderFooterView(withIdentifier:identifier) as! Header else {
-            fatalError("Error in Header identifier")
-        }
-        return Header
+    //MARK: caurve tabbar button
+    func createPath () -&gt; CGPath {
+        let height: CGFloat = 37.0
+        let path = UIBezierPath( )
+        let centerWidth = self.frame.width / 2
+        
+        path.move (to: CGPoint(x: 0, y: 0)) // start top left
+        path.addLine (to: CGPoint(x: (centerWidth - height * 2), y: 0)) // the beginning of the trough
+        
+        // first curve down
+        path.addCurve (to: CGPoint(x: centerWidth, y: height),
+                       controlPoint1: CGPoint(x: (centerWidth - 30), y: 0), controlPoint2: CGPoint(x: centerWidth - 35, y: height))
+        // second curve up
+        path.addCurve (to: CGPoint (x: (centerWidth + height * 2), y: 0) ,
+                        controlPoint1: CGPoint (x: centerWidth + 35, y: height), controlPoint2: CGPoint (x: (centerWidth + 30), y: 0))
+        // complete the rect
+        path.addLine (to: CGPoint(x: self.frame.width, y: 0))
+        path.addLine (to: CGPoint(x: self.frame.width, y: self.frame.height))
+        path.addLine (to: CGPoint(x: 0, y: self.frame.height))
+        path.close()
+        
+        return path.cgPath
     }
-
+    //MARK: Circle tabbar button
+    func createPathCircle () -&gt; CGPath {
+        let radius: CGFloat = 37.0
+        let path = UIBezierPath()
+        let centerWidth = self.frame.width / 2
+        
+        path.move(to: CGPoint(x: 0, y: 0))
+        path.addLine (to: CGPoint(x: (centerWidth - radius * 2), y: 0))
+        path.addArc (withCenter: CGPoint(x: centerWidth, y: 0), radius: radius, startAngle:
+                        CGFloat (180).degreesToRadians, endAngle: CGFloat (0).degreesToRadians, clockwise: false)
+        path.addLine (to: CGPoint (x: self.frame.width, y: 0))
+        path.addLine (to: CGPoint (x: self.frame.width, y: self.frame .height))
+        path.addLine (to: CGPoint(x: 0, y: self.frame.height))
+        path.close ()
+        
+        return path.cgPath
+    }
+    
+    override func point(inside point: CGPoint, with event: UIEvent?) -&gt; Bool {
+        let buttonRadius: CGFloat = 0//35
+        return abs(self.center.x - point.x) &gt; buttonRadius || abs(point.y) &gt; buttonRadius
+    }
+    }
+extension CGFloat {
+    var degreesToRadians: CGFloat { return self * .pi / 180 }
+    var radiansToDegrees: CGFloat { return self * 180 / .pi}
 }
+
+    
+
+
+
 </string>
 	<key>IDECodeSnippetIdentifier</key>
 	<string>5374AC23-EE11-4970-A789-CFC13F0592E4</string>
@@ -48,7 +104,7 @@ extension UITableView {
 	<key>IDECodeSnippetSummary</key>
 	<string></string>
 	<key>IDECodeSnippetTitle</key>
-	<string>extensions + TableView</string>
+	<string>CustomTabBar</string>
 	<key>IDECodeSnippetUserSnippet</key>
 	<true/>
 	<key>IDECodeSnippetVersion</key>

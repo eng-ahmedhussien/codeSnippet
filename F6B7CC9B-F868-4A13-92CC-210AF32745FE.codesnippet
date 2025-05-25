@@ -9,15 +9,16 @@
 		<string>All</string>
 	</array>
 	<key>IDECodeSnippetContents</key>
-	<string>print(NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true).last! as String)</string>
+	<string>
+</string>
 	<key>IDECodeSnippetIdentifier</key>
-	<string>B6A11650-D032-44BC-BEF4-E84496194B9F</string>
+	<string>F6B7CC9B-F868-4A13-92CC-210AF32745FE</string>
 	<key>IDECodeSnippetLanguage</key>
 	<string>Xcode.SourceCodeLanguage.Swift</string>
 	<key>IDECodeSnippetSummary</key>
 	<string></string>
 	<key>IDECodeSnippetTitle</key>
-	<string>appropriate location for the requested directory</string>
+	<string>My Code Snippet</string>
 	<key>IDECodeSnippetUserSnippet</key>
 	<true/>
 	<key>IDECodeSnippetVersion</key>

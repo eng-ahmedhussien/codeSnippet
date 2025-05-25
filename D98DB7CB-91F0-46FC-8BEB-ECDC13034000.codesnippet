@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDECodeSnippetCompletionPrefix</key>
+	<string>vm</string>
+	<key>IDECodeSnippetCompletionScopes</key>
+	<array>
+		<string>All</string>
+	</array>
+	<key>IDECodeSnippetContents</key>
+	<string>@MainActor
+class &lt;#name#&gt;VM: ObservableObject {
+    
+    // MARK: - Published Properties
+    @Published var viewState: ViewState = .empty
+    private let apiClient: &lt;#apiClintProtocol#&gt;
+    private var cancellables: Set&lt;AnyCancellable&gt; = []
+
+    init(apiClient: &lt;#apiClintProtocol#&gt; = &lt;#ApiClint#&gt;()) {
+        self.apiClient = apiClient
+    }
+    
+    // MARK: - API Methods
+    func &lt;#name#&gt;(completion: @escaping () -&gt; Void) async {
+            viewState = .loading
+        do {
+            let response = try await apiClient.&lt;#name#&gt;()
+                if let _ = response.data {
+                    viewState = .loaded
+                    completion()
+                } else {
+                    debugPrint("Response received but no user data")
+                }
+        } catch {
+                debugPrint("Unexpected error: \(error.localizedDescription)")
+        }
+    }
+}</string>
+	<key>IDECodeSnippetIdentifier</key>
+	<string>D98DB7CB-91F0-46FC-8BEB-ECDC13034000</string>
+	<key>IDECodeSnippetLanguage</key>
+	<string>Xcode.SourceCodeLanguage.Swift</string>
+	<key>IDECodeSnippetSummary</key>
+	<string></string>
+	<key>IDECodeSnippetTitle</key>
+	<string>vm</string>
+	<key>IDECodeSnippetUserSnippet</key>
+	<true/>
+	<key>IDECodeSnippetVersion</key>
+	<integer>2</integer>
+</dict>
+</plist>

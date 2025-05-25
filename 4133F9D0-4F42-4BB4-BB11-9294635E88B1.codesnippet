@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDECodeSnippetCompletionPrefix</key>
+	<string></string>
+	<key>IDECodeSnippetCompletionScopes</key>
+	<array>
+		<string>All</string>
+	</array>
+	<key>IDECodeSnippetContents</key>
+	<string>struct CustomBackgroundModifier: ViewModifier {
+    let borderColor: Color
+    let fillColor: Color
+    var lineWidth:Int
+    init(borderColor: Color , fillColor: Color ,lineWidth:Int) {
+        self.borderColor = borderColor
+        self.fillColor = fillColor
+        self.lineWidth = lineWidth
+    }
+
+    func body(content: Content) -&gt; some View {
+        content
+            .background(
+                RoundedRectangle(cornerRadius: 25)
+                    .fill(fillColor)
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 25)
+                            .strokeBorder(borderColor, lineWidth: CGFloat(lineWidth))
+                    )
+                    .foregroundColor(borderColor)
+            )
+          
+    }
+}
+
+extension View {
+    func strokeBorderBackground(borderColor: Color , fillColor: Color,lineWidth:Int = 2) -&gt; some View {
+        self.modifier(CustomBackgroundModifier(borderColor: borderColor, fillColor: fillColor, lineWidth: lineWidth))
+    }
+}</string>
+	<key>IDECodeSnippetIdentifier</key>
+	<string>4133F9D0-4F42-4BB4-BB11-9294635E88B1</string>
+	<key>IDECodeSnippetLanguage</key>
+	<string>Xcode.SourceCodeLanguage.Swift</string>
+	<key>IDECodeSnippetSummary</key>
+	<string></string>
+	<key>IDECodeSnippetTitle</key>
+	<string>strokeBorderBackground swiftui</string>
+	<key>IDECodeSnippetUserSnippet</key>
+	<true/>
+	<key>IDECodeSnippetVersion</key>
+	<integer>2</integer>
+</dict>
+</plist>

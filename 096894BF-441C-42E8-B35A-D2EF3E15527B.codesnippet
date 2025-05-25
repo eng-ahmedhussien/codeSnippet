@@ -178,7 +178,7 @@ class HomeViewModel:ObservableObject{
 	<key>IDECodeSnippetSummary</key>
 	<string>getData from url by 3 methods</string>
 	<key>IDECodeSnippetTitle</key>
-	<string>getData</string>
+	<string>getAnyData</string>
 	<key>IDECodeSnippetUserSnippet</key>
 	<true/>
 	<key>IDECodeSnippetVersion</key>

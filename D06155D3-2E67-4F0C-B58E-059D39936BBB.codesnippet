@@ -29,11 +29,12 @@ AF.request(&lt;#url#&gt;,headers:headers).responseJSON { respons in
         }
     }
 }
+
 //MARK: - get request with headers using responseDecodable
 AF.request(&lt;#url#&gt;,headers: headers).responseDecodable(of: &lt;# model#&gt;.self) { response in
     switch response.result{
     case .failure(let error):
-            print(error)
+        print("Error: \(error)")
     case .success(_):
         guard let data = response.data else { return }
         do{
@@ -56,56 +57,7 @@ AF.request(&lt;#url#&gt;,headers:headers).responseDecodable(of: &lt;# model#&gt;
             print("success to get all brands")
     }
 }
-.....................................................................................
-//MARK: - example
-// "hint" posts is the model and contains [post] called data
-//old
-func getAllPosts(complition: @escaping ([Post]?, Error?) -&gt; ()) {
-    AF.request(Url.shared.getAllPosts()!,headers:Url.shared.headers).responseJSON { respons in
-        switch respons.result{
-            case .failure(let error):
-                print(error)
-            case .success(_):
-                guard let data = respons.data else { return }
-                do{
-                    let json = try JSONDecoder().decode(Posts?.self, from: data)
-                    complition(json?.data, nil)
-                }catch let error{
-                    complition(nil,error )
-                }
-        }
-    }
-}
-// new 
-func getAllPosts(complition: @escaping ([Post]?, Error?) -&gt; ()) {
-    AF.request(Url.shared.getAllPosts()!,headers: Url.shared.headers).responseDecodable(of: Posts.self) { response in
-        switch response.result{
-            case .failure(let error):
-                print(error)
-            case .success(_):
-                guard let data = response.data else { return }
-                do{
-                    let json = try JSONDecoder().decode(Posts.self, from: data)
-                    complition(json.data, nil)
-                }catch let error{
-                    complition(nil,error )
-                }
-        }
-    }
-}
 
-func getAllPosts(complition: @escaping ([Post]?, Error?) -&gt; ()) {
-    AF.request(Url.shared.getAllPosts()!,headers:Url.shared.headers).responseDecodable(of: Posts.self) { response in
-        switch response.result{
-            case .failure(let error):
-                complition(nil,error)
-                print(error)
-            case .success(_):
-                //response.value of kind  Posts
-                complition(response.value?.data, nil)
-        }
-    }
-}
 //MARK: - post &amp; put request and rescive data
 let customer = CustomerAddress(addresses: [address])
 let putObject = PutAddress(customer: customer)
@@ -137,7 +89,18 @@ AF.request(url,method: .put,parameters: putObject).responseData{response in
         print(error)
     }
 }
-
+//
+AF.request(url, method: .put, parameters: putObject).responseDecodable(of: YourModelType.self) { response in
+    switch response.result {
+    case .success(let model):
+        print("Success: Data received")
+        print(model)
+        // You can call the completion handler here if needed, passing the `model` as a parameter.
+    case .failure(let error):
+        print("Error: \(error)")
+        // Handle the error or call the completion handler with the error if needed.
+    }
+}
 
 </string>
 	<key>IDECodeSnippetIdentifier</key>

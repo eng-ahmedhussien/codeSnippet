@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDECodeSnippetCompletionPrefix</key>
+	<string></string>
+	<key>IDECodeSnippetCompletionScopes</key>
+	<array>
+		<string>All</string>
+	</array>
+	<key>IDECodeSnippetContents</key>
+	<string>//1 using range
+ForEach(1...10, id: \.self) {
+        //action
+    }
+//2 
+ let array = [1,2,3]
+ForEach(array, id: \.self) { item in
+               //action
+            }
+//3 custom id 
+struct SimpleArray {
+    let id = UUID()
+    let score: Int
+}
+let results = [
+        SimpleArray(score: 8),
+        SimpleArray(score: 5),
+    ]
+ForEach(results, id: \.id) { result in
+                Text("Result: \(result.score)")
+            }
+//if using Identifiable in  SimpleArray 
+ForEach(results) { result in
+                Text("Result: \(result.score)")
+            }
+//4
+let results = [
+        SimpleArray(score: 8),
+        SimpleArray(score: 5),
+    ]
+ ForEach(results.indices , id: \.self) { index in
+                 results[index]                                    
+        }
+//5
+ ForEach(Array(zip(options.indices, options)), id: \.0) { index, item in
+                        if productOption.type == "IMAGE"{
+                            imageOption(option: item,index: index)
+                        }
+     
+let names: Set = ["Sofia", "Camilla", "Martina", "Mateo", "Nicolás"]
+var shorterIndices: [Set&lt;String&gt;.Index] = []
+for (i, name) in zip(names.indices, names) {
+         if name.count &lt;= 5 {
+             shorterIndices.append(i)
+         }
+     }
+ for i in shorterIndices {
+         print(names[i])
+     }
+     // Prints "Sofia"
+     // Prints "Mateo"
+     
+//6
+ForEach(Array(sliderArray.enumerated()), id: \.element.code) { index, item in
+    
+for (n, c) in "Swift".enumerated() {
+        print("\(n): '\(c)'")
+    }
+    // Prints "0: 'S'"
+    // Prints "1: 'w'"
+    // Prints "2: 'i'"
+    // Prints "3: 'f'"
+    // Prints "4: 't'"                                              }</string>
+	<key>IDECodeSnippetIdentifier</key>
+	<string>7D532103-EA25-40C2-81E3-BC74683B9F5C</string>
+	<key>IDECodeSnippetLanguage</key>
+	<string>Xcode.SourceCodeLanguage.Swift</string>
+	<key>IDECodeSnippetSummary</key>
+	<string></string>
+	<key>IDECodeSnippetTitle</key>
+	<string>ForEach</string>
+	<key>IDECodeSnippetUserSnippet</key>
+	<true/>
+	<key>IDECodeSnippetVersion</key>
+	<integer>2</integer>
+</dict>
+</plist>
